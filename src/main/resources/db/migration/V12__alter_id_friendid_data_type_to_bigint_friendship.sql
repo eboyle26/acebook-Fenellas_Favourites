@@ -1,0 +1,4 @@
+ALTER TABLE friendships
+    ALTER COLUMN id TYPE BIGINT,
+    ALTER COLUMN requester_id TYPE BIGINT,
+    ALTER COLUMN receiver_id TYPE BIGINT;
