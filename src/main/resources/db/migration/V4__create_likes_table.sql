@@ -1,0 +1,6 @@
+CREATE TABLE likes (
+   id SERIAL PRIMARY KEY,
+   post_id INTEGER,
+   user_id INTEGER,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

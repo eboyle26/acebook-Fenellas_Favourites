@@ -8,8 +8,11 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.LocalDateTime;
+
 @RestController
 public class UsersController {
+
     @Autowired
     UserRepository userRepository;
 
@@ -20,10 +23,21 @@ public class UsersController {
                 .getAuthentication()
                 .getPrincipal();
 
-        String username = (String) principal.getAttributes().get("email");
+        String oktaUserId = principal.getSubject();
+        String username = principal.getEmail();
+
         userRepository
-                .findUserByUsername(username)
-                .orElseGet(() -> userRepository.save(new User(username)));
+                .findByOktaUserId(oktaUserId)
+                .orElseGet(() -> {
+                    User user = new User(
+                            username,
+                            oktaUserId,
+                            principal.getEmail(),
+                            principal.getPicture()
+                    );
+                    user.setCreatedAt(LocalDateTime.now());
+                    return userRepository.save(user);
+                });
 
         return new RedirectView("/posts");
     }
