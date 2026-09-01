@@ -92,11 +92,11 @@
                 <div class="post-header">
 
                     <div class="avatar">
-                        <span>U</span>
+                        <img th:src="${#authentication.principal.attributes['picture']}" alt="U">
                     </div>
 
                     <div class="post-user">
-                        <strong>User</strong>
+                        <strong sec:authentication="principal.attributes['email']"></strong>
                         <span>Just now</span>
                     </div>
 
