@@ -1,10 +1,413 @@
-.posts-main {
-    border-collapse: collapse;
+/*-----------
+General page styling
+ */
+*{
+    box-sizing: border-box;
 }
 
-.post-main {
-    border: 1px solid #999;
-    padding: 0.5rem;
-    text-align: left;
-    margin-bottom: 0.5rem;;
+body {
+    margin: 0;
+    padding: 0;
+
+    background-color: #e9eee9;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+
+    color: #333;
+}
+
+/*
+Top Navigation Bar
+ */
+
+.navbar {
+    width: 100%;
+
+    background-color: #356b3f;
+    border-bottom: 1px solid #244b2c;
+    color: white;
+}
+
+.navbar-content {
+    width: 760px;
+    margin: 0 auto;
+
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*
+Acebook logo
+ */
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+
+    color: white;
+
+    letter-spacing: -1px;
+}
+
+/*
+Logged-in user
+ */
+
+.user-info {
+    font-size: 11px;
+
+    color: #d8e6d8;
+
+    display: flex;
+    align-items:center;
+
+    gap: 5px;
+}
+
+.user-info strong {
+    color: white;
+}
+
+/*
+Main page
+ */
+
+.main-container {
+    width: 760px;
+
+    margin: 20px auto;
+
+    background-color: white;
+
+    border-left: 1px solid #c5ccc5;
+    border-right: 1px solid #c5ccc5;
+
+    padding: 20px;
+
+    min-height: 600px;
+}
+
+.main-container > h1 {
+    margin: 0 0  15px 0;
+
+    padding-bottom: 8px;
+
+    font-size: 20px;
+
+    color: #356b3f;
+
+    border-bottom: 1px solid #c8d1c8;
+}
+
+/*
+create post box
+ */
+
+.create-post {
+    background-color: #f5f7f5;
+
+    border: 1px solid #c4ccc4;
+
+    margin-bottom: 25px;
+}
+
+.create-post h2 {
+    margin: 0;
+
+    padding: 7px 10px;
+
+    font-size: 13px;
+
+    color: white;
+
+    background-color: #5b875f;
+
+    border-bottom: 1px solid #456c49;
+}
+
+/*
+Form
+ */
+
+.create-post form {
+    padding: 12px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+
+    font-weight: bold;
+
+    color: #444;
+}
+
+/*
+Post text box
+ */
+
+.form-group textarea {
+    width: 100%;
+
+    min-height: 75px;
+
+    resize: vertical;
+
+    padding: 7px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+
+    color: #333;
+
+    background-color: white;
+
+    border: 1px solid #aeb7ae;
+
+    outline: none;
+}
+
+.form-group textarea:focus {
+    border-color: #5b875f;
+
+    background-color: #fbfffb;
+}
+
+/*
+Buttons
+ */
+
+.form-buttons {
+    margin-top: 8px;
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 5px;
+}
+
+.button {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+
+    font-weight: bold;
+
+    padding: 4px 12px;
+
+    cursor: pointer;
+
+    border: 1px solid #718171;
+
+    background-color: #e1e6e1;
+
+    color: #333;
+}
+
+.button:hover {
+    background-color: #d3dbd3;
+}
+
+/*
+Main Button
+ */
+
+.button-primary {
+    background-color: #4f7f54;
+
+    color: white;
+
+    border-color: #365b3a;
+}
+
+.button-primary:hover {
+    background-color: #416b46
+}
+
+/*
+Recent posts
+ */
+
+.posts-section h2{
+    margin: 0  0  8px 0;
+    padding: 7px 10px;
+
+    background-color: #dfe7df;
+
+    border: 1px solid #c3ccc3;
+
+    color: #356b3f;
+
+    font-size: 13px;
+
+}
+
+/*
+Posts container
+ */
+
+.posts {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+/*
+Individual post
+ */
+
+.post-card {
+    background-color: white;
+
+    border: 1px solid #c4ccc4;
+}
+
+/*
+Profile Pic
+ */
+
+.avatar {
+    width: 35px;
+    height: 35px;
+
+    margin-right: 8px;
+
+    background-color: #6f9b73;
+
+    border: 1px solid #4f754f;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 15px;
+}
+
+/*
+User Info
+ */
+
+.post-user strong {
+    font-size: 12px;
+
+    color: #356b3f;
+}
+
+.post-user span {
+    font-size: 10px;
+
+    color: #777;
+}
+
+/*
+Post content
+ */
+
+.post-content {
+    padding: 12px;
+}
+
+.post-content p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #333;
+    overflow-wrap: break-word;
+}
+
+/*
+post action bar
+ */
+
+.post-actions {
+
+    display: flex;
+    border-top: 1px solid #d9ded9;
+    background-color: #f5f6f5;
+}
+
+.post-action {
+    flex: 1;
+
+    padding: 6px;
+
+    border: none;
+    border-right: 1px solid #d9ded9;
+
+    background-color: transparent;
+
+    color: #356b3f;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.post-action:last-child {
+    border-right: none
+}
+
+.post-action:hover {
+    background-color: #e5ebe5;
+
+    text-decoration: underline;
+}
+
+/*
+Old-school links
+ */
+
+a{
+    color: #356b3f;
+
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/*
+Mobile
+ */
+
+@media (max-width: 800px) {
+
+    .navbar-content {
+        width: 100%;
+
+        padding: 0 15px;
+    }
+
+    .main-container {
+        width: 100%;
+
+        margin: 0;
+
+        border: none;
+
+        padding: 15px;
+    }
 }
