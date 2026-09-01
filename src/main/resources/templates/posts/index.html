@@ -100,11 +100,16 @@
                 <div class="post-header">
 
                     <div class="avatar">
-                        <img th:src="${#authentication.principal.attributes['picture']}" alt="U">
+                        <img th:if="${users[post.userId] != null}"
+                             th:src="${users[post.userId].profilePictureUrl}"
+                             alt="Profile picture">
                     </div>
 
                     <div class="post-user">
-                        <strong sec:authentication="principal.attributes['email']"></strong>
+                        <strong th:if="${users[post.userId] != null}"
+                                th:text="${users[post.userId].username}">
+                        </strong>
+
                         <span>Just now</span>
                     </div>
 
