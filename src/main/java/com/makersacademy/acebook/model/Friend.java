@@ -1,6 +1,7 @@
 package com.makersacademy.acebook.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
@@ -42,5 +43,43 @@ public class Friend {
         this.createdAt = createdAt;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public User getRequester() {
+        return requester;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setRequester(User requester) {
+        this.requester = requester;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

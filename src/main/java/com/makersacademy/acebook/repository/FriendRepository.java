@@ -12,4 +12,14 @@ public interface FriendRepository extends CrudRepository<Friend, Long> {
             User receiver,
             Friend.Status status
     );
+
+    List<Friend> findByRequesterAndStatus (
+            User requester,
+            Friend.Status status
+    );
+
+    List<Friend> findByReceiverAndStatus (
+            User receiver,
+            Friend.Status status
+    );
 }

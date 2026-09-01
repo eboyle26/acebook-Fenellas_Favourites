@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,26 @@ public class FriendsController {
         User user = userRepository.findUserByUsername(name).orElseThrow();
         List<Friend> friends = friendRepository.findByRequesterOrReceiverAndStatus(user, user, Friend.Status.ACCEPTED);
         model.addAttribute("friends", friends);
+    }
+
+    @PostMapping("/friend-request/{userId}")
+    public void sendFriendRequest(@PathVariable Long userId, Authentication authentication) {
+
+        User receiver = userRepository.findById(userId).orElseThrow();
+
+        String oktaUserId = authentication.getName();
+        User requester = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
+
+        Friend friend = new Friend();
+
+        friend.setRequester(requester);
+        friend.setReceiver(receiver);
+        friend.setStatus(Friend.Status.PENDING);
+        friend.setCreatedAt(LocalDateTime.now());
+
+        friendRepository.save(friend);
+
+        //needs a return statement and needs to be changed from void
     }
 
 }
