@@ -1,2 +1,2 @@
 ALTER TABLE posts
-    ADD COLUMN user_id INTEGER,
+    ADD COLUMN user_id INTEGER;
