@@ -3,126 +3,25 @@
           xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
     <head lang="en">
         <meta charset="UTF-8"/>
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0"/>
-
         <title>Acebook</title>
-
         <link rel="stylesheet" href="/main.css" />
     </head>
-
     <body>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar">
+    <h1>Posts</h1>
 
-        <div class="navbar-content">
+    <div sec:authorize="isAuthenticated()" id="greeting">
+        Signed in as <span sec:authentication="principal.attributes['email']"></span>
+    </div>
 
-            <div class="logo">
-                Acebook
-            </div>
+    <form action="#" th:action="@{/posts}" th:object="${post}" method="post">
+        <p>Content: <input type="text" th:field="*{content}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
 
-            <div sec:authorize="isAuthenticated()" id="greeting">
-                Signed in as <span sec:authentication="principal.attributes['email']"></span>
-            </div>
-
-        </div>
-
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-container">
-
-        <h1>Posts</h1>
-
-        <!-- Create post -->
-        <section class="create-post card">
-
-            <h2>Create a post</h2>
-
-            <form action="#"
-                  th:action="@{posts}"
-                  th:object="${post}"
-                  method="post">
-
-                <div class="form-group">
-
-                    <label for="content">What's on your mind?</label>
-
-                    <textarea
-                        id="content"
-                        th:field="*{content}"
-                        placeholder="Write something..."
-                        required>
-                    </textarea>
-
-                </div>
-
-                <div class="form-buttons">
-
-                    <input
-                        type="reset"
-                        value="Reset"
-                        class="button button-secondary"/>
-
-                    <input
-                        type="submit"
-                        value="Post"
-                        class="button button-primary"/>
-                </div>
-
-            </form>
-
-        </section>
-
-        <!-- Posts -->
-        <section class="posts-section">
-
-            <h2>Recent Posts</h2>
-
-            <div class="posts">
-
-                <article class="post-card"
-                         th:each="post: ${posts}">
-
-                    <div class="post-header">
-
-                        <div class="avatar">
-                            <span>U</span>
-                        </div>
-
-                        <div class="post-user">
-                            <strong>User</strong>
-                            <span>Just now</span>
-                        </div>
-
-                    </div>
-
-                    <div class="post-content">
-                        <p th:text="${post.content}"></p>
-                    </div>
-
-                    <div class="post-actions">
-
-                        <button type="button" class="post-action">
-                            Like
-                        </button>
-
-                        <button type="button"  class="post-action">
-                            Comment
-                        </button>
-
-                        <button type="button" class="post-action">
-                            Share
-                        </button>
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-    </main>
+    <ul th:each="post: ${posts}">
+        <li th:text="${post.content}" />
+    </ul>
 
     </body>
 </html>

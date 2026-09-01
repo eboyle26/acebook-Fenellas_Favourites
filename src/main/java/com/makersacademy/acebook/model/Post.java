@@ -12,14 +12,15 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
     private String content;
 
     public Post() {}
 
-    public Post(String content, Long user_id) {
+    public Post(String content, Long userId) {
         this.content = content;
-        this.user_id = user_id;
+        this.userId = userId;
     }
 
 }

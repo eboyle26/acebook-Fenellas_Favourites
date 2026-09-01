@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post comments</title>
+</head>
+
+<body>
+<h1>Post</h1>
+
+<article>
+    <p th:text="${post.content}">Post content</p>
+</article>
+
+<h2>Comments</h2>
+
+<p th:if="${#lists.isEmpty(comments)}">
+    This post has no comments yet.
+</p>
+
+<div th:each="existingComment : ${comments}">
+    <p th:text="${existingComment.content}">Comment content</p>
+
+    <small>
+        User <span th:text="${existingComment.userId}"></span>
+    </small>
+</div>
+
+<h2>Add a comment</h2>
+
+<form
+        method="post"
+        th:action="@{/posts/{postId}/comments(postId=${post.id})}"
+        th:object="${comment}"
+>
+        <textarea
+                th:field="*{content}"
+                placeholder="Write your comment"
+                required
+        ></textarea>
+
+    <button type="submit">Comment</button>
+</form>
+
+<a th:href="@{/posts}">Return to posts</a>
+</body>
+</html>
