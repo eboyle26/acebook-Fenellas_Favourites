@@ -1,0 +1,2 @@
+ALTER TABLE comments
+ALTER COLUMN user_id TYPE BIGINT;
