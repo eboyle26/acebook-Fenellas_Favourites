@@ -22,6 +22,14 @@
             Acebook
         </div>
 
+        <div class="navigation-links">
+
+            <a href="/posts">Home</a>
+
+            <a href="/profile">Profile</a>
+
+        </div>
+
         <div sec:authorize="isAuthenticated()" class="user-info">
             <span>Signed in as</span>
             <strong sec:authentication="principal.attributes['email']"></strong>

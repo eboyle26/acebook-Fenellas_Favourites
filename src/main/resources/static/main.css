@@ -411,3 +411,269 @@ Mobile
         padding: 15px;
     }
 }
+       /* =========================================
+          PROFILE PAGE
+          ========================================= */
+
+
+       /* Profile card */
+
+   .profile-card {
+       background-color: white;
+
+       border: 1px solid #c4ccc4;
+   }
+
+
+/* -------------------------
+   Profile header
+   ------------------------- */
+
+.profile-header {
+    display: flex;
+
+    align-items: center;
+
+    padding: 20px;
+
+    background-color: #f1f4f1;
+
+    border-bottom: 1px solid #c4ccc4;
+}
+
+
+/* Large profile picture */
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+
+    margin-right: 20px;
+
+    background-color: #6f9b73;
+
+    border: 1px solid #4f754f;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* Actual image */
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* If there isn't a picture */
+
+.profile-picture-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 40px;
+    font-weight: bold;
+}
+
+
+/* Username */
+
+.profile-name h2 {
+    margin: 0 0 5px 0;
+
+    color: #356b3f;
+
+    font-size: 20px;
+}
+
+
+/* Email */
+
+.profile-name p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* -------------------------
+   Edit profile
+   ------------------------- */
+
+.profile-edit {
+    padding: 20px;
+}
+
+.profile-edit h2 {
+    margin: 0 0 15px 0;
+
+    padding-bottom: 7px;
+
+    font-size: 13px;
+
+    color: #356b3f;
+
+    border-bottom: 1px solid #c8d1c8;
+}
+
+
+/* Form groups */
+
+.profile-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 15px;
+}
+
+
+/* Labels */
+
+.profile-form-group label {
+    margin-bottom: 5px;
+
+    font-weight: bold;
+
+    font-size: 12px;
+
+    color: #444;
+}
+
+
+/* Inputs */
+
+.profile-form-group input {
+    width: 100%;
+
+    padding: 7px;
+
+    border: 1px solid #aeb7ae;
+
+    background-color: white;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+.profile-form-group input:focus {
+    border-color: #5b875f;
+
+    background-color: #fbfffb;
+}
+
+
+/* Help text */
+
+.profile-form-group small {
+    margin-top: 4px;
+
+    color: #888;
+
+    font-size: 10px;
+}
+
+
+/* -------------------------
+   Profile buttons
+   ------------------------- */
+
+.profile-buttons {
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 20px;
+}
+
+
+/* Make the link look like a button */
+
+.profile-buttons a {
+    text-decoration: none;
+}
+
+.profile-buttons a:hover {
+    text-decoration: none;
+}
+
+
+/* -------------------------
+   Navigation links
+   ------------------------- */
+
+.navigation-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+.navigation-links a {
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+.navigation-links a:hover {
+    text-decoration: underline;
+}
+
+
+/* -------------------------
+   Mobile profile
+   ------------------------- */
+
+@media (max-width: 600px) {
+
+    .profile-header {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .profile-picture {
+        margin-right: 0;
+
+        margin-bottom: 12px;
+    }
+
+    .profile-buttons {
+        flex-direction: column;
+    }
+
+    .profile-buttons .button {
+        width: 100%;
+
+        text-align: center;
+    }
+}

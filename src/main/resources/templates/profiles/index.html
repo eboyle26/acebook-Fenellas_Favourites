@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Acebook - Profile</title>
+
+    <link rel="stylesheet" href="/main.css">
+
+</head>
+
+<body>
+
+
+<!-- Navigation bar -->
+
+<nav class="navbar">
+
+    <div class="navbar-content">
+
+        <div class="logo">
+            Acebook
+        </div>
+
+        <div class="navigation-links">
+
+            <a href="/posts">Home</a>
+
+            <a href="/profile">Profile</a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- Main content -->
+
+<main class="main-container">
+
+    <h1>My Profile</h1>
+
+
+    <section class="profile-card">
+
+
+        <!-- Profile header -->
+
+        <div class="profile-header">
+
+            <div class="profile-picture">
+
+                <img
+                        th:if="${user.profilePictureUrl != null}"
+                        th:src="${user.profilePictureUrl}"
+                        alt="Profile picture">
+
+                <div
+                        th:unless="${user.profilePictureUrl != null}"
+                        class="profile-picture-placeholder">
+
+                    <span th:text="${user.username.substring(0, 1).toUpperCase()}">
+                        U
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-name">
+
+                <h2 th:text="${user.username}">
+                    Username
+                </h2>
+
+                <p th:text="${user.email}">
+                    email@example.com
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Edit profile -->
+
+        <div class="profile-edit">
+
+            <h2>Edit Profile</h2>
+
+            <form action="/profile" method="post">
+
+
+                <div class="profile-form-group">
+
+                    <label for="username">
+                        Name
+                    </label>
+
+                    <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            th:value="${user.username}"
+                            required>
+
+                </div>
+
+
+                <div class="profile-form-group">
+
+                    <label for="profilePictureUrl">
+                        Profile picture URL
+                    </label>
+
+                    <input
+                            type="url"
+                            id="profilePictureUrl"
+                            name="profilePictureUrl"
+                            th:value="${user.profilePictureUrl}"
+                            placeholder="https://example.com/photo.jpg">
+
+                    <small>
+                        Paste the URL of an image you'd like to use as your profile picture.
+                    </small>
+
+                </div>
+
+
+                <div class="profile-buttons">
+
+                    <button
+                            type="submit"
+                            class="button button-primary">
+
+                        Save Changes
+
+                    </button>
+
+                    <a
+                            href="/posts"
+                            class="button button-secondary">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>
