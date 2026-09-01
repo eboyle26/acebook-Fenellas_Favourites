@@ -47,6 +47,7 @@ public class CommentController {
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
         model.addAttribute("comment", new Comment());
+        model.addAttribute("userRepository", userRepository);
 
         return "comments/index";
     }

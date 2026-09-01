@@ -1,47 +1,214 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Post comments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Acebook - Comments</title>
+
+    <link rel="stylesheet" href="/main.css">
+
+
 </head>
 
 <body>
-<h1>Post</h1>
 
-<article>
-    <p th:text="${post.content}">Post content</p>
-</article>
+<!-- Navigation bar -->
 
-<h2>Comments</h2>
+<nav class="navbar">
 
-<p th:if="${#lists.isEmpty(comments)}">
-    This post has no comments yet.
-</p>
 
-<div th:each="existingComment : ${comments}">
-    <p th:text="${existingComment.content}">Comment content</p>
+    <div class="navbar-content">
 
-    <small>
-        User <span th:text="${existingComment.userId}"></span>
-    </small>
-</div>
+        <div class="logo">
+            Acebook
+        </div>
 
-<h2>Add a comment</h2>
+        <div class="navigation-links">
+            <a href="/posts">Home</a>
+            <a href="/profile">Profile</a>
+        </div>
 
-<form
-        method="post"
-        th:action="@{/posts/{postId}/comments(postId=${post.id})}"
-        th:object="${comment}"
->
-        <textarea
-                th:field="*{content}"
-                placeholder="Write your comment"
-                required
-        ></textarea>
+    </div>
 
-    <button type="submit">Comment</button>
-</form>
+</nav>
 
-<a th:href="@{/posts}">Return to posts</a>
+<!-- Main content -->
+
+<main class="main-container comments-container">
+
+
+    <!-- Back to posts -->
+    <a th:href="@{/posts}" class="back-link">
+        ← Back to posts
+    </a>
+
+
+    <!-- Original post -->
+    <section class="post-card comment-post">
+
+        <div class="post-header">
+
+            <div class="avatar">
+
+                <img
+                        th:src="${userRepository.findById(post.userId).get().profilePictureUrl}"
+                        alt="Profile picture"
+                >
+
+            </div>
+
+            <div class="post-user">
+
+                <strong
+                        th:text="${userRepository.findById(post.userId).get().username}">
+                    Username
+                </strong>
+
+                <span>Original post</span>
+
+            </div>
+
+        </div>
+
+        <div class="post-content">
+
+            <p th:text="${post.content}">
+                Post content
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Comments -->
+    <section class="comments-section">
+
+        <div class="section-header">
+
+            <h1>Comments</h1>
+
+            <span th:text="${#lists.size(comments)} + ' comments'">
+            0 comments
+        </span>
+
+        </div>
+
+
+        <!-- No comments -->
+        <div
+                class="no-comments"
+                th:if="${#lists.isEmpty(comments)}"
+        >
+
+            <p>
+                This post has no comments yet.
+            </p>
+
+            <span>
+            Be the first person to comment!
+        </span>
+
+        </div>
+
+
+        <!-- Existing comments -->
+        <div class="comment-list">
+
+            <article
+                    class="comment-card"
+                    th:each="existingComment : ${comments}"
+            >
+
+                <!-- User's profile picture -->
+                <div class="comment-avatar">
+
+                    <img
+                            th:src="${userRepository.findById(existingComment.userId).get().profilePictureUrl}"
+                            alt="Profile picture"
+                    >
+
+                </div>
+
+
+                <!-- Comment -->
+                <div class="comment-body">
+
+                    <div class="comment-header">
+
+                        <strong
+                                th:text="${userRepository.findById(existingComment.userId).get().username}">
+                            Username
+                        </strong>
+
+                    </div>
+
+                    <p th:text="${existingComment.content}">
+                        Comment content
+                    </p>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- Add comment -->
+    <section class="add-comment card">
+
+        <h2>Leave a comment</h2>
+
+        <form
+                method="post"
+                th:action="@{/posts/{postId}/comments(postId=${post.id})}"
+                th:object="${comment}"
+        >
+
+            <div class="form-group">
+
+                <label for="content">
+                    What do you think?
+                </label>
+
+                <textarea
+                        id="content"
+                        th:field="*{content}"
+                        placeholder="Write a comment..."
+                        required>
+            </textarea>
+
+            </div>
+
+            <div class="form-buttons">
+
+                <input
+                        type="reset"
+                        value="Clear"
+                        class="button button-secondary"
+                >
+
+                <button
+                        type="submit"
+                        class="button button-primary"
+                >
+                    Comment
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+</main>
+
 </body>
 </html>

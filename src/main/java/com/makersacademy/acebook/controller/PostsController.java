@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +26,16 @@ public class PostsController {
 
     @GetMapping("/posts")
     public String index(Model model) {
+
         Iterable<Post> posts = repository.findAll();
 
         Map<Long, User> users = new HashMap<>();
 
         for (Post post : posts) {
-            User user = userRepository.findById(post.getUserId()).orElse(null);
+            User user = userRepository
+                    .findById(post.getUserId())
+                    .orElse(null);
+
             users.put(post.getUserId(), user);
         }
 
@@ -43,22 +48,28 @@ public class PostsController {
 
     @PostMapping("/posts")
     public RedirectView create(@ModelAttribute Post post) {
-        DefaultOidcUser principal = (DefaultOidcUser) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
+
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
 
         User currentUser = userRepository
                 .findByOktaUserId(principal.getSubject())
                 .orElseThrow(() ->
-                        new IllegalStateException("User not found in local database")
+                        new IllegalStateException(
+                                "User not found in local database"
+                        )
                 );
 
         Long databaseUserId = currentUser.getId();
 
         post.setUserId(databaseUserId);
+
         repository.save(post);
 
         return new RedirectView("/posts");
     }
 }
+

@@ -1,7 +1,8 @@
-/*-----------
-General page styling
- */
-*{
+/* =========================================
+GENERAL PAGE STYLING
+========================================= */
+
+* {
     box-sizing: border-box;
 }
 
@@ -9,75 +10,117 @@ body {
     margin: 0;
     padding: 0;
 
+
     background-color: #e9eee9;
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
 
     color: #333;
+
+
 }
 
-/*
-Top Navigation Bar
- */
+/* =========================================
+TOP NAVIGATION BAR
+========================================= */
 
 .navbar {
     width: 100%;
 
+
     background-color: #356b3f;
     border-bottom: 1px solid #244b2c;
+
     color: white;
+
+
 }
 
 .navbar-content {
     width: 760px;
     margin: 0 auto;
 
+
     height: 48px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+
 }
 
-/*
-Acebook logo
- */
+/* Logo */
 
 .logo {
     font-size: 24px;
     font-weight: bold;
 
+
     color: white;
 
     letter-spacing: -1px;
+
+
 }
 
-/*
-Logged-in user
- */
+/* Navigation links */
+
+.navigation-links {
+    display: flex;
+
+
+    align-items: center;
+
+    gap: 15px;
+
+
+}
+
+.navigation-links a {
+    color: white;
+
+
+    font-size: 11px;
+    font-weight: bold;
+
+    text-decoration: none;
+
+
+}
+
+.navigation-links a:hover {
+    text-decoration: underline;
+}
+
+/* Logged-in user */
 
 .user-info {
     font-size: 11px;
 
+
     color: #d8e6d8;
 
     display: flex;
-    align-items:center;
+    align-items: center;
 
     gap: 5px;
+
+
 }
 
 .user-info strong {
     color: white;
 }
 
-/*
-Main page
- */
+/* =========================================
+MAIN PAGE
+========================================= */
 
 .main-container {
     width: 760px;
+
 
     margin: 20px auto;
 
@@ -89,10 +132,13 @@ Main page
     padding: 20px;
 
     min-height: 600px;
+
+
 }
 
 .main-container > h1 {
-    margin: 0 0  15px 0;
+    margin: 0 0 15px 0;
+
 
     padding-bottom: 8px;
 
@@ -101,22 +147,28 @@ Main page
     color: #356b3f;
 
     border-bottom: 1px solid #c8d1c8;
+
+
 }
 
-/*
-create post box
- */
+/* =========================================
+CREATE POST
+========================================= */
 
 .create-post {
     background-color: #f5f7f5;
 
+
     border: 1px solid #c4ccc4;
 
     margin-bottom: 25px;
+
+
 }
 
 .create-post h2 {
     margin: 0;
+
 
     padding: 7px 10px;
 
@@ -127,40 +179,45 @@ create post box
     background-color: #5b875f;
 
     border-bottom: 1px solid #456c49;
-}
 
-/*
-Form
- */
+
+}
 
 .create-post form {
     padding: 12px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
+/* =========================================
+FORM
+========================================= */
 
 .form-group {
     display: flex;
+
+
     flex-direction: column;
+
+    margin-bottom: 10px;
+
+
 }
 
 .form-group label {
     margin-bottom: 5px;
 
+
     font-weight: bold;
 
     color: #444;
+
+
 }
 
-/*
-Post text box
- */
+/* Textarea */
 
 .form-group textarea {
     width: 100%;
+
 
     min-height: 75px;
 
@@ -178,29 +235,96 @@ Post text box
     border: 1px solid #aeb7ae;
 
     outline: none;
+
+
 }
 
 .form-group textarea:focus {
     border-color: #5b875f;
 
+
     background-color: #fbfffb;
+
+
 }
 
-/*
-Buttons
- */
+/* =========================================
+POST IMAGE UPLOAD
+========================================= */
+
+.image-upload {
+    margin-top: 10px;
+}
+
+.image-upload label {
+    display: block;
+
+
+    margin-bottom: 5px;
+
+    font-weight: bold;
+
+    color: #444;
+
+}
+
+.image-upload input[type="file"] {
+    width: 100%;
+
+
+    padding: 6px;
+
+    background-color: white;
+
+    border: 1px solid #aeb7ae;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+
+}
+
+.image-upload input[type="file"]:hover {
+    background-color: #f5f7f5;
+}
+
+.image-upload small {
+    display: block;
+
+
+    margin-top: 4px;
+
+    color: #888;
+
+    font-size: 10px;
+
+
+}
+
+/* =========================================
+BUTTONS
+========================================= */
 
 .form-buttons {
     margin-top: 8px;
 
+
     display: flex;
+
     justify-content: flex-end;
 
     gap: 5px;
+
+
 }
 
 .button {
     font-family: Arial, Helvetica, sans-serif;
+
+
     font-size: 11px;
 
     font-weight: bold;
@@ -214,34 +338,50 @@ Buttons
     background-color: #e1e6e1;
 
     color: #333;
+
+
 }
 
 .button:hover {
     background-color: #d3dbd3;
 }
 
-/*
-Main Button
- */
+/* Primary button */
 
 .button-primary {
     background-color: #4f7f54;
 
+
     color: white;
 
     border-color: #365b3a;
+
+
 }
 
 .button-primary:hover {
-    background-color: #416b46
+    background-color: #416b46;
 }
 
-/*
-Recent posts
- */
+/* Secondary button */
 
-.posts-section h2{
-    margin: 0  0  8px 0;
+.button-secondary {
+    background-color: #e1e6e1;
+
+
+    color: #333;
+
+
+}
+
+/* =========================================
+RECENT POSTS
+========================================= */
+
+.posts-section h2 {
+    margin: 0 0 8px 0;
+
+
     padding: 7px 10px;
 
     background-color: #dfe7df;
@@ -252,37 +392,56 @@ Recent posts
 
     font-size: 13px;
 
+
 }
 
-/*
-Posts container
- */
+/* Posts container */
 
 .posts {
     display: flex;
 
+
     flex-direction: column;
 
     gap: 8px;
+
+
 }
 
-/*
-Individual post
- */
+/* Individual post */
 
 .post-card {
     background-color: white;
 
+
     border: 1px solid #c4ccc4;
+
+
 }
 
-/*
-Profile Pic
- */
+/* =========================================
+POST HEADER
+========================================= */
+
+.post-header {
+    display: flex;
+
+
+    align-items: center;
+
+    padding: 10px;
+
+    border-bottom: 1px solid #e0e4e0;
+
+
+}
+
+/* Profile picture */
 
 .avatar {
     width: 35px;
     height: 35px;
+
 
     margin-right: 8px;
 
@@ -291,6 +450,7 @@ Profile Pic
     border: 1px solid #4f754f;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -299,35 +459,57 @@ Profile Pic
     font-weight: bold;
 
     font-size: 15px;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+
 }
 
 .avatar img {
-    width: 35px;
-    height: 35px;
+    width: 100%;
+    height: 100%;
+
+
     object-fit: cover;
+
+    border-radius: 50%;
+
+
 }
 
+/* User information */
+
+.post-user {
+    display: flex;
 
 
-/*
-User Info
- */
+    flex-direction: column;
+
+
+}
 
 .post-user strong {
     font-size: 12px;
 
+
     color: #356b3f;
+
 }
 
 .post-user span {
     font-size: 10px;
 
+
     color: #777;
+
+
 }
 
-/*
-Post content
- */
+/* =========================================
+POST CONTENT
+========================================= */
 
 .post-content {
     padding: 12px;
@@ -335,29 +517,61 @@ Post content
 
 .post-content p {
     margin: 0;
+
+
     font-size: 13px;
+
     line-height: 1.5;
+
     color: #333;
+
     overflow-wrap: break-word;
+
+
 }
 
-/*
-post action bar
- */
+/* Post image */
+
+.post-image {
+    width: 100%;
+
+
+    max-height: 500px;
+
+    object-fit: cover;
+
+    display: block;
+
+    margin-top: 10px;
+
+    border: 1px solid #d0d6d0;
+
+
+}
+
+/* =========================================
+POST ACTION BAR
+========================================= */
 
 .post-actions {
-
     display: flex;
+
+
     border-top: 1px solid #d9ded9;
+
     background-color: #f5f6f5;
+
+
 }
 
 .post-action {
     flex: 1;
 
+
     padding: 6px;
 
     border: none;
+
     border-right: 1px solid #d9ded9;
 
     background-color: transparent;
@@ -371,74 +585,60 @@ post action bar
     font-weight: bold;
 
     cursor: pointer;
+
+    text-align: center;
+
+
 }
 
 .post-action:last-child {
-    border-right: none
+    border-right: none;
 }
 
 .post-action:hover {
     background-color: #e5ebe5;
 
+
     text-decoration: underline;
+
+
 }
 
-/*
-Old-school links
- */
+/* =========================================
+GENERAL LINKS
+========================================= */
 
-a{
+a {
     color: #356b3f;
 
+
     text-decoration: none;
+
+
 }
 
 a:hover {
     text-decoration: underline;
 }
 
-/*
-Mobile
- */
+/* =========================================
+PROFILE PAGE
+========================================= */
 
-@media (max-width: 800px) {
+.profile-card {
+    background-color: white;
 
-    .navbar-content {
-        width: 100%;
 
-        padding: 0 15px;
-    }
+    border: 1px solid #c4ccc4;
 
-    .main-container {
-        width: 100%;
 
-        margin: 0;
-
-        border: none;
-
-        padding: 15px;
-    }
 }
-       /* =========================================
-          PROFILE PAGE
-          ========================================= */
 
-
-       /* Profile card */
-
-   .profile-card {
-       background-color: white;
-
-       border: 1px solid #c4ccc4;
-   }
-
-
-/* -------------------------
-   Profile header
-   ------------------------- */
+/* Profile header */
 
 .profile-header {
     display: flex;
+
 
     align-items: center;
 
@@ -447,14 +647,16 @@ Mobile
     background-color: #f1f4f1;
 
     border-bottom: 1px solid #c4ccc4;
-}
 
+
+}
 
 /* Large profile picture */
 
 .profile-picture {
     width: 100px;
     height: 100px;
+
 
     margin-right: 20px;
 
@@ -468,20 +670,19 @@ Mobile
     justify-content: center;
 
     overflow: hidden;
+
+
 }
-
-
-/* Actual image */
 
 .profile-picture img {
     width: 100%;
     height: 100%;
 
+
     object-fit: cover;
+
+
 }
-
-
-/* If there isn't a picture */
 
 .profile-picture-placeholder {
     width: 100%;
@@ -495,35 +696,41 @@ Mobile
     color: white;
 
     font-size: 40px;
-    font-weight: bold;
-}
 
+    font-weight: bold;
+
+
+}
 
 /* Username */
 
 .profile-name h2 {
     margin: 0 0 5px 0;
 
+
     color: #356b3f;
 
     font-size: 20px;
-}
 
+
+}
 
 /* Email */
 
 .profile-name p {
     margin: 0;
 
+
     color: #777;
 
     font-size: 11px;
+
+
 }
 
-
-/* -------------------------
-   Edit profile
-   ------------------------- */
+/* =========================================
+EDIT PROFILE
+========================================= */
 
 .profile-edit {
     padding: 20px;
@@ -532,6 +739,7 @@ Mobile
 .profile-edit h2 {
     margin: 0 0 15px 0;
 
+
     padding-bottom: 7px;
 
     font-size: 13px;
@@ -539,37 +747,37 @@ Mobile
     color: #356b3f;
 
     border-bottom: 1px solid #c8d1c8;
+
+
 }
-
-
-/* Form groups */
 
 .profile-form-group {
     display: flex;
 
+
     flex-direction: column;
 
     margin-bottom: 15px;
+
+
 }
-
-
-/* Labels */
 
 .profile-form-group label {
     margin-bottom: 5px;
+
 
     font-weight: bold;
 
     font-size: 12px;
 
     color: #444;
+
+
 }
-
-
-/* Inputs */
 
 .profile-form-group input {
     width: 100%;
+
 
     padding: 7px;
 
@@ -582,32 +790,35 @@ Mobile
     font-size: 13px;
 
     outline: none;
+
+
 }
 
 .profile-form-group input:focus {
     border-color: #5b875f;
 
+
     background-color: #fbfffb;
+
+
 }
-
-
-/* Help text */
 
 .profile-form-group small {
     margin-top: 4px;
 
+
     color: #888;
 
     font-size: 10px;
+
+
 }
 
-
-/* -------------------------
-   Profile buttons
-   ------------------------- */
+/* Profile buttons */
 
 .profile-buttons {
     display: flex;
+
 
     justify-content: flex-end;
 
@@ -616,10 +827,9 @@ Mobile
     gap: 6px;
 
     margin-top: 20px;
+
+
 }
-
-
-/* Make the link look like a button */
 
 .profile-buttons a {
     text-decoration: none;
@@ -629,39 +839,294 @@ Mobile
     text-decoration: none;
 }
 
+/* =========================================
+COMMENTS PAGE
+========================================= */
 
-/* -------------------------
-   Navigation links
-   ------------------------- */
-
-.navigation-links {
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
+.comments-container {
+    max-width: 750px;
 }
 
-.navigation-links a {
-    color: white;
+/* Back button */
 
-    font-size: 11px;
+.back-link {
+    display: inline-block;
+
+
+    margin-bottom: 15px;
+
+    color: #356b3a;
+
+    text-decoration: none;
 
     font-weight: bold;
 
-    text-decoration: none;
+    font-size: 14px;
+
+
 }
 
-.navigation-links a:hover {
+.back-link:hover {
     text-decoration: underline;
 }
 
+/* Original post */
 
-/* -------------------------
-   Mobile profile
-   ------------------------- */
+.comment-post {
+    margin-bottom: 20px;
+}
+
+/* Comments section */
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.section-header {
+    display: flex;
+
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 1px solid #c8d5c8;
+
+    padding-bottom: 8px;
+
+    margin-bottom: 12px;
+
+
+}
+
+.section-header h1 {
+    margin: 0;
+
+
+    color: #244d29;
+
+    font-size: 22px;
+
+
+}
+
+.section-header span {
+    color: #777;
+
+
+    font-size: 13px;
+
+
+}
+
+/* No comments */
+
+.no-comments {
+    background: #f5f7f5;
+
+
+    border: 1px solid #c8d5c8;
+
+    padding: 20px;
+
+    text-align: center;
+
+    margin-bottom: 20px;
+
+
+}
+
+.no-comments p {
+    margin: 0 0 5px 0;
+
+
+    font-weight: bold;
+
+    color: #444;
+
+
+}
+
+.no-comments span {
+    color: #777;
+
+
+    font-size: 13px;
+
+
+}
+
+/* =========================================
+COMMENTS
+========================================= */
+
+.comment-list {
+    display: flex;
+
+
+    flex-direction: column;
+
+    gap: 8px;
+
+
+}
+
+.comment-card {
+    display: flex;
+
+
+    align-items: flex-start;
+
+    background: white;
+
+    border: 1px solid #c8d5c8;
+
+    padding: 10px;
+
+}
+
+/* Comment avatar */
+
+.comment-avatar {
+    width: 38px;
+    height: 38px;
+
+
+    background: #4f8a55;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+
+    margin-right: 10px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+
+}
+
+.comment-avatar span {
+    font-size: 16px;
+}
+
+.comment-avatar img {
+    width: 100%;
+    height: 100%;
+
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+
+}
+
+/* Comment content */
+
+.comment-body {
+    flex: 1;
+}
+
+.comment-header {
+    margin-bottom: 3px;
+}
+
+.comment-header strong {
+    color: #315f36;
+
+
+    font-size: 14px;
+
+
+}
+
+.comment-body p {
+    margin: 0;
+
+
+    color: #333;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+
+}
+
+/* =========================================
+ADD COMMENT
+========================================= */
+
+.add-comment {
+    margin-top: 25px;
+}
+
+.add-comment h2 {
+    margin-top: 0;
+
+
+    margin-bottom: 15px;
+
+    color: #244d29;
+
+    font-size: 18px;
+
+
+}
+
+.add-comment textarea {
+    min-height: 90px;
+}
+
+/* =========================================
+MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+
+    .navbar-content {
+    width: 100%;
+
+    padding: 0 15px;
+}
+
+    .main-container {
+        width: 100%;
+
+        margin: 0;
+
+        border: none;
+
+        padding: 15px;
+    }
+
+
+}
 
 @media (max-width: 600px) {
+
+
+    .comments-container {
+    width: 95%;
+}
+
+    .section-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 4px;
+    }
 
     .profile-header {
         flex-direction: column;
@@ -684,4 +1149,10 @@ Mobile
 
         text-align: center;
     }
+
+    .post-image {
+        max-height: 350px;
+    }
+
+
 }
