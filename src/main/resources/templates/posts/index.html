@@ -25,6 +25,11 @@
         <div class="navigation-links">
             <a href="/posts">Home</a>
             <a href="/profile">Profile</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-button">
+                    Log out
+                </button>
+            </form>
         </div>
 
         <div sec:authorize="isAuthenticated()" class="user-info">
