@@ -5,18 +5,16 @@ import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.FriendRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class FriendsController {
@@ -42,11 +40,54 @@ public class FriendsController {
 
     @PostMapping("/friend-request/{userId}")
     public RedirectView sendFriendRequest(@PathVariable Long userId, Authentication authentication) {
+    public String getAllFriends(Model model) {
 
-        User receiver = userRepository.findById(userId).orElseThrow();
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
 
-        String oktaUserId = authentication.getName();
-        User requester = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
+        User currentUser = userRepository
+                .findByOktaUserId(principal.getSubject())
+                .orElseThrow();
+
+        // Get current user's accepted friendships
+        List<Friend> friends =
+                friendRepository.findByRequesterOrReceiverAndStatus(
+                        currentUser,
+                        currentUser,
+                        Friend.Status.ACCEPTED
+                );
+
+        // Get all users
+        Iterable<User> users = userRepository.findAll();
+
+        model.addAttribute("friends", friends);
+        model.addAttribute("users", users);
+        model.addAttribute("currentUser", currentUser);
+
+        return "friends/index";
+    }
+
+    @PostMapping("/friend-request/{userId}")
+    public String sendFriendRequest(
+            @PathVariable Long userId
+    ) {
+
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        User requester = userRepository
+                .findByOktaUserId(principal.getSubject())
+                .orElseThrow();
+
+        User receiver = userRepository
+                .findById(userId)
+                .orElseThrow();
 
         Friend friend = new Friend();
 

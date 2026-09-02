@@ -22,6 +22,17 @@
             Acebook
         </div>
 
+        <div class="navigation-links">
+            <a href="/posts">Home</a>
+            <a href="/profile">Profile</a>
+            <a href="/friends">Friends</a>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-button">
+                    Log out
+                </button>
+            </form>
+        </div>
+
         <div sec:authorize="isAuthenticated()" class="user-info">
             <span>Signed in as</span>
             <strong sec:authentication="principal.attributes['email']"></strong>
@@ -37,6 +48,7 @@
 
     <h1>Posts</h1>
 
+
     <!-- Create post -->
     <section class="create-post card">
 
@@ -47,9 +59,12 @@
               th:object="${post}"
               method="post">
 
+            <!-- Post content -->
             <div class="form-group">
 
-                <label for="content">What's on your mind?</label>
+                <label for="content">
+                    What's on your mind?
+                </label>
 
                 <textarea
                         id="content"
@@ -60,6 +75,25 @@
 
             </div>
 
+
+            <!-- Image URL -->
+            <div class="form-group">
+
+                <label for="imageUrl">
+                    Add a photo
+                </label>
+
+                <input
+                        type="url"
+                        id="imageUrl"
+                        th:field="*{imageUrl}"
+                        placeholder="Paste an image URL (optional)"
+                />
+
+            </div>
+
+
+            <!-- Buttons -->
             <div class="form-buttons">
 
                 <input
@@ -89,34 +123,74 @@
             <article class="post-card"
                      th:each="post: ${posts}">
 
+
+                <!-- Post header -->
                 <div class="post-header">
 
                     <div class="avatar">
-                        <img th:src="${#authentication.principal.attributes['picture']}" alt="U">
+
+                        <img
+                                th:if="${users[post.userId] != null}"
+                                th:src="${users[post.userId].profilePictureUrl}"
+                                alt="Profile picture">
+
                     </div>
+
 
                     <div class="post-user">
-                        <strong sec:authentication="principal.attributes['email']"></strong>
-                        <span>Just now</span>
+
+                        <strong
+                                th:if="${users[post.userId] != null}"
+                                th:text="${users[post.userId].username}">
+                        </strong>
+
+                        <span th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
+                        </span>
+
                     </div>
 
                 </div>
 
+
+                <!-- Post content -->
                 <div class="post-content">
-                    <p th:text="${post.content}"></p>
+
+                    <p th:text="${post.content}">
+                    </p>
+
                 </div>
 
+
+                <!-- Post image -->
+                <div
+                        class="post-image"
+                        th:if="${post.imageUrl != null and !post.imageUrl.isEmpty()}">
+
+                    <img
+                            th:src="${post.imageUrl}"
+                            alt="Post image">
+
+                </div>
+
+
+                <!-- Post actions -->
                 <div class="post-actions">
 
-                    <button type="button" class="post-action">
+                    <button
+                            type="button"
+                            class="post-action">
                         Like
                     </button>
 
-                    <button type="button" class="post-action">
+                    <a
+                            class="post-action"
+                            th:href="@{/posts/{postId}/comments(postId=${post.id})}">
                         Comment
-                    </button>
+                    </a>
 
-                    <button type="button" class="post-action">
+                    <button
+                            type="button"
+                            class="post-action">
                         Share
                     </button>
 
@@ -132,4 +206,6 @@
 
 </body>
 </html>
+
+
 
