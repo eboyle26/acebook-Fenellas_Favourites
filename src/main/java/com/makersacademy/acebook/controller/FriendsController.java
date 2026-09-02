@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class FriendsController {
@@ -27,28 +27,195 @@ public class FriendsController {
     @Autowired
     UserRepository userRepository;
 
+
     @GetMapping("/friends")
     public String getAllFriends(Model model, Authentication authentication) {
-        String oktaUserId = authentication.getName();
-        User user = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
 
-        List<Friend> acceptedFriends = friendRepository.findByRequesterOrReceiverAndStatus(user, user, Friend.Status.ACCEPTED);
-        List<Friend> pendingFriends = friendRepository.findByReceiverAndStatus(user, Friend.Status.PENDING);
+        String oktaUserId = authentication.getName();
+
+        User user = userRepository
+                .findByOktaUserId(oktaUserId)
+                .orElseThrow();
+
+
+        // Accepted friends
+        List<Friend> acceptedFriends =
+                friendRepository.findByRequesterOrReceiverAndStatus(
+                        user,
+                        user,
+                        Friend.Status.ACCEPTED
+                );
+
+
+        // Incoming friend requests
+        List<Friend> pendingFriends =
+                friendRepository.findByReceiverAndStatus(
+                        user,
+                        Friend.Status.PENDING
+                );
+
+
+        // Friend requests YOU have sent
+        List<Friend> outgoingPendingFriends =
+                friendRepository.findByRequesterAndStatus(
+                        user,
+                        Friend.Status.PENDING
+                );
+
+
+        // Get all registered users
+        List<User> users =
+                (List<User>) userRepository.findAll();
+
+
+        /*
+         * Store the IDs of people who are already friends
+         * OR who already have a pending request.
+         *
+         * These people will not appear in "Find people".
+         */
+
+        Set<Long> unavailableUserIds = new HashSet<>();
+
+
+        // Add existing friends
+        for (Friend friend : acceptedFriends) {
+
+            if (friend.getRequester().getId().equals(user.getId())) {
+
+                unavailableUserIds.add(
+                        friend.getReceiver().getId()
+                );
+
+            } else {
+
+                unavailableUserIds.add(
+                        friend.getRequester().getId()
+                );
+            }
+        }
+
+
+        // Add people we've already sent requests to
+        for (Friend friend : outgoingPendingFriends) {
+
+            unavailableUserIds.add(
+                    friend.getReceiver().getId()
+            );
+        }
 
 
         model.addAttribute("acceptedFriends", acceptedFriends);
         model.addAttribute("pendingFriends", pendingFriends);
+        model.addAttribute("users", users);
+        model.addAttribute("currentUser", user);
+        model.addAttribute("unavailableUserIds", unavailableUserIds);
+
 
         return "friends/index";
     }
 
-    @PostMapping("/friend-request/{userId}")
-    public RedirectView sendFriendRequest(@PathVariable Long userId, Authentication authentication) {
 
-        User receiver = userRepository.findById(userId).orElseThrow();
+    @PostMapping("/friend-request/{userId}")
+    public RedirectView sendFriendRequest(
+            @PathVariable Long userId,
+            Authentication authentication) {
 
         String oktaUserId = authentication.getName();
-        User requester = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
+
+        User requester = userRepository
+                .findByOktaUserId(oktaUserId)
+                .orElseThrow();
+
+        User receiver = userRepository
+                .findById(userId)
+                .orElseThrow();
+
+
+        /*
+         * Don't allow someone to send a friend request to themselves.
+         */
+
+        if (requester.getId().equals(receiver.getId())) {
+            return new RedirectView("/friends");
+        }
+
+
+        /*
+         * Check all existing friendships between these two users.
+         */
+
+        List<Friend> existingFriendships =
+                friendRepository.findByRequesterOrReceiverAndStatus(
+                        requester,
+                        requester,
+                        Friend.Status.ACCEPTED
+                );
+
+
+        /*
+         * If they are already friends, don't create another request.
+         */
+
+        for (Friend friend : existingFriendships) {
+
+            boolean alreadyFriends =
+                    (friend.getRequester().getId().equals(requester.getId())
+                            && friend.getReceiver().getId().equals(receiver.getId()))
+                            ||
+                            (friend.getReceiver().getId().equals(requester.getId())
+                                    && friend.getRequester().getId().equals(receiver.getId()));
+
+            if (alreadyFriends) {
+                return new RedirectView("/friends");
+            }
+        }
+
+
+        /*
+         * Check whether we have already sent a pending request.
+         */
+
+        List<Friend> outgoingRequests =
+                friendRepository.findByRequesterAndStatus(
+                        requester,
+                        Friend.Status.PENDING
+                );
+
+
+        for (Friend friend : outgoingRequests) {
+
+            if (friend.getReceiver().getId().equals(receiver.getId())) {
+                return new RedirectView("/friends");
+            }
+        }
+
+
+        /*
+         * Check whether the other person has already sent us
+         * a pending request.
+         *
+         * If they have, don't create a second request.
+         */
+
+        List<Friend> incomingRequests =
+                friendRepository.findByReceiverAndStatus(
+                        requester,
+                        Friend.Status.PENDING
+                );
+
+
+        for (Friend friend : incomingRequests) {
+
+            if (friend.getRequester().getId().equals(receiver.getId())) {
+                return new RedirectView("/friends");
+            }
+        }
+
+
+        /*
+         * Everything is okay, so create the friend request.
+         */
 
         Friend friend = new Friend();
 
@@ -59,13 +226,19 @@ public class FriendsController {
 
         friendRepository.save(friend);
 
+
         return new RedirectView("/friends");
     }
 
-    @PostMapping("/friend-request/{friendId}/accept")
-    public RedirectView acceptFriendRequest(@PathVariable Long friendId) {
 
-        Friend friend = friendRepository.findById(friendId).orElseThrow();
+    @PostMapping("/friend-request/{friendId}/accept")
+    public RedirectView acceptFriendRequest(
+            @PathVariable Long friendId) {
+
+        Friend friend =
+                friendRepository
+                        .findById(friendId)
+                        .orElseThrow();
 
         friend.setStatus(Friend.Status.ACCEPTED);
 
@@ -74,10 +247,15 @@ public class FriendsController {
         return new RedirectView("/friends");
     }
 
-    @PostMapping("/friend-request/{friendId}/reject")
-    public RedirectView rejectFriendRequest(@PathVariable Long friendId) {
 
-        Friend friend = friendRepository.findById(friendId).orElseThrow();
+    @PostMapping("/friend-request/{friendId}/reject")
+    public RedirectView rejectFriendRequest(
+            @PathVariable Long friendId) {
+
+        Friend friend =
+                friendRepository
+                        .findById(friendId)
+                        .orElseThrow();
 
         friend.setStatus(Friend.Status.REJECTED);
 
@@ -87,5 +265,59 @@ public class FriendsController {
     }
 
 
-}
+    /*
+     * DELETE /friends/{friendId}
+     *
+     * Removes the friendship completely from the database.
+     */
 
+    @PostMapping("/friends/{friendId}/delete")
+    public RedirectView deleteFriend(
+            @PathVariable Long friendId,
+            Authentication authentication) {
+
+        Friend friend =
+                friendRepository
+                        .findById(friendId)
+                        .orElseThrow();
+
+
+        String oktaUserId = authentication.getName();
+
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(oktaUserId)
+                        .orElseThrow();
+
+
+        /*
+         * Make sure the current user is actually part
+         * of this friendship.
+         */
+
+        boolean isRequester =
+                friend.getRequester()
+                        .getId()
+                        .equals(currentUser.getId());
+
+        boolean isReceiver =
+                friend.getReceiver()
+                        .getId()
+                        .equals(currentUser.getId());
+
+
+        if (!isRequester && !isReceiver) {
+            return new RedirectView("/friends");
+        }
+
+
+        /*
+         * Delete the friendship completely.
+         */
+
+        friendRepository.delete(friend);
+
+
+        return new RedirectView("/friends");
+    }
+}

@@ -1,11 +1,11 @@
- package com.makersacademy.acebook.model;
+package com.makersacademy.acebook.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
- @Data
+@Data
 @Entity
 @Table(name = "POSTS")
 public class Post {
@@ -22,6 +22,18 @@ public class Post {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "song_title")
+    private String songTitle;
+
+    @Column(name = "song_artist")
+    private String songArtist;
+
+    @Column(name = "song_image_url")
+    private String songImageUrl;
+
+    @Column(name = "song_preview_url")
+    private String songPreviewUrl;
+
     @Column(name = "date_time")
     private LocalDateTime dateTime;
 
@@ -32,7 +44,5 @@ public class Post {
         this.userId = userId;
         this.dateTime = LocalDateTime.now();
     }
-
 }
-
 

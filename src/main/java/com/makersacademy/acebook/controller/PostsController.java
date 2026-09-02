@@ -39,7 +39,10 @@ public class PostsController {
 
     @Autowired
     LikeRepository likeRepository;
+
+    @Autowired
     CommentRepository commentRepository;
+
 
     @GetMapping("/posts")
     public String index(Model model) {
@@ -122,6 +125,7 @@ public class PostsController {
             post.setImageUrl("/uploads/" + fileName);
         }
 
+        // Save the post, including any selected song information
         postRepository.save(post);
 
         return new RedirectView("/posts");
@@ -130,14 +134,15 @@ public class PostsController {
     @PostMapping("/posts/{postId}/delete")
     @Transactional
     public RedirectView deletePost(@PathVariable Long postId) {
+
         commentRepository.deleteByPostId(postId);
         postRepository.deleteById(postId);
 
         return new RedirectView("/posts");
     }
+
     @PostMapping("/posts/{postId}/like")
-    public RedirectView likes (@PathVariable Long postId) {
-        likeRepository.findByPostId(postId);
+    public RedirectView likes(@PathVariable Long postId) {
 
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
@@ -158,10 +163,15 @@ public class PostsController {
                 .ifPresentOrElse(
                         existingLike ->
                                 likeRepository.delete(existingLike),
-                        () -> likeRepository.save(new Like(postId, currentUser.getId()))
+                        () ->
+                                likeRepository.save(
+                                        new Like(
+                                                postId,
+                                                currentUser.getId()
+                                        )
+                                )
                 );
-                return new RedirectView("/posts");
-//test to see if my git is working again - corban
+
+        return new RedirectView("/posts");
     }
 }
-

@@ -97,6 +97,59 @@
             </div>
 
 
+            <!-- Music search -->
+            <div class="form-group">
+
+                <label for="songSearch">
+                    Add a song
+                </label>
+
+                <input
+                        type="text"
+                        id="songSearch"
+                        placeholder="Search for a song..."
+                />
+
+                <button
+                        type="button"
+                        id="searchSongButton"
+                        class="button button-secondary">
+                    Search
+                </button>
+
+            </div>
+
+
+            <!-- Song search results -->
+            <div id="songResults"></div>
+
+
+            <!-- Hidden song information -->
+            <input
+                    type="hidden"
+                    th:field="*{songTitle}"
+                    id="songTitle">
+
+            <input
+                    type="hidden"
+                    th:field="*{songArtist}"
+                    id="songArtist">
+
+            <input
+                    type="hidden"
+                    th:field="*{songImageUrl}"
+                    id="songImageUrl">
+
+            <input
+                    type="hidden"
+                    th:field="*{songPreviewUrl}"
+                    id="songPreviewUrl">
+
+
+            <!-- Selected song -->
+            <div id="selectedSong"></div>
+
+
             <!-- Buttons -->
             <div class="form-buttons">
 
@@ -178,14 +231,49 @@
                 </div>
 
 
+                <!-- Post music -->
+                <div
+                        class="post-song"
+                        th:if="${post.songPreviewUrl != null and !post.songPreviewUrl.isEmpty()}">
+
+                    <img
+                            th:src="${post.songImageUrl}"
+                            alt="Album artwork"
+                            class="post-song-image">
+
+                    <div class="post-song-info">
+
+                        <strong th:text="${post.songTitle}">
+                        </strong>
+
+                        <span th:text="${post.songArtist}">
+                        </span>
+
+                        <audio
+                                controls
+                                preload="none"
+                                th:src="${post.songPreviewUrl}">
+                        </audio>
+
+                    </div>
+
+                </div>
+
+
                 <!-- Post actions -->
                 <div class="post-actions">
 
-                    <button
-                            type="button"
-                            class="post-action">
-                        Like
-                    </button>
+                    <form
+                            th:action="@{/posts/{postId}/like(postId=${post.id})}"
+                            method="post">
+
+                        <button
+                                type="submit"
+                                class="post-action">
+                            Like
+                        </button>
+
+                    </form>
 
                     <a
                             class="post-action"
@@ -222,8 +310,195 @@
 
 </main>
 
+
+<!-- Music search JavaScript -->
+<script>
+
+    document
+        .getElementById("searchSongButton")
+        .addEventListener("click", function () {
+
+            const query =
+                document.getElementById("songSearch").value.trim();
+
+            if (!query) {
+                return;
+            }
+
+            fetch("/songs/search?query=" + encodeURIComponent(query))
+
+                .then(response => {
+
+                    if (!response.ok) {
+                        throw new Error("Song search failed");
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(songs => {
+
+                    const results =
+                        document.getElementById("songResults");
+
+                    results.innerHTML = "";
+
+                    songs.forEach(song => {
+
+                        // Only show songs that have a preview
+                        if (!song.previewUrl) {
+                            return;
+                        }
+
+                        const result =
+                            document.createElement("div");
+
+                        result.className = "song-result";
+
+                        result.innerHTML = `
+
+                            <img
+                                src="${song.artworkUrl100}"
+                                alt="Album artwork">
+
+                            <div class="song-info">
+
+                                <strong>
+                                    ${song.trackName}
+                                </strong>
+
+                                <span>
+                                    ${song.artistName}
+                                </span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                class="button button-secondary">
+                                Add
+                            </button>
+
+                        `;
+
+
+                        // Add selected song
+                        result
+                            .querySelector("button")
+                            .addEventListener("click", function () {
+
+                                document
+                                    .getElementById("songTitle")
+                                    .value = song.trackName;
+
+                                document
+                                    .getElementById("songArtist")
+                                    .value = song.artistName;
+
+                                document
+                                    .getElementById("songImageUrl")
+                                    .value = song.artworkUrl100;
+
+                                document
+                                    .getElementById("songPreviewUrl")
+                                    .value = song.previewUrl;
+
+
+                                // Display selected song
+                                document
+                                    .getElementById("selectedSong")
+                                    .innerHTML = `
+
+                                    <div class="selected-song">
+
+                                        <img
+                                            src="${song.artworkUrl100}"
+                                            alt="Album artwork">
+
+                                        <div>
+
+                                            <strong>
+                                                ${song.trackName}
+                                            </strong>
+
+                                            <p>
+                                                ${song.artistName}
+                                            </p>
+
+                                            <audio
+                                                controls
+                                                preload="none"
+                                                src="${song.previewUrl}">
+                                            </audio>
+
+                                        </div>
+
+                                    </div>
+
+                                `;
+
+
+                                // Clear search results
+                                results.innerHTML = "";
+
+                            });
+
+
+                        results.appendChild(result);
+
+                    });
+
+                })
+
+                .catch(error => {
+
+                    console.error(
+                        "Error searching for songs:",
+                        error
+                    );
+
+                });
+
+        });
+
+
+    // Clear selected song when the form is reset
+    document
+        .querySelector("form[enctype='multipart/form-data']")
+        .addEventListener("reset", function () {
+
+            document
+                .getElementById("songTitle")
+                .value = "";
+
+            document
+                .getElementById("songArtist")
+                .value = "";
+
+            document
+                .getElementById("songImageUrl")
+                .value = "";
+
+            document
+                .getElementById("songPreviewUrl")
+                .value = "";
+
+            document
+                .getElementById("songResults")
+                .innerHTML = "";
+
+            document
+                .getElementById("selectedSong")
+                .innerHTML = "";
+
+        });
+
+</script>
+
 </body>
 </html>
+
 
 
 

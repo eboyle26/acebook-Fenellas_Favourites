@@ -1,6 +1,6 @@
 /* =========================================
-   GENERAL PAGE STYLING
-========================================= */
+       GENERAL PAGE STYLING
+    ========================================= */
 
 * {
     box-sizing: border-box;
@@ -9,9 +9,11 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #e9eee9;
+
+    background-color: #eef2ee;
+
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     color: #333;
 }
 
@@ -21,15 +23,22 @@ body {
 
 .navbar {
     width: 100%;
+
     background-color: #356b3f;
-    border-bottom: 1px solid #244b2c;
+
+    border-bottom: 1px solid #285330;
+
     color: white;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
 
 .navbar-content {
     width: 760px;
-    height: 48px;
+    min-height: 55px;
+
     margin: 0 auto;
+    padding: 0 5px;
 
     display: flex;
     align-items: center;
@@ -39,10 +48,12 @@ body {
 /* Logo */
 
 .logo {
-    font-size: 24px;
+    font-size: 23px;
     font-weight: bold;
+
     color: white;
-    letter-spacing: -1px;
+
+    letter-spacing: -0.5px;
 }
 
 /* Navigation links */
@@ -50,18 +61,27 @@ body {
 .navigation-links {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 18px;
 }
 
 .navigation-links a {
-    color: white;
-    font-size: 11px;
+    padding: 6px 4px;
+
+    color: #ffffff;
+
+    font-size: 12px;
     font-weight: bold;
+
     text-decoration: none;
+
+    border-radius: 4px;
+
+    transition: background-color 0.15s ease;
 }
 
 .navigation-links a:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.12);
+    text-decoration: none;
 }
 
 /* Logout */
@@ -72,22 +92,26 @@ body {
 }
 
 .logout-button {
-    padding: 0;
+    padding: 6px 4px;
     margin: 0;
 
     border: none;
+    border-radius: 4px;
+
     background: none;
 
     color: white;
+
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
 
     cursor: pointer;
 }
 
 .logout-button:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.12);
+    text-decoration: none;
 }
 
 /* Logged-in user */
@@ -95,7 +119,7 @@ body {
 .user-info {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 
     color: #d8e6d8;
     font-size: 11px;
@@ -113,23 +137,25 @@ body {
     width: 760px;
     min-height: 600px;
 
-    margin: 20px auto;
-    padding: 20px;
+    margin: 25px auto;
+    padding: 25px;
 
-    background-color: white;
+    background-color: #ffffff;
 
-    border-left: 1px solid #c5ccc5;
-    border-right: 1px solid #c5ccc5;
+    border: 1px solid #d7ded7;
+    border-radius: 8px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .main-container > h1 {
-    margin: 0 0 15px 0;
-    padding-bottom: 8px;
+    margin: 0 0 20px 0;
+    padding-bottom: 12px;
 
-    font-size: 20px;
+    font-size: 22px;
     color: #356b3f;
 
-    border-bottom: 1px solid #c8d1c8;
+    border-bottom: 1px solid #d8dfd8;
 }
 
 /* =========================================
@@ -139,23 +165,28 @@ body {
 .create-post {
     margin-bottom: 25px;
 
-    background-color: #f5f7f5;
-    border: 1px solid #c4ccc4;
+    background-color: #f7f9f7;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 7px;
+
+    overflow: hidden;
 }
 
 .create-post h2 {
     margin: 0;
-    padding: 7px 10px;
+    padding: 10px 13px;
 
-    background-color: #5b875f;
-    border-bottom: 1px solid #456c49;
+    background-color: #4f7f54;
+
+    border-bottom: 1px solid #3f6944;
 
     color: white;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .create-post form {
-    padding: 12px;
+    padding: 15px;
 }
 
 /* =========================================
@@ -165,13 +196,16 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 10px;
+
+    margin-bottom: 12px;
 }
 
 .form-group label {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 
+    font-size: 12px;
     font-weight: bold;
+
     color: #444;
 }
 
@@ -179,24 +213,70 @@ body {
 
 .form-group textarea {
     width: 100%;
-    min-height: 75px;
+    min-height: 85px;
 
-    padding: 7px;
+    padding: 10px;
 
     resize: vertical;
     outline: none;
 
     background-color: white;
-    border: 1px solid #aeb7ae;
+
+    border: 1px solid #c5cec5;
+    border-radius: 5px;
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     color: #333;
+
+    transition: border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .form-group textarea:focus {
-    background-color: #fbfffb;
     border-color: #5b875f;
+
+    box-shadow: 0 0 0 2px rgba(91, 135, 95, 0.12);
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"] {
+    width: 100%;
+
+    padding: 9px 10px;
+
+    background-color: white;
+
+    border: 1px solid #c5cec5;
+    border-radius: 5px;
+
+    outline: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #333;
+
+    transition: border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus {
+    border-color: #5b875f;
+
+    box-shadow: 0 0 0 2px rgba(91, 135, 95, 0.12);
+}
+
+input::placeholder {
+    color: #999;
 }
 
 /* =========================================
@@ -204,12 +284,13 @@ body {
 ========================================= */
 
 .image-upload {
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .image-upload label {
     display: block;
-    margin-bottom: 5px;
+
+    margin-bottom: 6px;
 
     font-weight: bold;
     color: #444;
@@ -217,10 +298,13 @@ body {
 
 .image-upload input[type="file"] {
     width: 100%;
-    padding: 6px;
+
+    padding: 7px;
 
     background-color: white;
-    border: 1px solid #aeb7ae;
+
+    border: 1px solid #c5cec5;
+    border-radius: 5px;
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
@@ -229,12 +313,13 @@ body {
 }
 
 .image-upload input[type="file"]:hover {
-    background-color: #f5f7f5;
+    background-color: #f7f9f7;
 }
 
 .image-upload small {
     display: block;
-    margin-top: 4px;
+
+    margin-top: 5px;
 
     color: #888;
     font-size: 10px;
@@ -247,46 +332,79 @@ body {
 .form-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 5px;
+    gap: 7px;
 
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
 .button {
-    padding: 4px 12px;
+    display: inline-block;
 
-    background-color: #e1e6e1;
-    border: 1px solid #718171;
+    padding: 7px 13px;
+
+    background-color: #e7ebe7;
+
+    border: 1px solid #c1c9c1;
+    border-radius: 5px;
 
     color: #333;
+
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
 
     cursor: pointer;
+
+    text-decoration: none;
+
+    transition: background-color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
 }
 
 .button:hover {
-    background-color: #d3dbd3;
+    background-color: #dce3dc;
+
+    border-color: #aeb9ae;
+
+    text-decoration: none;
+}
+
+.button:active {
+    transform: translateY(1px);
 }
 
 /* Primary button */
 
 .button-primary {
     background-color: #4f7f54;
-    border-color: #365b3a;
+
+    border-color: #3f6944;
 
     color: white;
 }
 
 .button-primary:hover {
     background-color: #416b46;
+
+    border-color: #365b3a;
+
+    color: white;
 }
 
 /* Secondary button */
 
 .button-secondary {
-    background-color: #e1e6e1;
+    background-color: #f0f2f0;
+
+    border-color: #c5cec5;
+
+    color: #444;
+}
+
+.button-secondary:hover {
+    background-color: #e4e9e4;
+
     color: #333;
 }
 
@@ -295,14 +413,16 @@ body {
 ========================================= */
 
 .posts-section h2 {
-    margin: 0 0 8px 0;
-    padding: 7px 10px;
+    margin: 0 0 10px 0;
+    padding: 9px 12px;
 
-    background-color: #dfe7df;
-    border: 1px solid #c3ccc3;
+    background-color: #e8eee8;
+
+    border: 1px solid #d2dbd2;
+    border-radius: 6px;
 
     color: #356b3f;
-    font-size: 13px;
+    font-size: 14px;
 }
 
 /* Posts container */
@@ -310,14 +430,20 @@ body {
 .posts {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 
 /* Individual post */
 
 .post-card {
     background-color: white;
-    border: 1px solid #c4ccc4;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 7px;
+
+    overflow: hidden;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* =========================================
@@ -328,30 +454,36 @@ body {
     display: flex;
     align-items: center;
 
-    padding: 10px;
+    padding: 11px 12px;
 
-    border-bottom: 1px solid #e0e4e0;
+    background-color: #fafbfa;
+
+    border-bottom: 1px solid #e4e8e4;
 }
 
 /* Profile picture */
 
 .avatar {
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
 
-    margin-right: 8px;
+    margin-right: 9px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     flex-shrink: 0;
+
     overflow: hidden;
 
     background-color: #6f9b73;
-    border: 1px solid #4f754f;
+
+    border: 1px solid #557d59;
+    border-radius: 50%;
 
     color: white;
+
     font-size: 15px;
     font-weight: bold;
 }
@@ -361,6 +493,7 @@ body {
     height: 100%;
 
     object-fit: cover;
+
     border-radius: 50%;
 }
 
@@ -369,15 +502,16 @@ body {
 .post-user {
     display: flex;
     flex-direction: column;
+    gap: 2px;
 }
 
 .post-user strong {
     color: #356b3f;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .post-user span {
-    color: #777;
+    color: #888;
     font-size: 10px;
 }
 
@@ -386,15 +520,16 @@ body {
 ========================================= */
 
 .post-content {
-    padding: 12px;
+    padding: 14px;
 }
 
 .post-content p {
     margin: 0;
 
     color: #333;
+
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.6;
 
     overflow-wrap: break-word;
 }
@@ -403,19 +538,27 @@ body {
 
 .post-image {
     width: 100%;
+
     max-height: 500px;
+
     margin-top: 15px;
+
     overflow: hidden;
-    border-radius: 8px;
+
+    border-radius: 7px;
 }
 
 .post-image img {
     display: block;
+
     width: 100%;
     max-height: 500px;
+
     object-fit: cover;
-    border-radius: 8px;
+
+    border-radius: 7px;
 }
+
 /* =========================================
    POST ACTION BAR
 ========================================= */
@@ -423,26 +566,33 @@ body {
 .post-actions {
     display: flex;
 
-    background-color: #f5f6f5;
-    border-top: 1px solid #d9ded9;
+    background-color: #f7f9f7;
+
+    border-top: 1px solid #e0e5e0;
 }
 
 .post-action {
     flex: 1;
 
-    padding: 6px;
+    padding: 8px;
 
     background-color: transparent;
+
     border: none;
-    border-right: 1px solid #d9ded9;
+    border-right: 1px solid #e0e5e0;
 
     color: #356b3f;
+
     font-family: Arial, Helvetica, sans-serif;
+
     font-size: 11px;
     font-weight: bold;
 
     cursor: pointer;
+
     text-align: center;
+
+    transition: background-color 0.15s ease;
 }
 
 .post-action:last-child {
@@ -450,8 +600,9 @@ body {
 }
 
 .post-action:hover {
-    background-color: #e5ebe5;
-    text-decoration: underline;
+    background-color: #e9eee9;
+
+    text-decoration: none;
 }
 
 /* =========================================
@@ -460,6 +611,7 @@ body {
 
 a {
     color: #356b3f;
+
     text-decoration: none;
 }
 
@@ -473,7 +625,11 @@ a:hover {
 
 .profile-card {
     background-color: white;
-    border: 1px solid #c4ccc4;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 7px;
+
+    overflow: hidden;
 }
 
 /* Profile header */
@@ -482,17 +638,18 @@ a:hover {
     display: flex;
     align-items: center;
 
-    padding: 20px;
+    padding: 22px;
 
-    background-color: #f1f4f1;
-    border-bottom: 1px solid #c4ccc4;
+    background-color: #f3f6f3;
+
+    border-bottom: 1px solid #d6ddd6;
 }
 
 /* Large profile picture */
 
 .profile-picture {
-    width: 100px;
-    height: 100px;
+    width: 105px;
+    height: 105px;
 
     margin-right: 20px;
 
@@ -503,7 +660,9 @@ a:hover {
     overflow: hidden;
 
     background-color: #6f9b73;
-    border: 1px solid #4f754f;
+
+    border: 1px solid #557d59;
+    border-radius: 50%;
 }
 
 .profile-picture img {
@@ -522,6 +681,7 @@ a:hover {
     justify-content: center;
 
     color: white;
+
     font-size: 40px;
     font-weight: bold;
 }
@@ -532,7 +692,8 @@ a:hover {
     margin: 0 0 5px 0;
 
     color: #356b3f;
-    font-size: 20px;
+
+    font-size: 21px;
 }
 
 /* Email */
@@ -541,6 +702,7 @@ a:hover {
     margin: 0;
 
     color: #777;
+
     font-size: 11px;
 }
 
@@ -549,40 +711,46 @@ a:hover {
 ========================================= */
 
 .profile-edit {
-    padding: 20px;
+    padding: 22px;
 }
 
 .profile-edit h2 {
-    margin: 0 0 15px 0;
-    padding-bottom: 7px;
+    margin: 0 0 17px 0;
+    padding-bottom: 8px;
 
     color: #356b3f;
-    font-size: 13px;
 
-    border-bottom: 1px solid #c8d1c8;
+    font-size: 14px;
+
+    border-bottom: 1px solid #d8dfd8;
 }
 
 .profile-form-group {
     display: flex;
     flex-direction: column;
 
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .profile-form-group label {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 
     color: #444;
+
     font-size: 12px;
     font-weight: bold;
 }
 
 .profile-form-group input {
     width: 100%;
-    padding: 7px;
+
+    padding: 9px 10px;
 
     background-color: white;
-    border: 1px solid #aeb7ae;
+
+    border: 1px solid #c5cec5;
+    border-radius: 5px;
+
     outline: none;
 
     font-family: Arial, Helvetica, sans-serif;
@@ -591,13 +759,17 @@ a:hover {
 
 .profile-form-group input:focus {
     background-color: #fbfffb;
+
     border-color: #5b875f;
+
+    box-shadow: 0 0 0 2px rgba(91, 135, 95, 0.12);
 }
 
 .profile-form-group small {
-    margin-top: 4px;
+    margin-top: 5px;
 
     color: #888;
+
     font-size: 10px;
 }
 
@@ -607,7 +779,8 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 6px;
+
+    gap: 7px;
 
     margin-top: 20px;
 }
@@ -636,6 +809,7 @@ a:hover {
     margin-bottom: 15px;
 
     color: #356b3a;
+
     font-size: 14px;
     font-weight: bold;
 
@@ -664,20 +838,22 @@ a:hover {
     justify-content: space-between;
 
     margin-bottom: 12px;
-    padding-bottom: 8px;
+    padding-bottom: 9px;
 
-    border-bottom: 1px solid #c8d5c8;
+    border-bottom: 1px solid #d1dad1;
 }
 
 .section-header h1 {
     margin: 0;
 
     color: #244d29;
+
     font-size: 22px;
 }
 
 .section-header span {
     color: #777;
+
     font-size: 13px;
 }
 
@@ -685,10 +861,12 @@ a:hover {
 
 .no-comments {
     margin-bottom: 20px;
-    padding: 20px;
+    padding: 22px;
 
-    background-color: #f5f7f5;
-    border: 1px solid #c8d5c8;
+    background-color: #f6f8f6;
+
+    border: 1px solid #d4ddd4;
+    border-radius: 7px;
 
     text-align: center;
 }
@@ -697,11 +875,13 @@ a:hover {
     margin: 0 0 5px 0;
 
     color: #444;
+
     font-weight: bold;
 }
 
 .no-comments span {
     color: #777;
+
     font-size: 13px;
 }
 
@@ -712,32 +892,34 @@ a:hover {
 .comment-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+
+    gap: 9px;
 }
 
 .comment-card {
     display: flex;
     align-items: flex-start;
 
-    padding: 10px;
+    padding: 12px;
 
     background-color: white;
-    border: 1px solid #c8d5c8;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 6px;
 }
 
-/* Comment avatar */
-
 .comment-avatar {
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
 
-    margin-right: 10px;
+    margin-right: 11px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     flex-shrink: 0;
+
     overflow: hidden;
 
     background-color: #4f8a55;
@@ -745,6 +927,7 @@ a:hover {
     border-radius: 50%;
 
     color: white;
+
     font-weight: bold;
 }
 
@@ -757,6 +940,7 @@ a:hover {
     height: 100%;
 
     object-fit: cover;
+
     border-radius: 50%;
 }
 
@@ -767,11 +951,12 @@ a:hover {
 }
 
 .comment-header {
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 
 .comment-header strong {
     color: #315f36;
+
     font-size: 14px;
 }
 
@@ -779,8 +964,9 @@ a:hover {
     margin: 0;
 
     color: #333;
+
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 /* =========================================
@@ -796,6 +982,7 @@ a:hover {
     margin-bottom: 15px;
 
     color: #244d29;
+
     font-size: 18px;
 }
 
@@ -814,36 +1001,83 @@ a:hover {
 
 .friends-section h2,
 .find-friends h2 {
-    margin: 0 0 10px 0;
-    padding: 7px 10px;
+    margin: 0 0 12px 0;
+    padding: 9px 12px;
 
-    background-color: #dfe7df;
-    border: 1px solid #c3ccc3;
+    background-color: #e8eee8;
+
+    border: 1px solid #d2dbd2;
+    border-radius: 6px;
 
     color: #356b3f;
-    font-size: 13px;
+
+    font-size: 14px;
 }
 
-/* Friends list */
+/* Search boxes */
+
+#userSearch,
+#friendSearch {
+    width: 100%;
+
+    margin-bottom: 12px;
+
+    padding: 10px 11px;
+
+    background-color: white;
+
+    border: 1px solid #c5cec5;
+    border-radius: 6px;
+
+    outline: none;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+
+    transition: border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+#userSearch:focus,
+#friendSearch:focus {
+    border-color: #5b875f;
+
+    box-shadow: 0 0 0 2px rgba(91, 135, 95, 0.12);
+}
+
+/* Lists */
 
 .friends-list,
 .users-list {
     display: flex;
     flex-direction: column;
+
     gap: 8px;
 }
 
-/* Individual friend */
+/* Individual friend / user */
 
 .friend-card,
 .user-card {
     display: flex;
     align-items: center;
 
-    padding: 10px;
+    padding: 11px 12px;
 
     background-color: white;
-    border: 1px solid #c4ccc4;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 7px;
+
+    transition: border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.friend-card:hover,
+.user-card:hover {
+    border-color: #bdcabc;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Profile picture */
@@ -852,17 +1086,25 @@ a:hover {
     width: 45px;
     height: 45px;
 
-    margin-right: 10px;
+    margin-right: 11px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     flex-shrink: 0;
+
     overflow: hidden;
 
     background-color: #6f9b73;
-    border: 1px solid #4f754f;
+
+    border: 1px solid #557d59;
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .friend-avatar img {
@@ -870,17 +1112,39 @@ a:hover {
     height: 100%;
 
     object-fit: cover;
+
+    border-radius: 50%;
 }
 
 /* Username */
 
 .friend-info {
     flex: 1;
+
+    min-width: 0;
 }
 
 .friend-info strong {
+    display: block;
+
     color: #356b3f;
+
     font-size: 13px;
+}
+
+/* Friend actions */
+
+.friend-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 7px;
+}
+
+.friend-actions form {
+    margin: 0;
 }
 
 /* Add friend button */
@@ -889,16 +1153,195 @@ a:hover {
     margin-left: auto;
 }
 
+/* Delete button */
+
 .delete-button {
-    color: #b33a3a;
+    color: #a43838;
+
     font-weight: bold;
 }
 
 .delete-button:hover {
-    background-color: #f5dddd;
+    background-color: #f8e6e6;
+
+    border-color: #e0baba;
+
     color: #8f2020;
 }
 
+/* =========================================
+   MUSIC SEARCH
+========================================= */
+
+.song-result {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px;
+
+    margin-top: 8px;
+
+    background-color: white;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 6px;
+
+    transition: background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.song-result:hover {
+    background-color: #f7f9f7;
+
+    border-color: #bdcabc;
+}
+
+.song-result img {
+    width: 50px;
+    height: 50px;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+}
+
+.song-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+.song-info span {
+    font-size: 12px;
+
+    color: #666;
+}
+
+/* Selected song */
+
+.selected-song {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 10px;
+    padding: 11px;
+
+    background-color: #f1f5f1;
+
+    border: 1px solid #d5dfd5;
+    border-radius: 7px;
+}
+
+.selected-song img {
+    width: 60px;
+    height: 60px;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+}
+
+.selected-song p {
+    margin: 4px 0;
+
+    font-size: 12px;
+
+    color: #666;
+}
+
+.selected-song audio {
+    width: 250px;
+
+    margin-top: 5px;
+}
+
+/* =========================================
+   MUSIC ATTACHED TO POSTS
+========================================= */
+
+.post-song {
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-top: 15px;
+    padding: 12px;
+
+    background-color: #f4f7f4;
+
+    border: 1px solid #dce3dc;
+    border-radius: 8px;
+}
+
+.post-song-image {
+    width: 70px;
+    height: 70px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+
+    flex-shrink: 0;
+}
+
+.post-song-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.post-song-info strong {
+    color: #356b3f;
+
+    font-size: 13px;
+}
+
+.post-song-info span {
+    font-size: 13px;
+
+    color: #666;
+}
+
+.post-song-info audio {
+    width: 100%;
+    max-width: 350px;
+
+    margin-top: 5px;
+}
+
+/* =========================================
+   EMPTY STATES
+========================================= */
+
+#noUsersMessage,
+#noFriendsMessage,
+#noMatchingFriendsMessage {
+    padding: 15px;
+
+    background-color: #f7f9f7;
+
+    border: 1px solid #d9e0d9;
+    border-radius: 6px;
+
+    color: #777;
+
+    text-align: center;
+
+    font-size: 13px;
+}
 
 /* =========================================
    MOBILE
@@ -908,40 +1351,70 @@ a:hover {
 
     .navbar-content {
         width: 100%;
+
         padding: 0 15px;
     }
 
     .main-container {
-        width: 100%;
+        width: calc(100% - 20px);
+
         min-height: 600px;
 
-        margin: 0;
-        padding: 15px;
+        margin: 10px auto;
+        padding: 18px;
 
-        border: none;
+        border-radius: 7px;
     }
+
 }
 
 @media (max-width: 600px) {
 
+    body {
+        font-size: 13px;
+    }
+
+    .navbar-content {
+        min-height: 60px;
+
+        flex-wrap: wrap;
+
+        gap: 5px;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .navigation-links {
+        gap: 8px;
+    }
+
+    .navigation-links a,
+    .logout-button {
+        font-size: 11px;
+    }
+
     .comments-container {
-        width: 95%;
+        width: 100%;
     }
 
     .section-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 4px;
+
+        gap: 5px;
     }
 
     .profile-header {
         flex-direction: column;
+
         text-align: center;
     }
 
     .profile-picture {
         margin-right: 0;
-        margin-bottom: 12px;
+        margin-bottom: 14px;
     }
 
     .profile-buttons {
@@ -950,10 +1423,97 @@ a:hover {
 
     .profile-buttons .button {
         width: 100%;
+
         text-align: center;
+    }
+
+    .friend-card,
+    .user-card {
+        align-items: flex-start;
+    }
+
+    .friend-actions {
+        flex-wrap: wrap;
+    }
+
+    .friend-actions .button {
+        font-size: 11px;
+    }
+
+    .user-card {
+        flex-wrap: wrap;
+    }
+
+    .user-card form {
+        margin-left: 56px;
+        margin-top: 8px;
+        width: calc(100% - 56px);
+    }
+
+    .user-card form .button {
+        width: 100%;
     }
 
     .post-image {
         max-height: 350px;
     }
+
+    .post-song {
+        align-items: flex-start;
+    }
+
+    .post-song-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .selected-song {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+    .selected-song audio {
+        width: 100%;
+    }
+
 }
+
+@media (max-width: 400px) {
+
+    .main-container {
+        width: 100%;
+
+        margin: 0;
+
+        padding: 13px;
+
+        border-left: none;
+        border-right: none;
+
+        border-radius: 0;
+    }
+
+    .navigation-links {
+        gap: 5px;
+    }
+
+    .navigation-links a,
+    .logout-button {
+        padding: 5px 2px;
+
+        font-size: 10px;
+    }
+
+    .friend-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .friend-actions .button,
+    .friend-actions form {
+        width: 100%;
+    }
+
+}
+
