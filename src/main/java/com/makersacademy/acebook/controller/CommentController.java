@@ -6,6 +6,7 @@ import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,6 +84,16 @@ public class CommentController {
         comment.setCreatedAt(LocalDateTime.now());
 
         commentRepository.save(comment);
+
+        return new RedirectView("/posts/" + postId + "/comments");
+    }
+
+    @PostMapping("/posts/{postId}/comments/{id}/delete")
+    public RedirectView deleteComment(
+            @PathVariable Long postId,
+            @PathVariable Long id
+    ) {
+        commentRepository.deleteById(id);
 
         return new RedirectView("/posts/" + postId + "/comments");
     }
