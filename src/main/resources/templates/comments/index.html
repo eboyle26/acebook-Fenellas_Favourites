@@ -68,7 +68,7 @@
                     Username
                 </strong>
 
-                <span>Original post</span>
+                <span th:text="'Original post - ' + ${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}"></span>
 
             </div>
 
@@ -144,6 +144,10 @@
                                 th:text="${userRepository.findById(existingComment.userId).get().username}">
                             Username
                         </strong>
+<!--                        This needs styled -->
+                        <span
+                                th:text="${#temporals.format(existingComment.createdAt, 'dd/MM/yyyy HH:mm')}">
+                        </span>
 
                     </div>
 
