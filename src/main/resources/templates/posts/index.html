@@ -23,19 +23,22 @@
         </div>
 
         <div class="navigation-links">
+
             <a href="/posts">Home</a>
             <a href="/profile">Profile</a>
             <a href="/friends">Friends</a>
+
+            <div sec:authorize="isAuthenticated()" class="user-info">
+                <span>Signed in as</span>
+                <strong sec:authentication="principal.attributes['email']"></strong>
+            </div>
+
             <form th:action="@{/logout}" method="post">
                 <button type="submit" class="logout-button">
                     Log out
                 </button>
             </form>
-        </div>
 
-        <div sec:authorize="isAuthenticated()" class="user-info">
-            <span>Signed in as</span>
-            <strong sec:authentication="principal.attributes['email']"></strong>
         </div>
 
     </div>
@@ -57,7 +60,8 @@
         <form action="#"
               th:action="@{/posts}"
               th:object="${post}"
-              method="post">
+              method="post"
+              enctype="multipart/form-data">
 
             <!-- Post content -->
             <div class="form-group">
@@ -76,18 +80,18 @@
             </div>
 
 
-            <!-- Image URL -->
+            <!-- Image upload -->
             <div class="form-group">
 
-                <label for="imageUrl">
+                <label for="image">
                     Add a photo
                 </label>
 
                 <input
-                        type="url"
-                        id="imageUrl"
-                        th:field="*{imageUrl}"
-                        placeholder="Paste an image URL (optional)"
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
                 />
 
             </div>
@@ -121,7 +125,7 @@
         <div class="posts">
 
             <article class="post-card"
-                     th:each="post: ${posts}">
+                     th:each="post : ${posts}">
 
 
                 <!-- Post header -->
@@ -144,7 +148,8 @@
                                 th:text="${users[post.userId].username}">
                         </strong>
 
-                        <span th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
+                        <span
+                                th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
                         </span>
 
                     </div>
@@ -194,6 +199,19 @@
                         Share
                     </button>
 
+                    <form
+                            th:action="@{/posts/{postId}/delete(postId=${post.id})}"
+                            method="post"
+                            onsubmit="return confirm('Are you sure you want to delete this post?');">
+
+                        <button
+                                type="submit"
+                                class="post-action delete-button">
+                            Delete
+                        </button>
+
+                    </form>
+
                 </div>
 
             </article>
@@ -206,6 +224,8 @@
 
 </body>
 </html>
+
+
 
 
 
