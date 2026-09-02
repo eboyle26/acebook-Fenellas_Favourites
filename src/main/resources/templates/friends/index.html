@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+    <title>Acebook - Friends</title>
+
+    <link rel="stylesheet" href="/main.css"/>
+
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+
+<nav class="navbar">
+
+  <div class="navbar-content">
+
+    <div class="logo">
+      Acebook
+    </div>
+
+    <div class="navigation-links">
+
+      <a href="/posts">Home</a>
+
+      <a href="/friends">Friends</a>
+
+      <a href="/profile">Profile</a>
+    </div>
+
+  </div>
+
+</nav>
+
+<!-- Main Content -->
+
+<main class="main-container">
+
+  <h1> Friends</h1>
+
+  <!-- Current friends -->
+
+  <section class="friends-section">
+
+    <h2>Your friends</h2>
+
+    <div class="friend-card"
+         th:each="friend : ${friends}">
+
+      <!-- Show the other person -->
+
+      <div class="friend-avatar">
+
+        <img
+               th:if="${friend.requester.id == currentUser.id
+               and friend.receiver.profilePictureUrl != null}"
+               th:src="${friend.receiver.profilePictureUrl}"
+               alt="Profile picture"
+          />
+
+        <img
+                th:if="${friend.receiver.id == currentUser.id
+                            and friend.requester.profilePictureUrl != null}"
+                th:src="${friend.requester.profilePictureUrl}"
+                alt="Profile picture"
+        />
+
+        <span
+                th:if="${friend.requester.id == currentUser.id
+                and friend.receiver.profilePictureUrl == null}">
+          U
+        </span>
+
+        <span
+                th:if="${friend.receiver.id == currentUser.id
+                and friend.requester.profilePictureUrl == null}">
+          U
+        </span>
+
+      </div>
+
+      <div class="friend-info">
+
+        <strong
+                th:if="${friend.requester.id == currentUser.id}"
+                th:text="${friend.receiver.username}">
+          Username
+        </strong>
+
+        <strong
+                th:if="${friend.receiver.id == currentUser.id}"
+                th:text="${friend.requester.username}">
+          Username
+        </strong>
+
+      </div>
+
+    </div>
+
+    <p th:if="${#lists.isEmpty(friends)}">
+      You don't have any friends yet.
+    </p>
+
+  </section>
+
+
+  <!-- Find people -->
+
+  <section class="find-friends card">
+
+    <h2>Find people</h2>
+
+    <div class="users-list">
+
+      <div class="user-card"
+           th:each="user : ${users}"
+           th:if="${user.id != currentUser.id}">
+
+        <div class="friend-avatar">
+
+          <img
+                  th:if="${user.profilePictureUrl != null}"
+                  th:src="${user.profilePictureUrl}"
+                  alt="Profile picture"
+          />
+
+          <span
+                  th:if="${user.profilePictureUrl == null}">
+                        U
+                    </span>
+
+        </div>
+
+        <div class="friend-info">
+
+          <strong th:text="${user.username}">
+            Username
+          </strong>
+
+        </div>
+
+        <form
+                th:action="@{/friend-request/{userId}(userId=${user.id})}"
+                method="post">
+
+          <button
+                  type="submit"
+                  class="button button-primary">
+            Add friend
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+
+  </section>
+</main>
+
+</body>
+</html>
