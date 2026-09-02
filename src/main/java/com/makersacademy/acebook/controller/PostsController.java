@@ -2,8 +2,10 @@ package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
+import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -21,15 +23,18 @@ import java.util.Map;
 public class PostsController {
 
     @Autowired
-    PostRepository repository;
+    PostRepository postRepository;
 
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    CommentRepository commentRepository;
+
     @GetMapping("/posts")
     public String index(Model model) {
 
-        List<Post> posts = repository.findAllByOrderByDateTimeDesc();
+        List<Post> posts = postRepository.findAllByOrderByDateTimeDesc();
 
         Map<Long, User> users = new HashMap<>();
 
@@ -70,8 +75,16 @@ public class PostsController {
         post.setUserId(databaseUserId);
         post.setDateTime(LocalDateTime.now());
 
-        repository.save(post);
+        postRepository.save(post);
 
+        return new RedirectView("/posts");
+    }
+
+    @PostMapping("/posts/{postId}/delete")
+    @Transactional
+    public RedirectView deletePost(@PathVariable Long postId) {
+        commentRepository.deleteByPostId(postId);
+        postRepository.deleteById(postId);
         return new RedirectView("/posts");
     }
 }
