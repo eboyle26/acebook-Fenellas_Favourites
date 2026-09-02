@@ -57,8 +57,7 @@
 
         <h2>Create a post</h2>
 
-        <form action="#"
-              th:action="@{/posts}"
+        <form th:action="@{/posts}"
               th:object="${post}"
               method="post"
               enctype="multipart/form-data">
@@ -91,8 +90,7 @@
                         type="file"
                         id="image"
                         name="image"
-                        accept="image/*"
-                />
+                        accept="image/*"/>
 
             </div>
 
@@ -107,8 +105,7 @@
                 <input
                         type="text"
                         id="songSearch"
-                        placeholder="Search for a song..."
-                />
+                        placeholder="Search for a song..."/>
 
                 <button
                         type="button"
@@ -128,22 +125,22 @@
             <input
                     type="hidden"
                     th:field="*{songTitle}"
-                    id="songTitle">
+                    id="songTitle"/>
 
             <input
                     type="hidden"
                     th:field="*{songArtist}"
-                    id="songArtist">
+                    id="songArtist"/>
 
             <input
                     type="hidden"
                     th:field="*{songImageUrl}"
-                    id="songImageUrl">
+                    id="songImageUrl"/>
 
             <input
                     type="hidden"
                     th:field="*{songPreviewUrl}"
-                    id="songPreviewUrl">
+                    id="songPreviewUrl"/>
 
 
             <!-- Selected song -->
@@ -177,8 +174,9 @@
 
         <div class="posts">
 
-            <article class="post-card"
-                     th:each="post : ${posts}">
+            <article
+                    class="post-card"
+                    th:each="post : ${posts}">
 
 
                 <!-- Post header -->
@@ -189,7 +187,7 @@
                         <img
                                 th:if="${users[post.userId] != null}"
                                 th:src="${users[post.userId].profilePictureUrl}"
-                                alt="Profile picture">
+                                alt="Profile picture"/>
 
                     </div>
 
@@ -213,8 +211,7 @@
                 <!-- Post content -->
                 <div class="post-content">
 
-                    <p th:text="${post.content}">
-                    </p>
+                    <p th:text="${post.content}"></p>
 
                 </div>
 
@@ -226,7 +223,7 @@
 
                     <img
                             th:src="${post.imageUrl}"
-                            alt="Post image">
+                            alt="Post image"/>
 
                 </div>
 
@@ -239,15 +236,13 @@
                     <img
                             th:src="${post.songImageUrl}"
                             alt="Album artwork"
-                            class="post-song-image">
+                            class="post-song-image"/>
 
                     <div class="post-song-info">
 
-                        <strong th:text="${post.songTitle}">
-                        </strong>
+                        <strong th:text="${post.songTitle}"></strong>
 
-                        <span th:text="${post.songArtist}">
-                        </span>
+                        <span th:text="${post.songArtist}"></span>
 
                         <audio
                                 controls
@@ -263,6 +258,7 @@
                 <!-- Post actions -->
                 <div class="post-actions">
 
+                    <!-- Like -->
                     <form
                             th:action="@{/posts/{postId}/like(postId=${post.id})}"
                             method="post">
@@ -270,23 +266,39 @@
                         <button
                                 type="submit"
                                 class="post-action">
-                            Like
+
+                            <span th:if="${userLikes[post.id]}">
+                                Unlike
+                            </span>
+
+                            <span th:unless="${userLikes[post.id]}">
+                                Like
+                            </span>
+
+                            (<span th:text="${likeCounts[post.id]}">0</span>)
+
                         </button>
 
                     </form>
 
+
+                    <!-- Comment -->
                     <a
                             class="post-action"
                             th:href="@{/posts/{postId}/comments(postId=${post.id})}">
                         Comment
                     </a>
 
+
+                    <!-- Share -->
                     <button
                             type="button"
                             class="post-action">
                         Share
                     </button>
 
+
+                    <!-- Delete -->
                     <form
                             th:action="@{/posts/{postId}/delete(postId=${post.id})}"
                             method="post"
@@ -498,9 +510,3 @@
 
 </body>
 </html>
-
-
-
-
-
-

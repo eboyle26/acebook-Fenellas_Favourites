@@ -47,21 +47,74 @@ public class PostsController {
     @GetMapping("/posts")
     public String index(Model model) {
 
-        List<Post> posts = postRepository.findAllByOrderByDateTimeDesc();
+        List<Post> posts =
+                postRepository.findAllByOrderByDateTimeDesc();
 
         Map<Long, User> users = new HashMap<>();
 
-        for (Post post : posts) {
-            User user = userRepository
-                    .findById(post.getUserId())
-                    .orElse(null);
+        Map<Long, Long> likeCounts = new HashMap<>();
 
-            users.put(post.getUserId(), user);
+        Map<Long, Boolean> userLikes = new HashMap<>();
+
+
+        // Get the currently logged-in user
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(principal.getSubject())
+                        .orElseThrow(() ->
+                                new IllegalStateException(
+                                        "User not found in local database"
+                                )
+                        );
+
+
+        for (Post post : posts) {
+
+            // Get the user who made the post
+            User user =
+                    userRepository
+                            .findById(post.getUserId())
+                            .orElse(null);
+
+            users.put(
+                    post.getUserId(),
+                    user
+            );
+
+
+            // Count how many likes the post has
+            likeCounts.put(
+                    post.getId(),
+                    likeRepository.countByPostId(post.getId())
+            );
+
+
+            // Check whether the current user has liked the post
+            userLikes.put(
+                    post.getId(),
+                    likeRepository
+                            .findByPostIdAndUserId(
+                                    post.getId(),
+                                    currentUser.getId()
+                            )
+                            .isPresent()
+            );
         }
+
 
         model.addAttribute("posts", posts);
         model.addAttribute("users", users);
         model.addAttribute("post", new Post());
+
+        model.addAttribute("likeCounts", likeCounts);
+        model.addAttribute("userLikes", userLikes);
+
 
         return "posts/index";
     }
