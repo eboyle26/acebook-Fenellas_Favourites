@@ -1,21 +1,22 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Acebook - Friends</title>
 
-
-    <title>Acebook - Friends</title>
-
-    <link rel="stylesheet" href="/main.css"/>
+  <link rel="stylesheet" href="/main.css"/>
 
 </head>
 
 <body>
 
-<!-- Navigation Bar -->
+<!-- ========================= -->
+<!-- NAVIGATION BAR -->
+<!-- ========================= -->
 
 <nav class="navbar">
 
@@ -27,100 +28,167 @@
 
     <div class="navigation-links">
 
-      <a href="/posts">Home</a>
+      <a href="/posts">
+        Home
+      </a>
 
-      <a href="/friends">Friends</a>
+      <a href="/friends">
+        Friends
+      </a>
 
-      <a href="/profile">Profile</a>
+      <a href="/profile">
+        Profile
+      </a>
+
     </div>
 
   </div>
 
 </nav>
 
-<!-- Main Content -->
+
+<!-- ========================= -->
+<!-- MAIN CONTENT -->
+<!-- ========================= -->
 
 <main class="main-container">
 
-  <h1> Friends</h1>
+  <h1>
+    Friends
+  </h1>
 
-  <!-- Current friends -->
 
-  <section class="friends-section">
+  <!-- ========================= -->
+  <!-- FRIEND REQUESTS -->
+  <!-- ========================= -->
 
-    <h2>Your friends</h2>
+  <section
+          class="friends-section"
+          th:if="${!#lists.isEmpty(pendingFriends)}">
 
-    <div class="friend-card"
-         th:each="friend : ${friends}">
+    <h2>
+      Friend requests
+    </h2>
 
-      <!-- Show the other person -->
+
+    <div
+            class="friend-card"
+            th:each="friend : ${pendingFriends}">
+
+      <!-- Person who sent the request -->
 
       <div class="friend-avatar">
 
         <img
-               th:if="${friend.requester.id == currentUser.id
-               and friend.receiver.profilePictureUrl != null}"
-               th:src="${friend.receiver.profilePictureUrl}"
-               alt="Profile picture"
-          />
-
-        <img
-                th:if="${friend.receiver.id == currentUser.id
-                            and friend.requester.profilePictureUrl != null}"
+                th:if="${friend.requester.profilePictureUrl != null}"
                 th:src="${friend.requester.profilePictureUrl}"
                 alt="Profile picture"
         />
 
         <span
-                th:if="${friend.requester.id == currentUser.id
-                and friend.receiver.profilePictureUrl == null}">
-          U
-        </span>
-
-        <span
-                th:if="${friend.receiver.id == currentUser.id
-                and friend.requester.profilePictureUrl == null}">
-          U
-        </span>
+                th:if="${friend.requester.profilePictureUrl == null}">
+                    U
+                </span>
 
       </div>
+
 
       <div class="friend-info">
 
         <strong
-                th:if="${friend.requester.id == currentUser.id}"
-                th:text="${friend.receiver.username}">
-          Username
-        </strong>
-
-        <strong
-                th:if="${friend.receiver.id == currentUser.id}"
                 th:text="${friend.requester.username}">
           Username
         </strong>
+
+
+        <div class="friend-actions">
+
+          <!-- Accept -->
+
+          <form
+                  th:action="@{/friend-request/{friendId}/accept(friendId=${friend.id})}"
+                  method="post">
+
+            <button
+                    type="submit"
+                    class="button button-primary">
+
+              Accept
+
+            </button>
+
+          </form>
+
+
+          <!-- Reject -->
+
+          <form
+                  th:action="@{/friend-request/{friendId}/reject(friendId=${friend.id})}"
+                  method="post">
+
+            <button
+                    type="submit"
+                    class="button button-secondary">
+
+              Reject
+
+            </button>
+
+          </form>
+
+        </div>
 
       </div>
 
     </div>
 
-    <p th:if="${#lists.isEmpty(friends)}">
-      You don't have any friends yet.
-    </p>
-
   </section>
 
 
-  <!-- Find people -->
+  <!-- ========================= -->
+  <!-- FIND PEOPLE -->
+  <!-- ========================= -->
 
   <section class="find-friends card">
 
-    <h2>Find people</h2>
+    <h2>
+      Find people
+    </h2>
 
-    <div class="users-list">
 
-      <div class="user-card"
-           th:each="user : ${users}"
-           th:if="${user.id != currentUser.id}">
+    <!-- Search users -->
+
+    <input
+            type="text"
+            id="userSearch"
+            placeholder="Search for a user..."
+            autocomplete="off"
+    />
+
+
+    <div
+            class="users-list"
+            id="usersList">
+
+
+      <!--
+          Only show users who:
+
+          1. Are not the current user
+          2. Are not already friends
+          3. Do not already have a pending request
+
+          The controller provides unavailableUserIds.
+      -->
+
+      <div
+              class="user-card"
+              th:each="user : ${users}"
+              th:if="${user.id != currentUser.id and !unavailableUserIds.contains(user.id)}"
+              th:attr="data-username=${user.username}">
+
+
+        <!-- Profile picture -->
 
         <div class="friend-avatar">
 
@@ -137,13 +205,20 @@
 
         </div>
 
+
+        <!-- Username -->
+
         <div class="friend-info">
 
-          <strong th:text="${user.username}">
+          <strong
+                  th:text="${user.username}">
             Username
           </strong>
 
         </div>
+
+
+        <!-- Add friend -->
 
         <form
                 th:action="@{/friend-request/{userId}(userId=${user.id})}"
@@ -152,7 +227,9 @@
           <button
                   type="submit"
                   class="button button-primary">
+
             Add friend
+
           </button>
 
         </form>
@@ -162,8 +239,367 @@
     </div>
 
 
+    <!-- No users found -->
+
+    <p
+            id="noUsersMessage"
+            style="display: none;">
+
+      No users found.
+
+    </p>
+
   </section>
+
+
+  <!-- ========================= -->
+  <!-- CURRENT FRIENDS -->
+  <!-- ========================= -->
+
+  <section class="friends-section">
+
+    <h2>
+      Your friends
+    </h2>
+
+
+    <!-- Search existing friends -->
+
+    <input
+            type="text"
+            id="friendSearch"
+            placeholder="Search your friends..."
+            autocomplete="off"
+    />
+
+
+    <div id="friendsList">
+
+
+      <!-- ================================= -->
+      <!-- FRIEND WHERE CURRENT USER REQUESTED -->
+      <!-- ================================= -->
+
+      <div
+              class="friend-card"
+              th:each="friend : ${acceptedFriends}"
+              th:if="${friend.requester.id == currentUser.id}"
+              th:attr="data-username=${friend.receiver.username}">
+
+
+        <!-- Friend's profile picture -->
+
+        <div class="friend-avatar">
+
+          <img
+                  th:if="${friend.receiver.profilePictureUrl != null}"
+                  th:src="${friend.receiver.profilePictureUrl}"
+                  alt="Profile picture"
+          />
+
+          <span
+                  th:if="${friend.receiver.profilePictureUrl == null}">
+                        U
+                    </span>
+
+        </div>
+
+
+        <!-- Friend information -->
+
+        <div class="friend-info">
+
+          <strong
+                  th:text="${friend.receiver.username}">
+            Username
+          </strong>
+
+
+          <div class="friend-actions">
+
+            <!-- View posts -->
+
+            <a
+                    th:href="@{/posts(userId=${friend.receiver.id})}"
+                    class="button button-secondary">
+
+              View posts
+
+            </a>
+
+
+            <!-- Remove friend -->
+
+            <form
+                    th:action="@{/friends/{friendId}/delete(friendId=${friend.id})}"
+                    method="post">
+
+              <button
+                      type="submit"
+                      class="button button-secondary">
+
+                Remove friend
+
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================= -->
+      <!-- FRIEND WHERE CURRENT USER RECEIVED -->
+      <!-- ================================= -->
+
+      <div
+              class="friend-card"
+              th:each="friend : ${acceptedFriends}"
+              th:if="${friend.receiver.id == currentUser.id}"
+              th:attr="data-username=${friend.requester.username}">
+
+
+        <!-- Friend's profile picture -->
+
+        <div class="friend-avatar">
+
+          <img
+                  th:if="${friend.requester.profilePictureUrl != null}"
+                  th:src="${friend.requester.profilePictureUrl}"
+                  alt="Profile picture"
+          />
+
+          <span
+                  th:if="${friend.requester.profilePictureUrl == null}">
+                        U
+                    </span>
+
+        </div>
+
+
+        <!-- Friend information -->
+
+        <div class="friend-info">
+
+          <strong
+                  th:text="${friend.requester.username}">
+            Username
+          </strong>
+
+
+          <div class="friend-actions">
+
+            <!-- View posts -->
+
+            <a
+                    th:href="@{/posts(userId=${friend.requester.id})}"
+                    class="button button-secondary">
+
+              View posts
+
+            </a>
+
+
+            <!-- Remove friend -->
+
+            <form
+                    th:action="@{/friends/{friendId}/delete(friendId=${friend.id})}"
+                    method="post">
+
+              <button
+                      type="submit"
+                      class="button button-secondary">
+
+                Remove friend
+
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- No friends -->
+
+    <p
+            id="noFriendsMessage"
+            th:if="${#lists.isEmpty(acceptedFriends)}">
+
+      You don't have any friends yet.
+
+    </p>
+
+
+    <!-- No matching friends -->
+
+    <p
+            id="noMatchingFriendsMessage"
+            style="display: none;">
+
+      No friends found.
+
+    </p>
+
+  </section>
+
 </main>
 
+
+<!-- ========================= -->
+<!-- SEARCH JAVASCRIPT -->
+<!-- ========================= -->
+
+<script>
+
+  /*
+   * =========================
+   * FIND PEOPLE SEARCH
+   * =========================
+   */
+
+  const userSearch =
+          document.getElementById("userSearch");
+
+  const userCards =
+          document.querySelectorAll("#usersList .user-card");
+
+  const noUsersMessage =
+          document.getElementById("noUsersMessage");
+
+
+  userSearch.addEventListener("input", function () {
+
+    const searchTerm =
+            userSearch.value
+                    .toLowerCase()
+                    .trim();
+
+    let visibleUsers = 0;
+
+
+    userCards.forEach(function (card) {
+
+      const username =
+              card
+                      .getAttribute("data-username")
+                      .toLowerCase();
+
+
+      if (username.includes(searchTerm)) {
+
+        card.style.display = "flex";
+
+        visibleUsers++;
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+
+    /*
+     * Show "No users found"
+     * if nothing matches.
+     */
+
+    if (visibleUsers === 0) {
+
+      noUsersMessage.style.display = "block";
+
+    } else {
+
+      noUsersMessage.style.display = "none";
+
+    }
+
+  });
+
+
+  /*
+   * =========================
+   * FRIEND SEARCH
+   * =========================
+   */
+
+  const friendSearch =
+          document.getElementById("friendSearch");
+
+  const friendCards =
+          document.querySelectorAll("#friendsList .friend-card");
+
+  const noFriendsMessage =
+          document.getElementById("noFriendsMessage");
+
+  const noMatchingFriendsMessage =
+          document.getElementById("noMatchingFriendsMessage");
+
+
+  friendSearch.addEventListener("input", function () {
+
+    const searchTerm =
+            friendSearch.value
+                    .toLowerCase()
+                    .trim();
+
+    let visibleFriends = 0;
+
+
+    friendCards.forEach(function (card) {
+
+      const username =
+              card
+                      .getAttribute("data-username")
+                      .toLowerCase();
+
+
+      if (username.includes(searchTerm)) {
+
+        card.style.display = "flex";
+
+        visibleFriends++;
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+
+    /*
+     * Only show "No friends found"
+     * if there are friends but none
+     * match the search.
+     */
+
+    if (friendCards.length > 0 && visibleFriends === 0) {
+
+      noMatchingFriendsMessage.style.display = "block";
+
+    } else {
+
+      noMatchingFriendsMessage.style.display = "none";
+
+    }
+
+  });
+
+</script>
+
+
 </body>
+
 </html>
