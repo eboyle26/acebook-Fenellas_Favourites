@@ -4,37 +4,47 @@ import com.makersacademy.acebook.model.Like;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.LikeRepository;
+import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class PostsController {
 
     @Autowired
-    PostRepository repository;
+    PostRepository postRepository;
 
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     LikeRepository likeRepository;
+    CommentRepository commentRepository;
 
     @GetMapping("/posts")
     public String index(Model model) {
 
-        List<Post> posts = repository.findAllByOrderByDateTimeDesc();
+        List<Post> posts = postRepository.findAllByOrderByDateTimeDesc();
 
         Map<Long, User> users = new HashMap<>();
 
@@ -54,7 +64,10 @@ public class PostsController {
     }
 
     @PostMapping("/posts")
-    public RedirectView create(@ModelAttribute Post post) {
+    public RedirectView create(
+            @ModelAttribute Post post,
+            @RequestParam("image") MultipartFile image
+    ) throws IOException {
 
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
@@ -75,7 +88,50 @@ public class PostsController {
         post.setUserId(databaseUserId);
         post.setDateTime(LocalDateTime.now());
 
-        repository.save(post);
+        // Only save an image if the user selected one
+        if (!image.isEmpty()) {
+
+            // Create uploads folder if it doesn't exist
+            Path uploadPath = Paths.get("uploads");
+
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // Give the image a unique filename
+            String originalFilename = image.getOriginalFilename();
+            String extension = "";
+
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(
+                        originalFilename.lastIndexOf(".")
+                );
+            }
+
+            String fileName = UUID.randomUUID() + extension;
+
+            Path filePath = uploadPath.resolve(fileName);
+
+            Files.copy(
+                    image.getInputStream(),
+                    filePath,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+
+            // Store the URL/path in the database
+            post.setImageUrl("/uploads/" + fileName);
+        }
+
+        postRepository.save(post);
+
+        return new RedirectView("/posts");
+    }
+
+    @PostMapping("/posts/{postId}/delete")
+    @Transactional
+    public RedirectView deletePost(@PathVariable Long postId) {
+        commentRepository.deleteByPostId(postId);
+        postRepository.deleteById(postId);
 
         return new RedirectView("/posts");
     }

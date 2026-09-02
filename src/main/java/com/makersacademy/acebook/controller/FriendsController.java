@@ -28,15 +28,22 @@ public class FriendsController {
     UserRepository userRepository;
 
     @GetMapping("/friends")
-    public void getAllFriends(Model model, Authentication authentication) {
-        String name = authentication.getName();
-        User user = userRepository.findUserByUsername(name).orElseThrow();
-        List<Friend> friends = friendRepository.findByRequesterOrReceiverAndStatus(user, user, Friend.Status.ACCEPTED);
-        model.addAttribute("friends", friends);
+    public String getAllFriends(Model model, Authentication authentication) {
+        String oktaUserId = authentication.getName();
+        User user = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
+
+        List<Friend> acceptedFriends = friendRepository.findByRequesterOrReceiverAndStatus(user, user, Friend.Status.ACCEPTED);
+        List<Friend> pendingFriends = friendRepository.findByReceiverAndStatus(user, Friend.Status.PENDING);
+
+
+        model.addAttribute("acceptedFriends", acceptedFriends);
+        model.addAttribute("pendingFriends", pendingFriends);
+
+        return "friends/index";
     }
 
     @PostMapping("/friend-request/{userId}")
-    public void sendFriendRequest(@PathVariable Long userId, Authentication authentication) {
+    public RedirectView sendFriendRequest(@PathVariable Long userId, Authentication authentication) {
 
         User receiver = userRepository.findById(userId).orElseThrow();
 
@@ -52,7 +59,33 @@ public class FriendsController {
 
         friendRepository.save(friend);
 
-        //needs a return statement and needs to be changed from void
+        return new RedirectView("/friends");
     }
 
+    @PostMapping("/friend-request/{friendId}/accept")
+    public RedirectView acceptFriendRequest(@PathVariable Long friendId) {
+
+        Friend friend = friendRepository.findById(friendId).orElseThrow();
+
+        friend.setStatus(Friend.Status.ACCEPTED);
+
+        friendRepository.save(friend);
+
+        return new RedirectView("/friends");
+    }
+
+    @PostMapping("/friend-request/{friendId}/reject")
+    public RedirectView rejectFriendRequest(@PathVariable Long friendId) {
+
+        Friend friend = friendRepository.findById(friendId).orElseThrow();
+
+        friend.setStatus(Friend.Status.REJECTED);
+
+        friendRepository.save(friend);
+
+        return new RedirectView("/friends");
+    }
+
+
 }
+

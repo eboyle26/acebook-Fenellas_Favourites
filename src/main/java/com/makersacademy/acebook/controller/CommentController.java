@@ -6,6 +6,7 @@ import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -41,8 +43,11 @@ public class CommentController {
                         "Post not found"
                 ));
 
-        Iterable<Comment> comments =
-                commentRepository.findByPostId(postId);
+//        Iterable<Comment> comments =
+//                commentRepository.findByPostId(postId);
+
+        List<Comment> comments =
+                commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
 
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
@@ -79,6 +84,16 @@ public class CommentController {
         comment.setCreatedAt(LocalDateTime.now());
 
         commentRepository.save(comment);
+
+        return new RedirectView("/posts/" + postId + "/comments");
+    }
+
+    @PostMapping("/posts/{postId}/comments/{id}/delete")
+    public RedirectView deleteComment(
+            @PathVariable Long postId,
+            @PathVariable Long id
+    ) {
+        commentRepository.deleteById(id);
 
         return new RedirectView("/posts/" + postId + "/comments");
     }

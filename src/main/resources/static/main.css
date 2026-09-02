@@ -1,5 +1,5 @@
 /* =========================================
-GENERAL PAGE STYLING
+   GENERAL PAGE STYLING
 ========================================= */
 
 * {
@@ -9,46 +9,31 @@ GENERAL PAGE STYLING
 body {
     margin: 0;
     padding: 0;
-
-
     background-color: #e9eee9;
-
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
-
     color: #333;
-
-
 }
 
 /* =========================================
-TOP NAVIGATION BAR
+   TOP NAVIGATION BAR
 ========================================= */
 
 .navbar {
     width: 100%;
-
-
     background-color: #356b3f;
     border-bottom: 1px solid #244b2c;
-
     color: white;
-
-
 }
 
 .navbar-content {
     width: 760px;
-    margin: 0 auto;
-
-
     height: 48px;
+    margin: 0 auto;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-
 }
 
 /* Logo */
@@ -56,58 +41,64 @@ TOP NAVIGATION BAR
 .logo {
     font-size: 24px;
     font-weight: bold;
-
-
     color: white;
-
     letter-spacing: -1px;
-
-
 }
 
 /* Navigation links */
 
 .navigation-links {
     display: flex;
-
-
     align-items: center;
-
     gap: 15px;
-
-
 }
 
 .navigation-links a {
     color: white;
-
-
     font-size: 11px;
     font-weight: bold;
-
     text-decoration: none;
-
-
 }
 
 .navigation-links a:hover {
     text-decoration: underline;
 }
 
+/* Logout */
+
+.navigation-links form {
+    margin: 0;
+    padding: 0;
+}
+
+.logout-button {
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: none;
+
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    text-decoration: underline;
+}
+
 /* Logged-in user */
 
 .user-info {
-    font-size: 11px;
-
-
-    color: #d8e6d8;
-
     display: flex;
     align-items: center;
-
     gap: 5px;
 
-
+    color: #d8e6d8;
+    font-size: 11px;
 }
 
 .user-info strong {
@@ -115,72 +106,52 @@ TOP NAVIGATION BAR
 }
 
 /* =========================================
-MAIN PAGE
+   MAIN PAGE
 ========================================= */
 
 .main-container {
     width: 760px;
-
+    min-height: 600px;
 
     margin: 20px auto;
+    padding: 20px;
 
     background-color: white;
 
     border-left: 1px solid #c5ccc5;
     border-right: 1px solid #c5ccc5;
-
-    padding: 20px;
-
-    min-height: 600px;
-
-
 }
 
 .main-container > h1 {
     margin: 0 0 15px 0;
-
-
     padding-bottom: 8px;
 
     font-size: 20px;
-
     color: #356b3f;
 
     border-bottom: 1px solid #c8d1c8;
-
-
 }
 
 /* =========================================
-CREATE POST
+   CREATE POST
 ========================================= */
 
 .create-post {
-    background-color: #f5f7f5;
-
-
-    border: 1px solid #c4ccc4;
-
     margin-bottom: 25px;
 
-
+    background-color: #f5f7f5;
+    border: 1px solid #c4ccc4;
 }
 
 .create-post h2 {
     margin: 0;
-
-
     padding: 7px 10px;
 
-    font-size: 13px;
-
-    color: white;
-
     background-color: #5b875f;
-
     border-bottom: 1px solid #456c49;
 
-
+    color: white;
+    font-size: 13px;
 }
 
 .create-post form {
@@ -188,68 +159,48 @@ CREATE POST
 }
 
 /* =========================================
-FORM
+   FORM
 ========================================= */
 
 .form-group {
     display: flex;
-
-
     flex-direction: column;
-
     margin-bottom: 10px;
-
-
 }
 
 .form-group label {
     margin-bottom: 5px;
 
-
     font-weight: bold;
-
     color: #444;
-
-
 }
 
 /* Textarea */
 
 .form-group textarea {
     width: 100%;
-
-
     min-height: 75px;
-
-    resize: vertical;
 
     padding: 7px;
 
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-
-    color: #333;
-
-    background-color: white;
-
-    border: 1px solid #aeb7ae;
-
+    resize: vertical;
     outline: none;
 
+    background-color: white;
+    border: 1px solid #aeb7ae;
 
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    color: #333;
 }
 
 .form-group textarea:focus {
-    border-color: #5b875f;
-
-
     background-color: #fbfffb;
-
-
+    border-color: #5b875f;
 }
 
 /* =========================================
-POST IMAGE UPLOAD
+   POST IMAGE UPLOAD
 ========================================= */
 
 .image-upload {
@@ -258,33 +209,23 @@ POST IMAGE UPLOAD
 
 .image-upload label {
     display: block;
-
-
     margin-bottom: 5px;
 
     font-weight: bold;
-
     color: #444;
-
 }
 
 .image-upload input[type="file"] {
     width: 100%;
-
-
     padding: 6px;
 
     background-color: white;
-
     border: 1px solid #aeb7ae;
 
     font-family: Arial, Helvetica, sans-serif;
-
     font-size: 12px;
 
     cursor: pointer;
-
-
 }
 
 .image-upload input[type="file"]:hover {
@@ -293,53 +234,36 @@ POST IMAGE UPLOAD
 
 .image-upload small {
     display: block;
-
-
     margin-top: 4px;
 
     color: #888;
-
     font-size: 10px;
-
-
 }
 
 /* =========================================
-BUTTONS
+   BUTTONS
 ========================================= */
 
 .form-buttons {
-    margin-top: 8px;
-
-
     display: flex;
-
     justify-content: flex-end;
-
     gap: 5px;
 
-
+    margin-top: 8px;
 }
 
 .button {
-    font-family: Arial, Helvetica, sans-serif;
-
-
-    font-size: 11px;
-
-    font-weight: bold;
-
     padding: 4px 12px;
 
-    cursor: pointer;
-
+    background-color: #e1e6e1;
     border: 1px solid #718171;
 
-    background-color: #e1e6e1;
-
     color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
 
-
+    cursor: pointer;
 }
 
 .button:hover {
@@ -350,13 +274,9 @@ BUTTONS
 
 .button-primary {
     background-color: #4f7f54;
-
-
-    color: white;
-
     border-color: #365b3a;
 
-
+    color: white;
 }
 
 .button-primary:hover {
@@ -367,73 +287,50 @@ BUTTONS
 
 .button-secondary {
     background-color: #e1e6e1;
-
-
     color: #333;
-
-
 }
 
 /* =========================================
-RECENT POSTS
+   RECENT POSTS
 ========================================= */
 
 .posts-section h2 {
     margin: 0 0 8px 0;
-
-
     padding: 7px 10px;
 
     background-color: #dfe7df;
-
     border: 1px solid #c3ccc3;
 
     color: #356b3f;
-
     font-size: 13px;
-
-
 }
 
 /* Posts container */
 
 .posts {
     display: flex;
-
-
     flex-direction: column;
-
     gap: 8px;
-
-
 }
 
 /* Individual post */
 
 .post-card {
     background-color: white;
-
-
     border: 1px solid #c4ccc4;
-
-
 }
 
 /* =========================================
-POST HEADER
+   POST HEADER
 ========================================= */
 
 .post-header {
     display: flex;
-
-
     align-items: center;
 
     padding: 10px;
 
     border-bottom: 1px solid #e0e4e0;
-
-
 }
 
 /* Profile picture */
@@ -442,73 +339,50 @@ POST HEADER
     width: 35px;
     height: 35px;
 
-
     margin-right: 8px;
 
-    background-color: #6f9b73;
-
-    border: 1px solid #4f754f;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    color: white;
-
-    font-weight: bold;
-
-    font-size: 15px;
-
+    flex-shrink: 0;
     overflow: hidden;
 
-    flex-shrink: 0;
+    background-color: #6f9b73;
+    border: 1px solid #4f754f;
 
-
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .avatar img {
     width: 100%;
     height: 100%;
 
-
     object-fit: cover;
-
     border-radius: 50%;
-
-
 }
 
 /* User information */
 
 .post-user {
     display: flex;
-
-
     flex-direction: column;
-
-
 }
 
 .post-user strong {
-    font-size: 12px;
-
-
     color: #356b3f;
-
+    font-size: 12px;
 }
 
 .post-user span {
-    font-size: 10px;
-
-
     color: #777;
-
-
+    font-size: 10px;
 }
 
 /* =========================================
-POST CONTENT
+   POST CONTENT
 ========================================= */
 
 .post-content {
@@ -518,77 +392,57 @@ POST CONTENT
 .post-content p {
     margin: 0;
 
-
+    color: #333;
     font-size: 13px;
-
     line-height: 1.5;
 
-    color: #333;
-
     overflow-wrap: break-word;
-
-
 }
 
 /* Post image */
 
 .post-image {
     width: 100%;
-
-
     max-height: 500px;
-
-    object-fit: cover;
-
-    display: block;
-
-    margin-top: 10px;
-
-    border: 1px solid #d0d6d0;
-
-
+    margin-top: 15px;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
+.post-image img {
+    display: block;
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+}
 /* =========================================
-POST ACTION BAR
+   POST ACTION BAR
 ========================================= */
 
 .post-actions {
     display: flex;
 
-
-    border-top: 1px solid #d9ded9;
-
     background-color: #f5f6f5;
-
-
+    border-top: 1px solid #d9ded9;
 }
 
 .post-action {
     flex: 1;
 
-
     padding: 6px;
 
+    background-color: transparent;
     border: none;
-
     border-right: 1px solid #d9ded9;
 
-    background-color: transparent;
-
     color: #356b3f;
-
     font-family: Arial, Helvetica, sans-serif;
-
     font-size: 11px;
-
     font-weight: bold;
 
     cursor: pointer;
-
     text-align: center;
-
-
 }
 
 .post-action:last-child {
@@ -597,24 +451,16 @@ POST ACTION BAR
 
 .post-action:hover {
     background-color: #e5ebe5;
-
-
     text-decoration: underline;
-
-
 }
 
 /* =========================================
-GENERAL LINKS
+   GENERAL LINKS
 ========================================= */
 
 a {
     color: #356b3f;
-
-
     text-decoration: none;
-
-
 }
 
 a:hover {
@@ -622,33 +468,24 @@ a:hover {
 }
 
 /* =========================================
-PROFILE PAGE
+   PROFILE PAGE
 ========================================= */
 
 .profile-card {
     background-color: white;
-
-
     border: 1px solid #c4ccc4;
-
-
 }
 
 /* Profile header */
 
 .profile-header {
     display: flex;
-
-
     align-items: center;
 
     padding: 20px;
 
     background-color: #f1f4f1;
-
     border-bottom: 1px solid #c4ccc4;
-
-
 }
 
 /* Large profile picture */
@@ -657,31 +494,23 @@ PROFILE PAGE
     width: 100px;
     height: 100px;
 
-
     margin-right: 20px;
 
-    background-color: #6f9b73;
-
-    border: 1px solid #4f754f;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     overflow: hidden;
 
-
+    background-color: #6f9b73;
+    border: 1px solid #4f754f;
 }
 
 .profile-picture img {
     width: 100%;
     height: 100%;
 
-
     object-fit: cover;
-
-
 }
 
 .profile-picture-placeholder {
@@ -689,17 +518,12 @@ PROFILE PAGE
     height: 100%;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
     color: white;
-
     font-size: 40px;
-
     font-weight: bold;
-
-
 }
 
 /* Username */
@@ -707,12 +531,8 @@ PROFILE PAGE
 .profile-name h2 {
     margin: 0 0 5px 0;
 
-
     color: #356b3f;
-
     font-size: 20px;
-
-
 }
 
 /* Email */
@@ -720,16 +540,12 @@ PROFILE PAGE
 .profile-name p {
     margin: 0;
 
-
     color: #777;
-
     font-size: 11px;
-
-
 }
 
 /* =========================================
-EDIT PROFILE
+   EDIT PROFILE
 ========================================= */
 
 .profile-edit {
@@ -738,97 +554,62 @@ EDIT PROFILE
 
 .profile-edit h2 {
     margin: 0 0 15px 0;
-
-
     padding-bottom: 7px;
 
+    color: #356b3f;
     font-size: 13px;
 
-    color: #356b3f;
-
     border-bottom: 1px solid #c8d1c8;
-
-
 }
 
 .profile-form-group {
     display: flex;
-
-
     flex-direction: column;
 
     margin-bottom: 15px;
-
-
 }
 
 .profile-form-group label {
     margin-bottom: 5px;
 
-
-    font-weight: bold;
-
-    font-size: 12px;
-
     color: #444;
-
-
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .profile-form-group input {
     width: 100%;
-
-
     padding: 7px;
 
-    border: 1px solid #aeb7ae;
-
     background-color: white;
-
-    font-family: Arial, Helvetica, sans-serif;
-
-    font-size: 13px;
-
+    border: 1px solid #aeb7ae;
     outline: none;
 
-
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
 }
 
 .profile-form-group input:focus {
-    border-color: #5b875f;
-
-
     background-color: #fbfffb;
-
-
+    border-color: #5b875f;
 }
 
 .profile-form-group small {
     margin-top: 4px;
 
-
     color: #888;
-
     font-size: 10px;
-
-
 }
 
 /* Profile buttons */
 
 .profile-buttons {
     display: flex;
-
-
-    justify-content: flex-end;
-
     align-items: center;
-
+    justify-content: flex-end;
     gap: 6px;
 
     margin-top: 20px;
-
-
 }
 
 .profile-buttons a {
@@ -840,7 +621,7 @@ EDIT PROFILE
 }
 
 /* =========================================
-COMMENTS PAGE
+   COMMENTS PAGE
 ========================================= */
 
 .comments-container {
@@ -852,18 +633,13 @@ COMMENTS PAGE
 .back-link {
     display: inline-block;
 
-
     margin-bottom: 15px;
 
     color: #356b3a;
-
-    text-decoration: none;
-
+    font-size: 14px;
     font-weight: bold;
 
-    font-size: 14px;
-
-
+    text-decoration: none;
 }
 
 .back-link:hover {
@@ -884,105 +660,69 @@ COMMENTS PAGE
 
 .section-header {
     display: flex;
-
-
+    align-items: center;
     justify-content: space-between;
 
-    align-items: center;
-
-    border-bottom: 1px solid #c8d5c8;
-
+    margin-bottom: 12px;
     padding-bottom: 8px;
 
-    margin-bottom: 12px;
-
-
+    border-bottom: 1px solid #c8d5c8;
 }
 
 .section-header h1 {
     margin: 0;
 
-
     color: #244d29;
-
     font-size: 22px;
-
-
 }
 
 .section-header span {
     color: #777;
-
-
     font-size: 13px;
-
-
 }
 
 /* No comments */
 
 .no-comments {
-    background: #f5f7f5;
-
-
-    border: 1px solid #c8d5c8;
-
+    margin-bottom: 20px;
     padding: 20px;
 
+    background-color: #f5f7f5;
+    border: 1px solid #c8d5c8;
+
     text-align: center;
-
-    margin-bottom: 20px;
-
-
 }
 
 .no-comments p {
     margin: 0 0 5px 0;
 
-
-    font-weight: bold;
-
     color: #444;
-
-
+    font-weight: bold;
 }
 
 .no-comments span {
     color: #777;
-
-
     font-size: 13px;
-
-
 }
 
 /* =========================================
-COMMENTS
+   COMMENTS
 ========================================= */
 
 .comment-list {
     display: flex;
-
-
     flex-direction: column;
-
     gap: 8px;
-
-
 }
 
 .comment-card {
     display: flex;
-
-
     align-items: flex-start;
-
-    background: white;
-
-    border: 1px solid #c8d5c8;
 
     padding: 10px;
 
+    background-color: white;
+    border: 1px solid #c8d5c8;
 }
 
 /* Comment avatar */
@@ -991,27 +731,21 @@ COMMENTS
     width: 38px;
     height: 38px;
 
-
-    background: #4f8a55;
-
-    color: white;
+    margin-right: 10px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    font-weight: bold;
-
-    margin-right: 10px;
-
     flex-shrink: 0;
-
     overflow: hidden;
+
+    background-color: #4f8a55;
 
     border-radius: 50%;
 
-
+    color: white;
+    font-weight: bold;
 }
 
 .comment-avatar span {
@@ -1022,12 +756,8 @@ COMMENTS
     width: 100%;
     height: 100%;
 
-
     object-fit: cover;
-
     border-radius: 50%;
-
-
 }
 
 /* Comment content */
@@ -1042,28 +772,19 @@ COMMENTS
 
 .comment-header strong {
     color: #315f36;
-
-
     font-size: 14px;
-
-
 }
 
 .comment-body p {
     margin: 0;
 
-
     color: #333;
-
     font-size: 14px;
-
     line-height: 1.4;
-
-
 }
 
 /* =========================================
-ADD COMMENT
+   ADD COMMENT
 ========================================= */
 
 .add-comment {
@@ -1072,15 +793,10 @@ ADD COMMENT
 
 .add-comment h2 {
     margin-top: 0;
-
-
     margin-bottom: 15px;
 
     color: #244d29;
-
     font-size: 18px;
-
-
 }
 
 .add-comment textarea {
@@ -1088,55 +804,143 @@ ADD COMMENT
 }
 
 /* =========================================
-MOBILE
+   FRIENDS PAGE
+========================================= */
+
+.friends-section,
+.find-friends {
+    margin-bottom: 25px;
+}
+
+.friends-section h2,
+.find-friends h2 {
+    margin: 0 0 10px 0;
+    padding: 7px 10px;
+
+    background-color: #dfe7df;
+    border: 1px solid #c3ccc3;
+
+    color: #356b3f;
+    font-size: 13px;
+}
+
+/* Friends list */
+
+.friends-list,
+.users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Individual friend */
+
+.friend-card,
+.user-card {
+    display: flex;
+    align-items: center;
+
+    padding: 10px;
+
+    background-color: white;
+    border: 1px solid #c4ccc4;
+}
+
+/* Profile picture */
+
+.friend-avatar {
+    width: 45px;
+    height: 45px;
+
+    margin-right: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+    overflow: hidden;
+
+    background-color: #6f9b73;
+    border: 1px solid #4f754f;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+/* Username */
+
+.friend-info {
+    flex: 1;
+}
+
+.friend-info strong {
+    color: #356b3f;
+    font-size: 13px;
+}
+
+/* Add friend button */
+
+.user-card form {
+    margin-left: auto;
+}
+
+.delete-button {
+    color: #b33a3a;
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    background-color: #f5dddd;
+    color: #8f2020;
+}
+
+
+/* =========================================
+   MOBILE
 ========================================= */
 
 @media (max-width: 800px) {
 
-
     .navbar-content {
-    width: 100%;
-
-    padding: 0 15px;
-}
+        width: 100%;
+        padding: 0 15px;
+    }
 
     .main-container {
         width: 100%;
+        min-height: 600px;
 
         margin: 0;
+        padding: 15px;
 
         border: none;
-
-        padding: 15px;
     }
-
-
 }
 
 @media (max-width: 600px) {
 
-
     .comments-container {
-    width: 95%;
-}
+        width: 95%;
+    }
 
     .section-header {
-        align-items: flex-start;
-
         flex-direction: column;
-
+        align-items: flex-start;
         gap: 4px;
     }
 
     .profile-header {
         flex-direction: column;
-
         text-align: center;
     }
 
     .profile-picture {
         margin-right: 0;
-
         margin-bottom: 12px;
     }
 
@@ -1146,13 +950,10 @@ MOBILE
 
     .profile-buttons .button {
         width: 100%;
-
         text-align: center;
     }
 
     .post-image {
         max-height: 350px;
     }
-
-
 }
