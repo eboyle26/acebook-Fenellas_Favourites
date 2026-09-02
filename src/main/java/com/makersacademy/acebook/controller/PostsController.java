@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,7 +29,7 @@ public class PostsController {
     @GetMapping("/posts")
     public String index(Model model) {
 
-        Iterable<Post> posts = repository.findAll();
+        List<Post> posts = repository.findAllByOrderByDateTimeDesc();
 
         Map<Long, User> users = new HashMap<>();
 
@@ -66,6 +68,7 @@ public class PostsController {
         Long databaseUserId = currentUser.getId();
 
         post.setUserId(databaseUserId);
+        post.setDateTime(LocalDateTime.now());
 
         repository.save(post);
 

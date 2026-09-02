@@ -138,8 +138,7 @@
                                 th:text="${users[post.userId].username}">
                         </strong>
 
-                        <span>
-                            Just now
+                        <span th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
                         </span>
 
                     </div>

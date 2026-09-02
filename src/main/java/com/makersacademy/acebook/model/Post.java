@@ -3,7 +3,9 @@
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
+import java.time.LocalDateTime;
+
+ @Data
 @Entity
 @Table(name = "POSTS")
 public class Post {
@@ -20,11 +22,15 @@ public class Post {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "date_time")
+    private LocalDateTime dateTime;
+
     public Post() {}
 
     public Post(String content, Long userId) {
         this.content = content;
         this.userId = userId;
+        this.dateTime = LocalDateTime.now();
     }
 
 }
