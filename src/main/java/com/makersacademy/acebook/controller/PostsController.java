@@ -1,7 +1,9 @@
 package com.makersacademy.acebook.controller;
 
+import com.makersacademy.acebook.model.Like;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
+import com.makersacademy.acebook.repository.LikeRepository;
 import com.makersacademy.acebook.repository.CommentRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
@@ -36,6 +38,7 @@ public class PostsController {
     UserRepository userRepository;
 
     @Autowired
+    LikeRepository likeRepository;
     CommentRepository commentRepository;
 
     @GetMapping("/posts")
@@ -131,6 +134,34 @@ public class PostsController {
         postRepository.deleteById(postId);
 
         return new RedirectView("/posts");
+    }
+    @PostMapping("/posts/{postId}/like")
+    public RedirectView likes (@PathVariable Long postId) {
+        likeRepository.findByPostId(postId);
+
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        User currentUser = userRepository
+                .findByOktaUserId(principal.getSubject())
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "User not found in local database"
+                        )
+                );
+
+        likeRepository
+                .findByPostIdAndUserId(postId, currentUser.getId())
+                .ifPresentOrElse(
+                        existingLike ->
+                                likeRepository.delete(existingLike),
+                        () -> likeRepository.save(new Like(postId, currentUser.getId()))
+                );
+                return new RedirectView("/posts");
+
     }
 }
 
