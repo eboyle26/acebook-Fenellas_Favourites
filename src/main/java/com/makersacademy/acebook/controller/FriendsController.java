@@ -28,7 +28,7 @@ public class FriendsController {
     UserRepository userRepository;
 
     @GetMapping("/friends")
-    public void getAllFriends(Model model, Authentication authentication) {
+    public String getAllFriends(Model model, Authentication authentication) {
         String oktaUserId = authentication.getName();
         User user = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
 
@@ -38,6 +38,8 @@ public class FriendsController {
 
         model.addAttribute("acceptedFriends", acceptedFriends);
         model.addAttribute("pendingFriends", pendingFriends);
+
+        return "friends/index";
     }
 
     @PostMapping("/friend-request/{userId}")
