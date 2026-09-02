@@ -26,6 +26,20 @@ public class FriendsController {
     UserRepository userRepository;
 
     @GetMapping("/friends")
+    public void getAllFriends(Model model, Authentication authentication) {
+        String oktaUserId = authentication.getName();
+        User user = userRepository.findByOktaUserId(oktaUserId).orElseThrow();
+
+        List<Friend> acceptedFriends = friendRepository.findByRequesterOrReceiverAndStatus(user, user, Friend.Status.ACCEPTED);
+        List<Friend> pendingFriends = friendRepository.findByReceiverAndStatus(user, Friend.Status.PENDING);
+
+
+        model.addAttribute("acceptedFriends", acceptedFriends);
+        model.addAttribute("pendingFriends", pendingFriends);
+    }
+
+    @PostMapping("/friend-request/{userId}")
+    public RedirectView sendFriendRequest(@PathVariable Long userId, Authentication authentication) {
     public String getAllFriends(Model model) {
 
         DefaultOidcUser principal = (DefaultOidcUser)
@@ -84,6 +98,32 @@ public class FriendsController {
 
         friendRepository.save(friend);
 
-        return "redirect:/friends";
+        return new RedirectView("/friends");
     }
+
+    @PostMapping("/friend-request/{friendId}/accept")
+    public RedirectView acceptFriendRequest(@PathVariable Long friendId) {
+
+        Friend friend = friendRepository.findById(friendId).orElseThrow();
+
+        friend.setStatus(Friend.Status.ACCEPTED);
+
+        friendRepository.save(friend);
+
+        return new RedirectView("/friends");
+    }
+
+    @PostMapping("/friend-request/{friendId}/reject")
+    public RedirectView rejectFriendRequest(@PathVariable Long friendId) {
+
+        Friend friend = friendRepository.findById(friendId).orElseThrow();
+
+        friend.setStatus(Friend.Status.REJECTED);
+
+        friendRepository.save(friend);
+
+        return new RedirectView("/friends");
+    }
+
+
 }
