@@ -83,7 +83,7 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
-    @PostMapping("/profile")
+    @PostMapping("/profile/delete")
     @Transactional
     public RedirectView deleteProfile(
             HttpServletRequest request,
