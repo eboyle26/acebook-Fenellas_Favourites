@@ -39,26 +39,82 @@ public class PostsController {
 
     @Autowired
     LikeRepository likeRepository;
+
+    @Autowired
     CommentRepository commentRepository;
+
 
     @GetMapping("/posts")
     public String index(Model model) {
 
-        List<Post> posts = postRepository.findAllByOrderByDateTimeDesc();
+        List<Post> posts =
+                postRepository.findAllByOrderByDateTimeDesc();
 
         Map<Long, User> users = new HashMap<>();
 
-        for (Post post : posts) {
-            User user = userRepository
-                    .findById(post.getUserId())
-                    .orElse(null);
+        Map<Long, Long> likeCounts = new HashMap<>();
 
-            users.put(post.getUserId(), user);
+        Map<Long, Boolean> userLikes = new HashMap<>();
+
+
+        // Get the currently logged-in user
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(principal.getSubject())
+                        .orElseThrow(() ->
+                                new IllegalStateException(
+                                        "User not found in local database"
+                                )
+                        );
+
+
+        for (Post post : posts) {
+
+            // Get the user who made the post
+            User user =
+                    userRepository
+                            .findById(post.getUserId())
+                            .orElse(null);
+
+            users.put(
+                    post.getUserId(),
+                    user
+            );
+
+
+            // Count how many likes the post has
+            likeCounts.put(
+                    post.getId(),
+                    likeRepository.countByPostId(post.getId())
+            );
+
+
+            // Check whether the current user has liked the post
+            userLikes.put(
+                    post.getId(),
+                    likeRepository
+                            .findByPostIdAndUserId(
+                                    post.getId(),
+                                    currentUser.getId()
+                            )
+                            .isPresent()
+            );
         }
+
 
         model.addAttribute("posts", posts);
         model.addAttribute("users", users);
         model.addAttribute("post", new Post());
+
+        model.addAttribute("likeCounts", likeCounts);
+        model.addAttribute("userLikes", userLikes);
+
 
         return "posts/index";
     }
@@ -122,6 +178,7 @@ public class PostsController {
             post.setImageUrl("/uploads/" + fileName);
         }
 
+        // Save the post, including any selected song information
         postRepository.save(post);
 
         return new RedirectView("/posts");
@@ -130,14 +187,15 @@ public class PostsController {
     @PostMapping("/posts/{postId}/delete")
     @Transactional
     public RedirectView deletePost(@PathVariable Long postId) {
+
         commentRepository.deleteByPostId(postId);
         postRepository.deleteById(postId);
 
         return new RedirectView("/posts");
     }
+
     @PostMapping("/posts/{postId}/like")
-    public RedirectView likes (@PathVariable Long postId) {
-        likeRepository.findByPostId(postId);
+    public RedirectView likes(@PathVariable Long postId) {
 
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
@@ -158,10 +216,15 @@ public class PostsController {
                 .ifPresentOrElse(
                         existingLike ->
                                 likeRepository.delete(existingLike),
-                        () -> likeRepository.save(new Like(postId, currentUser.getId()))
+                        () ->
+                                likeRepository.save(
+                                        new Like(
+                                                postId,
+                                                currentUser.getId()
+                                        )
+                                )
                 );
-                return new RedirectView("/posts");
 
+        return new RedirectView("/posts");
     }
 }
-
