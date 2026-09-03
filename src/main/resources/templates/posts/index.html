@@ -28,6 +28,28 @@
             <a href="/profile">Profile</a>
             <a href="/friends" id="friends_button">Friends</a>
 
+            <a href="/friends" id="friends_button">
+                Friends
+            </a>
+
+            <a href="/messages">
+                Messages
+            </a>
+
+            <a href="/notifications" class="notification-nav-link">
+                Notifications
+
+                <span
+                        th:if="${unreadCount > 0}"
+                        class="notification-dot">
+                </span>
+            </a>
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info"
+                    id="greeting">
+
             <div sec:authorize="isAuthenticated()" class="user-info" id="greeting">
                 <span>Signed in as</span>
                 <strong sec:authentication="principal.attributes['email']"></strong>
@@ -317,6 +339,35 @@
 
             </article>
 
+
+            <div class="notifications-sidebar">
+
+                <!-- Sidebar heading -->
+                <div class="notifications-sidebar-header">
+
+                    <h2>
+                        Notifications
+
+                        <span
+                                th:if="${unreadCount > 0}"
+                                class="notification-sidebar-dot">
+            </span>
+                    </h2>
+
+                </div>
+
+                <!-- Notification link -->
+                <a
+                        href="/notifications"
+                        class="view-notifications-link">
+
+                    View notifications →
+
+                </a>
+
+            </div>
+
+        </aside>
         </div>
 
     </section>

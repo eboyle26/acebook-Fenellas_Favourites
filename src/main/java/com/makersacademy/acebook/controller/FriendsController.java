@@ -207,16 +207,33 @@ public class FriendsController {
 
     @PostMapping("/friend-request/{friendId}/accept")
     public RedirectView acceptFriendRequest(
-            @PathVariable Long friendId) {
+            @PathVariable Long friendId,
+            Authentication authentication) {
 
         Friend friend =
                 friendRepository
                         .findById(friendId)
                         .orElseThrow();
 
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(authentication.getName())
+                        .orElseThrow();
+
         friend.setStatus(Friend.Status.ACCEPTED);
 
         friendRepository.save(friend);
+
+        Notification notification = new Notification(
+                friend.getRequester().getId(),
+                currentUser.getId(),
+                "FRIEND_REQUEST_ACCEPTED",
+                friend.getId(),
+                null,
+                currentUser.getUsername() + " accepted your friend request"
+        );
+
+        notificationRepository.save(notification);
 
         return new RedirectView("/friends");
     }

@@ -13,9 +13,7 @@ html {
 body {
     margin: 0;
     padding: 0;
-
     background-color: #eef2ee;
-
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #333;
@@ -51,20 +49,15 @@ a:hover {
 
 .navbar {
     width: 100%;
-
     background-color: #356b3f;
-
     border-bottom: 1px solid #285330;
-
     color: white;
-
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
 
 .navbar-content {
-    width: 760px;
+    width: 1000px;
     min-height: 55px;
-
     margin: 0 auto;
     padding: 0 5px;
 
@@ -72,14 +65,12 @@ a:hover {
     align-items: center;
     justify-content: space-between;
 
-    gap: 15px;
+    gap: 20px;
 }
 
 .logo {
     flex-shrink: 0;
-
     color: white;
-
     font-size: 23px;
     font-weight: bold;
     letter-spacing: -0.5px;
@@ -88,31 +79,25 @@ a:hover {
 .navigation-links {
     display: flex;
     align-items: center;
-
     gap: 18px;
 }
 
 .navigation-links a,
 .logout-button {
     color: white;
-
     font-size: 12px;
     font-weight: bold;
-
     text-decoration: none;
 }
 
 .navigation-links a {
     padding: 6px 5px;
-
     border-radius: 4px;
-
     transition: background-color 0.15s ease;
 }
 
 .navigation-links a:hover {
     background-color: rgba(255, 255, 255, 0.12);
-
     text-decoration: none;
 }
 
@@ -126,7 +111,6 @@ a:hover {
     margin: 0;
 
     background: none;
-
     border: none;
     border-radius: 4px;
 
@@ -140,11 +124,9 @@ a:hover {
 .user-info {
     display: flex;
     align-items: center;
-
     gap: 6px;
 
     color: #d8e6d8;
-
     font-size: 11px;
 }
 
@@ -158,16 +140,16 @@ a:hover {
 ========================================= */
 
 .main-container {
-    width: 760px;
+    width: 1000px;
     min-height: 600px;
 
     margin: 25px auto;
-    padding: 25px;
+    padding: 28px;
 
     background-color: white;
 
     border: 1px solid #d7ded7;
-    border-radius: 8px;
+    border-radius: 10px;
 
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
@@ -177,7 +159,6 @@ a:hover {
     padding-bottom: 12px;
 
     color: #356b3f;
-
     font-size: 22px;
 
     border-bottom: 1px solid #d8dfd8;
@@ -198,7 +179,6 @@ a:hover {
     border-radius: 6px;
 
     color: #356b3f;
-
     font-size: 14px;
 }
 
@@ -215,23 +195,18 @@ a:hover {
 
 .section-header h1 {
     margin: 0;
-
     color: #244d29;
-
     font-size: 22px;
 }
 
 .section-header h2 {
     margin: 0;
-
     color: #356b3f;
-
     font-size: 18px;
 }
 
 .section-header span {
     color: #777;
-
     font-size: 13px;
 }
 
@@ -260,15 +235,14 @@ a:hover {
     margin-bottom: 6px;
 
     color: #444;
-
     font-size: 12px;
     font-weight: bold;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    INPUTS
------------------------------------------ */
+========================================= */
 
 input[type="text"],
 input[type="email"],
@@ -321,15 +295,14 @@ textarea {
 }
 
 .form-group textarea {
-    min-height: 85px;
-
+    min-height: 105px;
     resize: vertical;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    FILE UPLOAD
------------------------------------------ */
+========================================= */
 
 .image-upload {
     margin-top: 12px;
@@ -338,9 +311,7 @@ textarea {
 .image-upload input[type="file"],
 .profile-form-group input[type="file"] {
     padding: 7px;
-
     cursor: pointer;
-
     font-size: 12px;
 }
 
@@ -356,7 +327,6 @@ textarea {
     margin-top: 5px;
 
     color: #888;
-
     font-size: 10px;
 }
 
@@ -392,9 +362,7 @@ textarea {
 
 .button:hover {
     background-color: #dce3dc;
-
     border-color: #aeb9ae;
-
     text-decoration: none;
 }
 
@@ -403,49 +371,42 @@ textarea {
 }
 
 
-/* -----------------------------------------
+/* =========================================
    PRIMARY BUTTON
------------------------------------------ */
+========================================= */
 
 .button-primary {
     background-color: #4f7f54;
-
     border-color: #3f6944;
-
     color: white;
 }
 
 .button-primary:hover {
     background-color: #416b46;
-
     border-color: #365b3a;
-
     color: white;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    SECONDARY BUTTON
------------------------------------------ */
+========================================= */
 
 .button-secondary {
     background-color: #f0f2f0;
-
     border-color: #c5cec5;
-
     color: #444;
 }
 
 .button-secondary:hover {
     background-color: #e4e9e4;
-
     color: #333;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    FORM BUTTON AREAS
------------------------------------------ */
+========================================= */
 
 .form-buttons,
 .profile-buttons {
@@ -464,31 +425,32 @@ textarea {
 ========================================= */
 
 .create-post {
-    margin-bottom: 25px;
+    margin-bottom: 28px;
 
     background-color: #f7f9f7;
 
     border: 1px solid #d6ddd6;
-    border-radius: 7px;
+    border-radius: 8px;
 
     overflow: hidden;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
 }
 
 .create-post h2 {
     margin: 0;
-    padding: 10px 13px;
+    padding: 13px 16px;
 
     background-color: #4f7f54;
 
     border-bottom: 1px solid #3f6944;
 
     color: white;
-
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .create-post form {
-    padding: 15px;
+    padding: 20px;
 }
 
 
@@ -498,11 +460,12 @@ textarea {
 
 .posts-section {
     margin-top: 20px;
+    min-width: 0;
 }
 
 .posts-section h2 {
-    margin: 0 0 10px;
-    padding: 9px 12px;
+    margin: 0 0 12px;
+    padding: 10px 14px;
 
     background-color: #e8eee8;
 
@@ -510,15 +473,13 @@ textarea {
     border-radius: 6px;
 
     color: #356b3f;
-
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .posts {
     display: flex;
     flex-direction: column;
-
-    gap: 12px;
+    gap: 15px;
 }
 
 .post-card,
@@ -526,7 +487,7 @@ textarea {
     background-color: white;
 
     border: 1px solid #d6ddd6;
-    border-radius: 7px;
+    border-radius: 8px;
 
     overflow: hidden;
 
@@ -540,7 +501,6 @@ textarea {
 .post-card:hover,
 .post:hover {
     border-color: #c6d0c6;
-
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
 }
 
@@ -572,29 +532,24 @@ textarea {
 .avatar {
     width: 38px;
     height: 38px;
-
     margin-right: 9px;
 
     border: 1px solid #557d59;
-
     font-size: 15px;
 }
 
 .friend-avatar {
     width: 45px;
     height: 45px;
-
     margin-right: 11px;
 
     border: 1px solid #557d59;
-
     font-size: 16px;
 }
 
 .comment-avatar {
     width: 40px;
     height: 40px;
-
     margin-right: 11px;
 }
 
@@ -605,7 +560,6 @@ textarea {
     height: 100%;
 
     object-fit: cover;
-
     border-radius: 50%;
 }
 
@@ -618,7 +572,7 @@ textarea {
     display: flex;
     align-items: center;
 
-    padding: 11px 12px;
+    padding: 13px 18px;
 
     background-color: #fafbfa;
 
@@ -628,7 +582,6 @@ textarea {
 .post-user {
     display: flex;
     flex-direction: column;
-
     gap: 2px;
 
     min-width: 0;
@@ -636,13 +589,11 @@ textarea {
 
 .post-user strong {
     color: #356b3f;
-
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .post-user span {
     color: #888;
-
     font-size: 10px;
 }
 
@@ -652,7 +603,7 @@ textarea {
 ========================================= */
 
 .post-content {
-    padding: 14px;
+    padding: 18px 20px;
 }
 
 .post-content p {
@@ -660,8 +611,8 @@ textarea {
 
     color: #333;
 
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.65;
 
     overflow-wrap: break-word;
 }
@@ -673,7 +624,6 @@ textarea {
     margin-top: 15px;
 
     overflow: hidden;
-
     border-radius: 7px;
 }
 
@@ -704,7 +654,7 @@ textarea {
 .post-action {
     flex: 1;
 
-    padding: 8px;
+    padding: 10px;
 
     background-color: transparent;
 
@@ -729,7 +679,6 @@ textarea {
 
 .post-action:hover {
     background-color: #e9eee9;
-
     text-decoration: none;
 }
 
@@ -769,7 +718,6 @@ textarea {
     justify-content: center;
 
     overflow: hidden;
-
     flex-shrink: 0;
 
     background-color: #6f9b73;
@@ -781,7 +729,6 @@ textarea {
 .profile-picture img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
 }
 
@@ -807,7 +754,6 @@ textarea {
     margin: 0 0 5px;
 
     color: #356b3f;
-
     font-size: 21px;
 
     overflow-wrap: break-word;
@@ -815,9 +761,7 @@ textarea {
 
 .profile-name p {
     margin: 0;
-
     color: #777;
-
     font-size: 11px;
 }
 
@@ -828,7 +772,6 @@ textarea {
 
 .profile-friends {
     padding: 20px 22px;
-
     border-bottom: 1px solid #dfe5df;
 }
 
@@ -836,16 +779,13 @@ textarea {
 .profile-favourite h2,
 .profile-posts h2 {
     margin: 0 0 12px;
-
     color: #356b3f;
-
     font-size: 15px;
 }
 
 .profile-friends-list {
     display: flex;
     flex-direction: column;
-
     gap: 8px;
 }
 
@@ -869,31 +809,25 @@ textarea {
 
 .profile-friend:hover {
     background-color: #f0f4f0;
-
     border-color: #c5d1c5;
 }
 
 .profile-friend .friend-avatar {
     width: 38px;
     height: 38px;
-
     margin-right: 10px;
-
     font-size: 14px;
 }
 
 .profile-friend-info {
     flex: 1;
-
     min-width: 0;
 }
 
 .profile-friend-info a {
     color: #356b3f;
-
     font-size: 13px;
     font-weight: bold;
-
     overflow-wrap: break-word;
 }
 
@@ -903,7 +837,6 @@ textarea {
     margin-top: 2px;
 
     color: #888;
-
     font-size: 10px;
 }
 
@@ -918,7 +851,6 @@ textarea {
     color: #777;
 
     text-align: center;
-
     font-size: 12px;
 }
 
@@ -939,14 +871,13 @@ textarea {
     margin: 0 0 15px;
 
     color: #356b3f;
-
     font-size: 16px;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    SONG SEARCH
------------------------------------------ */
+========================================= */
 
 .song-search-form {
     display: flex;
@@ -959,7 +890,6 @@ textarea {
 
 .song-search-form input {
     flex: 1;
-
     min-width: 0;
 
     height: 40px;
@@ -972,7 +902,6 @@ textarea {
     border-radius: 6px;
 
     color: #333;
-
     font-size: 13px;
 
     outline: none;
@@ -993,16 +922,14 @@ textarea {
 
 .song-search-form .button {
     height: 40px;
-
     padding: 0 18px;
-
     white-space: nowrap;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    SEARCH RESULTS
------------------------------------------ */
+========================================= */
 
 #songResults {
     display: flex;
@@ -1058,7 +985,6 @@ textarea {
 
 .song-info {
     flex: 1;
-
     min-width: 0;
 
     display: flex;
@@ -1082,7 +1008,6 @@ textarea {
 
 .song-info span {
     color: #777;
-
     font-size: 11px;
 
     overflow: hidden;
@@ -1094,14 +1019,13 @@ textarea {
 
 .song-result .button {
     flex-shrink: 0;
-
     padding: 7px 12px;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    CURRENT FAVOURITE
------------------------------------------ */
+========================================= */
 
 .current-favourite-song {
     margin-top: 20px;
@@ -1117,15 +1041,14 @@ textarea {
     margin: 0 0 12px;
 
     color: #356b3f;
-
     font-size: 13px;
     font-weight: bold;
 }
 
 
-/* -----------------------------------------
+/* =========================================
    FAVOURITE SONG CARD
------------------------------------------ */
+========================================= */
 
 .favourite-song-card {
     display: flex;
@@ -1159,13 +1082,12 @@ textarea {
 }
 
 
-/* -----------------------------------------
+/* =========================================
    FAVOURITE SONG INFORMATION
------------------------------------------ */
+========================================= */
 
 .favourite-song-info {
     flex: 1;
-
     min-width: 0;
 
     display: flex;
@@ -1189,7 +1111,6 @@ textarea {
 
 .favourite-song-info span {
     color: #777;
-
     font-size: 12px;
 
     overflow: hidden;
@@ -1200,9 +1121,9 @@ textarea {
 }
 
 
-/* -----------------------------------------
+/* =========================================
    AUDIO PLAYER
------------------------------------------ */
+========================================= */
 
 .favourite-song-info audio {
     display: block;
@@ -1216,9 +1137,9 @@ textarea {
 }
 
 
-/* -----------------------------------------
+/* =========================================
    REMOVE FAVOURITE
------------------------------------------ */
+========================================= */
 
 .current-favourite-song > form {
     margin-top: 10px;
@@ -1246,13 +1167,9 @@ textarea {
 
 .current-favourite-song .delete-button:hover {
     background-color: #f9e9e9;
-
     border-color: #c99090;
-
     color: #8f2020;
 }
-
-
 
 
 /* =========================================
@@ -1274,7 +1191,6 @@ textarea {
 
 .public-profile-section {
     padding: 20px 22px;
-
     border-bottom: 1px solid #dfe5df;
 }
 
@@ -1297,7 +1213,6 @@ textarea {
     padding-bottom: 8px;
 
     color: #356b3f;
-
     font-size: 14px;
 
     border-bottom: 1px solid #d8dfd8;
@@ -1334,31 +1249,24 @@ textarea {
 
 .delete-button {
     color: #a43838;
-
     font-weight: bold;
 }
 
 .delete-button:hover {
     background-color: #f8e6e6;
-
     border-color: #e0baba;
-
     color: #8f2020;
 }
 
 .profile-delete .delete-button {
     background-color: #c0392b;
-
     border-color: #a93226;
-
     color: white;
 }
 
 .profile-delete .delete-button:hover {
     background-color: #a93226;
-
     border-color: #8f2020;
-
     color: white;
 }
 
@@ -1369,7 +1277,6 @@ textarea {
 
 .comments-container {
     max-width: 750px;
-
     margin: 0 auto;
 }
 
@@ -1414,20 +1321,17 @@ textarea {
     margin: 0 0 5px;
 
     color: #444;
-
     font-weight: bold;
 }
 
 .no-comments span {
     color: #777;
-
     font-size: 13px;
 }
 
 .comment-list {
     display: flex;
     flex-direction: column;
-
     gap: 9px;
 }
 
@@ -1449,7 +1353,6 @@ textarea {
 
 .comment-body {
     flex: 1;
-
     min-width: 0;
 }
 
@@ -1459,7 +1362,6 @@ textarea {
 
 .comment-header strong {
     color: #315f36;
-
     font-size: 14px;
 }
 
@@ -1487,7 +1389,6 @@ textarea {
     margin: 0 0 15px;
 
     color: #244d29;
-
     font-size: 18px;
 }
 
@@ -1516,7 +1417,6 @@ textarea {
     border-radius: 6px;
 
     color: #356b3f;
-
     font-size: 14px;
 }
 
@@ -1552,7 +1452,6 @@ textarea {
 .users-list {
     display: flex;
     flex-direction: column;
-
     gap: 8px;
 }
 
@@ -1576,21 +1475,17 @@ textarea {
 .friend-card:hover,
 .user-card:hover {
     border-color: #bdcabc;
-
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .friend-info {
     flex: 1;
-
     min-width: 0;
 }
 
 .friend-info strong {
     display: block;
-
     color: #356b3f;
-
     font-size: 13px;
 }
 
@@ -1599,7 +1494,6 @@ textarea {
     align-items: center;
 
     gap: 6px;
-
     margin-top: 7px;
 }
 
@@ -1645,7 +1539,6 @@ textarea {
 
 .post-song-info {
     flex: 1;
-
     min-width: 0;
 
     display: flex;
@@ -1656,172 +1549,817 @@ textarea {
 
 .post-song-info strong {
     color: #356b3f;
-
     font-size: 13px;
-
     overflow-wrap: break-word;
 }
 
 .post-song-info span {
     color: #666;
-
     font-size: 13px;
-
     overflow-wrap: break-word;
 }
 
 .post-song-info audio {
     width: 100%;
     max-width: 350px;
+    margin-top: 5px;
+}
+
+
+/* =========================================
+   HOME PAGE LAYOUT
+========================================= */
+
+.home-layout {
+    display: grid;
+
+    grid-template-columns: minmax(0, 1fr) 260px;
+
+    gap: 28px;
+
+    align-items: start;
+}
+
+.posts-section {
+    min-width: 0;
+}
+
+
+/* =========================================
+   MESSAGES SIDEBAR
+========================================= */
+
+.messages-sidebar {
+    background-color: white;
+
+    border: 1px solid #dfe5df;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    position: sticky;
+    top: 20px;
+
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.04);
+}
+
+.messages-sidebar-header {
+    padding: 16px 18px;
+
+    background-color: #fafbfa;
+
+    border-bottom: 1px solid #e5e9e5;
+}
+
+.messages-sidebar-header h2 {
+    margin: 0;
+
+    font-size: 17px;
+    color: #263526;
+}
+
+
+/* =========================================
+   CONVERSATION SIDEBAR LIST
+========================================= */
+
+.conversation-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.conversation {
+    border-bottom: 1px solid #edf0ed;
+}
+
+.conversation-link {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 13px 15px;
+
+    text-decoration: none;
+    color: inherit;
+
+    transition: background-color 0.2s ease;
+}
+
+.conversation-link:hover {
+    background-color: #f6f8f6;
+}
+
+
+/* =========================================
+   CONVERSATION AVATAR
+========================================= */
+
+.conversation-avatar {
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background-color: #e7ece7;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.conversation-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.conversation-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    color: #536153;
+}
+
+
+/* =========================================
+   CONVERSATION DETAILS
+========================================= */
+
+.conversation-details {
+    min-width: 0;
+
+    flex: 1;
+
+    position: relative;
+
+    padding-right: 35px;
+}
+
+.conversation-details strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 14px;
+    color: #263526;
+}
+
+.conversation-details p {
+    margin: 0;
+
+    color: #707870;
+    font-size: 13px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 100%;
+}
+
+.conversation-time {
+    position: absolute;
+
+    right: 0;
+    top: 0;
+
+    font-size: 10px;
+    color: #929a92;
+}
+
+
+/* =========================================
+   NO CONVERSATIONS
+========================================= */
+
+.no-conversations {
+    padding: 20px 15px;
+
+    text-align: center;
+}
+
+.no-conversations p {
+    margin: 0 0 8px;
+
+    color: #777f77;
+    font-size: 13px;
+}
+
+.no-conversations a {
+    color: #356b3f;
+
+    font-size: 12px;
+
+    text-decoration: none;
+}
+
+.no-conversations a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   VIEW ALL MESSAGES
+========================================= */
+
+.view-messages-link {
+    display: block;
+
+    padding: 13px 15px;
+
+    text-align: center;
+
+    color: #356b3f;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    background-color: #fafbfa;
+}
+
+.view-messages-link:hover {
+    background-color: #f1f4f1;
+    text-decoration: none;
+}
+
+
+/* =========================================
+   NOTIFICATIONS SIDEBAR
+========================================= */
+
+.notifications-sidebar {
+    margin-top: 18px;
+
+    background-color: white;
+
+    border: 1px solid #dfe5df;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.04);
+}
+
+.notifications-sidebar-header {
+    padding: 14px 18px;
+
+    background-color: #fafbfa;
+
+    border-bottom: 1px solid #e5e9e5;
+}
+
+.notifications-sidebar-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0;
+
+    color: #263526;
+    font-size: 17px;
+}
+
+.view-notifications-link {
+    display: block;
+
+    padding: 13px 18px;
+
+    color: #356b3f;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    background-color: white;
+
+    transition: background-color 0.15s ease;
+}
+
+.view-notifications-link:hover {
+    background-color: #f5f8f5;
+
+    text-decoration: none;
+}
+
+
+/* =========================================
+   NOTIFICATION DOTS
+========================================= */
+
+.notification-nav-link {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+}
+
+.notification-dot,
+.notification-sidebar-dot {
+    width: 8px;
+    height: 8px;
+
+    background-color: #d93636;
+
+    border-radius: 50%;
+
+    display: inline-block;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   MESSAGE SONG SEARCH
+========================================= */
+
+.message-song-search {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.message-song-search label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+}
+
+.song-search-row {
+    display: flex;
+    gap: 10px;
+}
+
+.song-search-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* =========================================
+   MESSAGE SONG RESULTS
+========================================= */
+
+.message-song-search .music-results {
+    margin-top: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.message-song-search .music-result {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 10px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: #fff;
+}
+
+.message-song-search .music-result img {
+    width: 50px;
+    height: 50px;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+}
+
+.music-result-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.music-result-info span {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+
+/* =========================================
+   SELECTED SONG
+========================================= */
+
+.selected-song {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 10px;
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #f5f5f5;
+}
+
+.selected-song img {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 5px;
+}
+
+.selected-song > div {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+
+/* =========================================
+   SONG INSIDE MESSAGE
+========================================= */
+
+.message-song-card {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 10px;
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.message-song-image {
+    flex-shrink: 0;
+}
+
+.message-song-image img {
+    width: 70px;
+    height: 70px;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+}
+
+.message-song-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.message-song-info span {
+    opacity: 0.75;
+    font-size: 0.9rem;
+}
+
+.message-song-info audio {
+    width: 220px;
+    max-width: 100%;
 
     margin-top: 5px;
 }
 
 
 /* =========================================
-   MESSAGES
+   MESSAGES INBOX
 ========================================= */
 
-.messages-container {
+.messages-page {
     width: 100%;
-    max-width: 100%;
-
+    max-width: 700px;
     margin: 0 auto;
 }
 
-.messages-header {
-    padding: 18px 20px;
-
-    background-color: white;
-
-    border: 1px solid #dfe5df;
-    border-radius: 8px 8px 0 0;
-}
-
-.messages-header > a {
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.messages-header h1 {
-    margin: 10px 0;
+.messages-page h1 {
+    margin: 0 0 20px;
+    padding-bottom: 12px;
 
     color: #356b3f;
+    font-size: 22px;
 
-    font-size: 21px;
+    border-bottom: 1px solid #d8dfd8;
 }
 
-.message-recipient {
-    display: flex;
-    align-items: center;
 
-    gap: 10px;
-}
+/* =========================================
+   EMPTY MESSAGES
+========================================= */
 
-.message-recipient strong {
-    color: #356b3f;
-
-    font-size: 14px;
-}
-
-.message-list {
-    min-height: 400px;
-    max-height: 500px;
-
-    padding: 20px;
+.messages-page .empty-state {
+    padding: 30px 20px;
 
     background-color: #f7f9f7;
 
-    border-left: 1px solid #dfe5df;
-    border-right: 1px solid #dfe5df;
-
-    overflow-y: auto;
-}
-
-.message {
-    display: flex;
-
-    margin-bottom: 12px;
-}
-
-.message:last-child {
-    margin-bottom: 0;
-}
-
-.message-sent {
-    justify-content: flex-end;
-}
-
-.message-received {
-    justify-content: flex-start;
-}
-
-.message-bubble {
-    max-width: 65%;
-
-    padding: 10px 14px;
-
-    background-color: white;
-
-    border: 1px solid #dfe5df;
-    border-radius: 15px;
-
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-}
-
-.message-sent .message-bubble {
-    background-color: #dcebdd;
-
-    border-color: #c6d9c7;
-}
-
-.message-bubble p {
-    margin: 0 0 5px;
-
-    overflow-wrap: break-word;
-
-    line-height: 1.4;
-}
-
-.message-time {
-    display: block;
-
-    color: #777;
-
-    font-size: 10px;
-}
-
-.message-form {
-    padding: 15px;
-
-    background-color: white;
-
-    border: 1px solid #dfe5df;
-    border-radius: 0 0 8px 8px;
-}
-
-.message-form form {
-    display: flex;
-    align-items: flex-end;
-
-    gap: 10px;
-}
-
-.message-form textarea {
-    flex: 1;
-
-    min-height: 45px;
-    max-height: 150px;
-
-    resize: vertical;
-}
-
-.no-messages {
-    padding: 50px 20px;
+    border: 1px solid #d7ded7;
+    border-radius: 7px;
 
     color: #777;
 
     text-align: center;
+}
+
+.messages-page .empty-state p {
+    margin: 0;
+}
+
+
+/* =========================================
+   MESSAGE LIST
+========================================= */
+
+.messages-page .messages-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   MESSAGE PREVIEW
+========================================= */
+
+.messages-page .message-preview {
+    width: 100%;
+
+    background-color: white;
+
+    border: 1px solid #d6ddd6;
+    border-radius: 7px;
+
+    overflow: hidden;
+
+    transition:
+            background-color 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+}
+
+.messages-page .message-preview:hover {
+    background-color: #f7f9f7;
+
+    border-color: #bdcabc;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================================
+   MESSAGE PREVIEW LINK
+========================================= */
+
+.messages-page .message-preview-link {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 78px;
+
+    padding: 12px 15px;
+
+    gap: 14px;
+
+    color: inherit;
+    text-decoration: none;
+}
+
+.messages-page .message-preview-link:hover {
+    text-decoration: none;
+}
+
+
+/* =========================================
+   MESSAGE AVATAR
+========================================= */
+
+.messages-page .message-preview-avatar {
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+}
+
+.messages-page .message-preview-avatar img {
+    display: block;
+
+    width: 50px;
+    height: 50px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================
+   DEFAULT AVATAR
+========================================= */
+
+.messages-page .default-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    height: 50px;
+
+    background-color: #6f9b73;
+
+    border: 1px solid #557d59;
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.messages-page .default-avatar span {
+    line-height: 1;
+}
+
+
+/* =========================================
+   MESSAGE PREVIEW CONTENT
+========================================= */
+
+.messages-page .message-preview-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.messages-page .message-preview-content strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #356b3f;
+
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.messages-page .message-preview-content p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================
+   MESSAGE TIME
+========================================= */
+
+.messages-page .message-preview-time {
+    flex-shrink: 0;
+
+    color: #999;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   NOTIFICATIONS PAGE
+========================================= */
+
+.notifications-page {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.notifications-page h1 {
+    margin: 0 0 25px;
+    padding-bottom: 15px;
+
+    color: #356b3f;
+    font-size: 26px;
+    font-weight: bold;
+
+    border-bottom: 1px solid #d7ded7;
+}
+
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.notification-form {
+    width: 100%;
+    margin: 0;
+}
+
+.notification {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 15px;
+
+    background: white;
+
+    border: 1px solid #dfe5df;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-family: Arial, sans-serif;
+
+    transition:
+            background-color 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+}
+
+.notification:hover {
+    background: #f7f9f7;
+    border-color: #cbd6cb;
+}
+
+.notification-unread {
+    background: #eef6ef;
+    border-color: #c6d9c7;
+}
+
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-text {
+    margin: 0 0 6px;
+
+    color: #333;
+    font-size: 14px;
+}
+
+.notification-time {
+    color: #999;
+    font-size: 12px;
+}
+
+.unread-dot {
+    width: 9px;
+    height: 9px;
+
+    background: #356b3f;
+
+    border-radius: 50%;
+
+    margin-left: 15px;
+
+    flex-shrink: 0;
 }
 
 
@@ -1858,7 +2396,6 @@ textarea {
 .profile-posts-list {
     display: flex;
     flex-direction: column;
-
     gap: 12px;
 }
 
@@ -1877,319 +2414,141 @@ textarea {
     font-size: 13px;
 }
 
-/* =========================================
-   HOME PAGE LAYOUT
-========================================= */
-
-.home-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    gap: 25px;
-    align-items: start;
-}
-
-.posts-section {
-    min-width: 0;
-}
-
 
 /* =========================================
-   MESSAGES SIDEBAR
+   MESSAGES - CONVERSATION PAGE
 ========================================= */
 
-.messages-sidebar {
-    background-color: white;
-    border: 1px solid #dfe5df;
-    border-radius: 10px;
-    overflow: hidden;
-    position: sticky;
-    top: 20px;
-}
-
-.messages-sidebar-header {
-    padding: 15px 18px;
-    border-bottom: 1px solid #e5e9e5;
-}
-
-.messages-sidebar-header h2 {
-    margin: 0;
-    font-size: 18px;
-    color: #263526;
-}
-
-
-/* =========================================
-   CONVERSATION
-========================================= */
-
-.conversation-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.conversation {
-    border-bottom: 1px solid #edf0ed;
-}
-
-.conversation-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 15px;
-    text-decoration: none;
-    color: inherit;
-    transition: background-color 0.2s ease;
-}
-
-.conversation-link:hover {
-    background-color: #f6f8f6;
-}
-
-
-/* =========================================
-   CONVERSATION AVATAR
-========================================= */
-
-.conversation-avatar {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #e7ece7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.conversation-avatar img {
+.messages-container {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.conversation-avatar-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: #536153;
-}
-
-
-/* =========================================
-   CONVERSATION DETAILS
-========================================= */
-
-.conversation-details {
-    min-width: 0;
-    flex: 1;
-    position: relative;
-    padding-right: 35px;
-}
-
-.conversation-details strong {
-    display: block;
-    margin-bottom: 3px;
-    font-size: 14px;
-    color: #263526;
-}
-
-.conversation-details p {
-    margin: 0;
-    color: #707870;
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     max-width: 100%;
+    margin: 0 auto;
 }
 
-.conversation-time {
-    position: absolute;
-    right: 0;
-    top: 0;
-    font-size: 10px;
-    color: #929a92;
+.messages-header {
+    padding: 18px 20px;
+
+    background-color: white;
+
+    border: 1px solid #dfe5df;
+    border-radius: 8px 8px 0 0;
 }
 
-
-/* =========================================
-   NO CONVERSATIONS
-========================================= */
-
-.no-conversations {
-    padding: 20px 15px;
-    text-align: center;
-}
-
-.no-conversations p {
-    margin: 0 0 8px;
-    color: #777f77;
-    font-size: 13px;
-}
-
-.no-conversations a {
-    color: #356b3f;
+.messages-header > a {
     font-size: 12px;
-    text-decoration: none;
+    font-weight: bold;
 }
 
-.no-conversations a:hover {
-    text-decoration: underline;
-}
+.messages-header h1 {
+    margin: 10px 0;
 
-
-/* =========================================
-   VIEW ALL
-========================================= */
-
-.view-messages-link {
-    display: block;
-    padding: 13px 15px;
-    text-align: center;
     color: #356b3f;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    background-color: #fafbfa;
+    font-size: 21px;
 }
 
-.view-messages-link:hover {
-    background-color: #f1f4f1;
-}
-
-/* ==========================================
-   MESSAGE SONG SEARCH
-   ========================================== */
-
-.message-song-search {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.message-song-search label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-}
-
-.song-search-row {
+.message-recipient {
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
-.song-search-row input {
+.message-recipient strong {
+    color: #356b3f;
+    font-size: 14px;
+}
+
+.message-list {
+    min-height: 400px;
+    max-height: 500px;
+
+    padding: 20px;
+
+    background-color: #f7f9f7;
+
+    border-left: 1px solid #dfe5df;
+    border-right: 1px solid #dfe5df;
+
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.message:last-child {
+    margin-bottom: 0;
+}
+
+.message-sent {
+    justify-content: flex-end;
+}
+
+.message-received {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 65%;
+
+    padding: 10px 14px;
+
+    background-color: white;
+
+    border: 1px solid #dfe5df;
+    border-radius: 15px;
+
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.message-sent .message-bubble {
+    background-color: #dcebdd;
+    border-color: #c6d9c7;
+}
+
+.message-bubble p {
+    margin: 0 0 5px;
+
+    overflow-wrap: break-word;
+    line-height: 1.4;
+}
+
+.message-time {
+    display: block;
+
+    color: #777;
+    font-size: 10px;
+}
+
+.message-form {
+    padding: 15px;
+
+    background-color: white;
+
+    border: 1px solid #dfe5df;
+    border-radius: 0 0 8px 8px;
+}
+
+.message-form form {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.message-form textarea {
     flex: 1;
+
+    min-height: 45px;
+    max-height: 150px;
+
+    resize: vertical;
 }
 
+.no-messages {
+    padding: 50px 20px;
 
-/* ==========================================
-   MESSAGE SONG RESULTS
-   ========================================== */
-
-.message-song-search .music-results {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.message-song-search .music-result {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #fff;
-}
-
-.message-song-search .music-result img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-.music-result-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.music-result-info span {
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-
-/* ==========================================
-   SELECTED SONG
-   ========================================== */
-
-.selected-song {
-    align-items: center;
-    gap: 12px;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    background: #f5f5f5;
-}
-
-.selected-song img {
-    width: 55px;
-    height: 55px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-.selected-song > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* ==========================================
-   SONG INSIDE MESSAGE
-   ========================================== */
-
-.message-song-card {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.12);
-}
-
-.message-song-image img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-.message-song-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-}
-
-.message-song-info span {
-    opacity: 0.75;
-    font-size: 0.9rem;
-}
-
-.message-song-info audio {
-    width: 220px;
-    max-width: 100%;
-    margin-top: 5px;
+    color: #777;
+    text-align: center;
 }
 
 
@@ -2197,11 +2556,11 @@ textarea {
    RESPONSIVE DESIGN
 ========================================= */
 
-@media (max-width: 800px) {
+/* Tablets and smaller laptops */
+@media (max-width: 1050px) {
 
     .navbar-content {
         width: 100%;
-
         padding: 0 15px;
     }
 
@@ -2211,13 +2570,41 @@ textarea {
         min-height: 600px;
 
         margin: 10px auto;
-        padding: 18px;
+        padding: 20px;
 
-        border-radius: 7px;
+        border-radius: 8px;
+    }
+
+    .home-layout {
+        grid-template-columns: minmax(0, 1fr) 260px;
+        gap: 20px;
+    }
+
+    .messages-inbox {
+        max-width: 100%;
     }
 }
 
 
+/* Tablets / mobile */
+@media (max-width: 700px) {
+
+    .home-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .messages-sidebar {
+        position: static;
+        order: 2;
+    }
+
+    .posts-section {
+        order: 1;
+    }
+}
+
+
+/* Smaller mobile */
 @media (max-width: 650px) {
 
     .navbar-content {
@@ -2245,7 +2632,6 @@ textarea {
 
     .profile-header {
         flex-direction: column;
-
         text-align: center;
     }
 
@@ -2260,7 +2646,6 @@ textarea {
 
     .profile-buttons .button {
         width: 100%;
-
         text-align: center;
     }
 
@@ -2268,13 +2653,13 @@ textarea {
         flex-direction: column;
     }
 
+    .song-search-form input,
     .song-search-form .button {
         width: 100%;
     }
 
     .selected-song {
         align-items: flex-start;
-
         flex-wrap: wrap;
     }
 
@@ -2293,7 +2678,6 @@ textarea {
 
     .message-form form {
         align-items: stretch;
-
         flex-direction: column;
     }
 
@@ -2328,9 +2712,26 @@ textarea {
     .post-image {
         max-height: 350px;
     }
+
+    .messages-page .message-preview-link {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .messages-page .message-preview-avatar,
+    .messages-page .message-preview-avatar img,
+    .messages-page .default-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .messages-page .message-preview-time {
+        font-size: 10px;
+    }
 }
 
 
+/* Very small mobile */
 @media (max-width: 500px) {
 
     body {
@@ -2356,7 +2757,6 @@ textarea {
     .navigation-links a,
     .logout-button {
         padding: 5px 3px;
-
         font-size: 10px;
     }
 
@@ -2390,7 +2790,6 @@ textarea {
 
     .post-song {
         gap: 10px;
-
         padding: 10px;
     }
 
@@ -2401,13 +2800,11 @@ textarea {
 
     .message-list {
         min-height: 350px;
-
         padding: 12px;
     }
 
     .message-bubble {
         max-width: 88%;
-
         padding: 9px 12px;
     }
 
@@ -2418,7 +2815,6 @@ textarea {
     .section-header {
         flex-direction: column;
         align-items: flex-start;
-
         gap: 5px;
     }
 
@@ -2430,5 +2826,65 @@ textarea {
     .friend-actions .button,
     .friend-actions form {
         width: 100%;
+    }
+
+    .friend-actions form .button {
+        width: 100%;
+    }
+
+    .messages-inbox-title {
+        font-size: 20px;
+    }
+
+    .messages-inbox-link {
+        gap: 10px;
+        padding: 11px;
+    }
+
+    .messages-inbox-avatar {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+    }
+
+    .messages-inbox-default-avatar {
+        font-size: 18px;
+    }
+
+    .messages-inbox-content strong {
+        font-size: 14px;
+    }
+
+    .messages-inbox-content p {
+        font-size: 12px;
+    }
+
+    .messages-inbox-time {
+        display: none;
+    }
+
+    .message-song-card {
+        align-items: flex-start;
+    }
+
+    .message-song-image img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .message-song-info audio {
+        width: 100%;
+    }
+
+    .create-post form {
+        padding: 15px;
+    }
+
+    .post-content {
+        padding: 15px;
+    }
+
+    .post-header {
+        padding: 11px 14px;
     }
 }

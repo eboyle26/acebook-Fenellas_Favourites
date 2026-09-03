@@ -52,8 +52,12 @@ public class NotificationController {
         User currentUser = getCurrentUser();
 
         Notification notification = notificationRepository
-                .findById(id)
-                .orElseThrow();
+                .findByIdAndRecipientId(id, currentUser.getId())
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND
+                        )
+                );
 
         notification.setRead(true);
         notificationRepository.save(notification);
@@ -66,6 +70,9 @@ public class NotificationController {
 
             case "FRIEND_REQUEST" ->
                     new RedirectView("/friends");
+
+            case "FRIEND_REQUEST_ACCEPTED" ->
+                    new RedirectView("/profile/" + notification.getActorId());
 
             case "POST_LIKE", "POST_COMMENT" ->
                     new RedirectView(

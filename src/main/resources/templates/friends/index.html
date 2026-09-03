@@ -347,11 +347,10 @@
             <!-- Message -->
 
             <a
-                    th:href="@{/messages/{userId}(userId=${friend.receiver.id})}"
-                    class="button button-secondary">
-
+                    th:if="${areFriends}"
+                    th:href="@{/messages/{id}(id=${user.id})}"
+                    class="button">
               Message
-
             </a>
 
 
