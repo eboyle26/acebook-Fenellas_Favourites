@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface PostRepository extends CrudRepository<Post, Long> {
     List<Post> findAllByOrderByDateTimeDesc();
+    void deleteByUserId(Long userId);
+    Iterable<Post> findByUserId(Long userId);
 }

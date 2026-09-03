@@ -11,4 +11,6 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
             Long senderIdTwo,
             Long receiverIdTwo
     );
+    void deleteBySenderId(Long senderId);
+    void deleteByReceiverId(Long receiverId);
 }
