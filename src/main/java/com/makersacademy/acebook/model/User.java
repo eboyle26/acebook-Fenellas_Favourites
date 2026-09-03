@@ -29,6 +29,18 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Column(name = "favourite_song_title")
+    private String favouriteSongTitle;
+
+    @Column(name = "favourite_song_artist")
+    private String favouriteSongArtist;
+
+    @Column(name = "favourite_song_image_url")
+    private String favouriteSongImageUrl;
+
+    @Column(name = "favourite_song_preview_url")
+    private String favouriteSongPreviewUrl;
+
     public User() {
     }
 
@@ -46,3 +58,5 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 }
+
+

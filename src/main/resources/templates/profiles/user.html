@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title
+            th:text="${user.username} + ' - Profile'">
+
+        Profile - Acebook
+
+    </title>
+
+    <link
+            rel="stylesheet"
+            href="/main.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ============================= -->
+<!-- NAVBAR -->
+<!-- ============================= -->
+
+<nav class="navbar">
+
+    <div class="navbar-content">
+
+        <div class="logo">
+            Acebook
+        </div>
+
+
+        <div class="navigation-links">
+
+            <a href="/posts">
+                Home
+            </a>
+
+            <a href="/profile">
+                Profile
+            </a>
+
+            <a href="/friends">
+                Friends
+            </a>
+
+            <a href="/messages">
+                Messages
+            </a>
+
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info">
+
+                <span>
+                    Signed in as
+                </span>
+
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
+
+            </div>
+
+
+            <form
+                    th:action="@{/logout}"
+                    method="post">
+
+                <button
+                        type="submit"
+                        class="logout-button">
+
+                    Log out
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="main-container">
+
+
+    <!-- ============================= -->
+    <!-- PROFILE HEADER -->
+    <!-- ============================= -->
+
+    <section class="profile-header">
+
+        <div class="profile-picture">
+
+            <img
+                    th:if="${user.profilePictureUrl != null and !user.profilePictureUrl.isEmpty()}"
+                    th:src="${user.profilePictureUrl}"
+                    alt="Profile picture">
+
+
+            <div
+                    th:unless="${user.profilePictureUrl != null and !user.profilePictureUrl.isEmpty()}"
+                    class="profile-picture-placeholder">
+
+                <span
+                        th:text="${user.username.substring(0, 1).toUpperCase()}">
+
+                    U
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-info">
+
+            <h1
+                    th:text="${user.username}">
+
+                Username
+
+            </h1>
+
+
+            <p>
+
+                Member since
+
+                <span
+                        th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy')}">
+
+                    01/01/2026
+
+                </span>
+
+            </p>
+
+
+            <!-- ============================= -->
+            <!-- FRIEND ACTION -->
+            <!-- ============================= -->
+
+            <div class="profile-friend-action">
+
+
+                <!-- YOUR OWN PROFILE -->
+
+                <div th:if="${isOwnProfile}">
+
+                    <span class="profile-status">
+
+                        Your profile
+
+                    </span>
+
+                </div>
+
+
+                <!-- ALREADY FRIENDS -->
+
+                <div
+                        th:if="${!isOwnProfile and areFriends}">
+
+                    <span class="profile-status">
+
+                        Friends ✓
+
+                    </span>
+
+                </div>
+
+
+                <!-- REQUEST ALREADY SENT -->
+
+                <div
+                        th:if="${!isOwnProfile and !areFriends and requestSent}">
+
+                    <span class="profile-status">
+
+                        Friend request sent
+
+                    </span>
+
+                </div>
+
+
+                <!-- THEY SENT YOU A REQUEST -->
+
+                <div
+                        th:if="${!isOwnProfile and !areFriends and requestReceived}">
+
+                    <form
+                            th:action="@{/friend-request/{friendId}/accept(friendId=${incomingRequestId})}"
+                            method="post">
+
+                        <button
+                                type="submit"
+                                class="button button-primary">
+
+                            Accept Friend Request
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- NO FRIENDSHIP YET -->
+
+                <div
+                        th:if="${!isOwnProfile and !areFriends and !requestSent and !requestReceived}">
+
+                    <form
+                            th:action="@{/profile/{userId}/friend-request(userId=${user.id})}"
+                            method="post">
+
+                        <button
+                                type="submit"
+                                class="button button-primary">
+
+                            Add Friend
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- FAVOURITE SONG -->
+    <!-- ============================= -->
+
+    <section
+            class="favourite-song"
+            th:if="${user.favouriteSongTitle != null}">
+
+        <h2>
+            🎵 Favourite song
+        </h2>
+
+
+        <div class="favourite-song-card">
+
+            <img
+                    th:src="${user.favouriteSongImageUrl}"
+                    alt="Album artwork"
+                    class="favourite-song-image">
+
+
+            <div class="favourite-song-info">
+
+                <strong
+                        th:text="${user.favouriteSongTitle}">
+
+                    Song title
+
+                </strong>
+
+
+                <span
+                        th:text="${user.favouriteSongArtist}">
+
+                    Artist
+
+                </span>
+
+
+                <audio
+                        controls
+                        preload="none"
+                        th:src="${user.favouriteSongPreviewUrl}">
+
+                </audio>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- FRIENDS -->
+    <!-- ============================= -->
+
+    <section class="profile-friends">
+
+        <h2>
+            Friends
+        </h2>
+
+
+        <div
+                th:if="${#lists.isEmpty(friends)}"
+                class="no-messages">
+
+            <p>
+                This user doesn't have any friends yet.
+            </p>
+
+        </div>
+
+
+        <div
+                class="profile-friends-list"
+                th:unless="${#lists.isEmpty(friends)}">
+
+
+            <div
+                    class="profile-friend"
+                    th:each="friend : ${friends}">
+
+
+                <!-- ============================= -->
+                <!-- USER IS REQUESTER -->
+                <!-- ============================= -->
+
+                <div
+                        th:if="${friend.requester.id == user.id}"
+                        class="profile-friend-content">
+
+
+                    <div class="friend-avatar">
+
+                        <img
+                                th:if="${friend.receiver.profilePictureUrl != null and !friend.receiver.profilePictureUrl.isEmpty()}"
+                                th:src="${friend.receiver.profilePictureUrl}"
+                                alt="Profile picture">
+
+
+                        <span
+                                th:unless="${friend.receiver.profilePictureUrl != null and !friend.receiver.profilePictureUrl.isEmpty()}">
+
+                            <span
+                                    th:text="${friend.receiver.username.substring(0, 1).toUpperCase()}">
+
+                                U
+
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-friend-name">
+
+                        <a
+                                th:href="@{/profile/{userId}(userId=${friend.receiver.id})}"
+                                th:text="${friend.receiver.username}">
+
+                            Username
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ============================= -->
+                <!-- USER IS RECEIVER -->
+                <!-- ============================= -->
+
+                <div
+                        th:if="${friend.receiver.id == user.id}"
+                        class="profile-friend-content">
+
+
+                    <div class="friend-avatar">
+
+                        <img
+                                th:if="${friend.requester.profilePictureUrl != null and !friend.requester.profilePictureUrl.isEmpty()}"
+                                th:src="${friend.requester.profilePictureUrl}"
+                                alt="Profile picture">
+
+
+                        <span
+                                th:unless="${friend.requester.profilePictureUrl != null and !friend.requester.profilePictureUrl.isEmpty()}">
+
+                            <span
+                                    th:text="${friend.requester.username.substring(0, 1).toUpperCase()}">
+
+                                U
+
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-friend-name">
+
+                        <a
+                                th:href="@{/profile/{userId}(userId=${friend.requester.id})}"
+                                th:text="${friend.requester.username}">
+
+                            Username
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- POSTS -->
+    <!-- ============================= -->
+
+    <section class="profile-posts">
+
+        <h2
+                th:text="${user.username} + '\'s Posts'">
+
+            Posts
+
+        </h2>
+
+
+        <div
+                th:if="${#lists.isEmpty(posts)}"
+                class="no-messages">
+
+            <p>
+                This user hasn't made any posts yet.
+            </p>
+
+        </div>
+
+
+        <div
+                class="profile-post-list"
+                th:unless="${#lists.isEmpty(posts)}">
+
+
+            <article
+                    class="post"
+                    th:each="post : ${posts}">
+
+
+                <div class="post-header">
+
+                    <strong
+                            th:text="${user.username}">
+
+                        Username
+
+                    </strong>
+
+
+                    <span
+                            th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
+
+                        Date
+
+                    </span>
+
+                </div>
+
+
+                <div class="post-content">
+
+
+                    <!-- TEXT -->
+
+                    <p
+                            th:if="${post.content != null and !post.content.isEmpty()}"
+                            th:text="${post.content}">
+
+                    </p>
+
+
+
+                    <!-- IMAGE -->
+
+                    <img
+                            th:if="${post.imageUrl != null and !post.imageUrl.isEmpty()}"
+                            th:src="${post.imageUrl}"
+                            alt="Post image"
+                            class="post-image">
+
+
+
+                    <!-- SONG -->
+
+                    <div
+                            class="post-song"
+                            th:if="${post.songPreviewUrl != null and !post.songPreviewUrl.isEmpty()}">
+
+
+                        <img
+                                th:src="${post.songImageUrl}"
+                                alt="Album artwork"
+                                class="post-song-image">
+
+
+                        <div class="post-song-info">
+
+                            <strong
+                                    th:text="${post.songTitle}">
+
+                                Song title
+
+                            </strong>
+
+
+                            <span
+                                    th:text="${post.songArtist}">
+
+                                Artist
+
+                            </span>
+
+
+                            <audio
+                                    controls
+                                    preload="none"
+                                    th:src="${post.songPreviewUrl}">
+
+                            </audio>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- BACK TO FRIENDS -->
+    <!-- ============================= -->
+
+    <div class="profile-back">
+
+        <a
+                href="/friends"
+                class="button button-secondary">
+
+            &larr; Back to Friends
+
+        </a>
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

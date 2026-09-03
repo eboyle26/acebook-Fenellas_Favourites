@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
 
-    <title>Acebook - Profile</title>
+    <title
+            th:text="${user.username} + ' - Profile'">
+        Profile - Acebook
+    </title>
 
-    <link rel="stylesheet" href="/main.css">
+    <link
+            rel="stylesheet"
+            href="/main.css">
 
 </head>
+
 
 <body>
 
 
-<!-- Navigation bar -->
+<!-- ============================= -->
+<!-- NAVBAR -->
+<!-- ============================= -->
 
 <nav class="navbar">
 
@@ -27,13 +37,50 @@
             Acebook
         </div>
 
+
         <div class="navigation-links">
 
-            <a href="/posts">Home</a>
+            <a href="/posts">
+                Home
+            </a>
 
-            <a href="/profile">Profile</a>
+            <a href="/profile">
+                Profile
+            </a>
 
-            <a href="/friends">Friends</a>
+            <a href="/friends">
+                Friends
+            </a>
+
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info">
+
+                <span>
+                    Signed in as
+                </span>
+
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
+
+            </div>
+
+
+            <form
+                    th:action="@{/logout}"
+                    method="post">
+
+                <button
+                        type="submit"
+                        class="logout-button">
+
+                    Log out
+
+                </button>
+
+            </form>
 
         </div>
 
@@ -42,119 +89,177 @@
 </nav>
 
 
-<!-- Main content -->
-
 <main class="main-container">
 
-    <h1>My Profile</h1>
+
+    <!-- ============================= -->
+    <!-- PROFILE HEADER -->
+    <!-- ============================= -->
+
+    <section class="profile-header">
+
+        <div class="profile-picture">
+
+            <img
+                    th:if="${user.profilePictureUrl != null and !user.profilePictureUrl.isEmpty()}"
+                    th:src="${user.profilePictureUrl}"
+                    alt="Profile picture">
 
 
-    <section class="profile-card">
+            <div
+                    th:unless="${user.profilePictureUrl != null and !user.profilePictureUrl.isEmpty()}"
+                    class="profile-picture-placeholder">
 
+            <span
+                    th:text="${user.username.substring(0, 1).toUpperCase()}">
 
-        <!-- Profile header -->
+                U
 
-        <div class="profile-header">
-
-            <div class="profile-picture">
-
-                <img
-                        th:if="${user.profilePictureUrl != null}"
-                        th:src="${user.profilePictureUrl}"
-                        alt="Profile picture">
-
-                <div
-                        th:unless="${user.profilePictureUrl != null}"
-                        class="profile-picture-placeholder">
-
-                    <span th:text="${user.username.substring(0, 1).toUpperCase()}">
-                        U
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="profile-name">
-
-                <h2 th:text="${user.username}">
-                    Username
-                </h2>
-
-                <p th:text="${user.email}">
-                    email@example.com
-                </p>
+            </span>
 
             </div>
 
         </div>
 
 
-        <!-- Edit profile -->
+        <div class="profile-info">
 
-        <div class="profile-edit">
+            <h1
+                    th:text="${user.username}">
 
-            <h2>Edit Profile</h2>
+                Username
 
-            <form action="/profile" method="post">
+            </h1>
 
 
-                <div class="profile-form-group">
+            <p
+                    th:text="${user.email}">
 
-                    <label for="username">
-                        Name
-                    </label>
+                email@example.com
 
-                    <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            th:value="${user.username}"
-                            required>
+            </p>
+
+
+            <p>
+
+                Member since
+
+                <span
+                        th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy')}">
+
+                01/01/2026
+
+            </span>
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- FAVOURITE SONG -->
+    <!-- ============================= -->
+
+    <section class="favourite-song">
+
+        <h2>
+            🎵 My favourite song
+        </h2>
+
+
+        <!-- SEARCH FOR SONG -->
+
+        <form
+                id="songSearchForm"
+                class="song-search-form">
+
+            <input
+                    type="search"
+                    id="songSearch"
+                    placeholder="Search for a song..."
+                    autocomplete="off"
+                    required>
+
+
+            <button
+                    type="submit"
+                    class="button button-primary">
+
+                Search
+
+            </button>
+
+        </form>
+
+
+        <!-- SEARCH RESULTS -->
+
+        <div id="songResults"></div>
+
+
+        <!-- CURRENT FAVOURITE -->
+
+        <div
+                class="current-favourite-song"
+                th:if="${user.favouriteSongTitle != null}">
+
+            <h3>
+                Your current favourite
+            </h3>
+
+
+            <div class="favourite-song-card">
+
+                <img
+                        th:src="${user.favouriteSongImageUrl}"
+                        alt="Album artwork"
+                        class="favourite-song-image">
+
+
+                <div class="favourite-song-info">
+
+                    <strong
+                            th:text="${user.favouriteSongTitle}">
+
+                        Song title
+
+                    </strong>
+
+
+                    <span
+                            th:text="${user.favouriteSongArtist}">
+
+                    Artist
+
+                </span>
+
+
+                    <audio
+                            controls
+                            preload="none"
+                            th:src="${user.favouriteSongPreviewUrl}">
+
+                    </audio>
 
                 </div>
 
-
-                <div class="profile-form-group">
-
-                    <label for="profilePictureUrl">
-                        Profile picture URL
-                    </label>
-
-                    <input
-                            type="url"
-                            id="profilePictureUrl"
-                            name="profilePictureUrl"
-                            th:value="${user.profilePictureUrl}"
-                            placeholder="https://example.com/photo.jpg">
-
-                    <small>
-                        Paste the URL of an image you'd like to use as your profile picture.
-                    </small>
-
-                </div>
+            </div>
 
 
-                <div class="profile-buttons">
+            <form
+                    th:action="@{/profile/favourite-song/delete}"
+                    method="post">
 
-                    <button
-                            type="submit"
-                            class="button button-primary">
+                <button
+                        type="submit"
+                        class="button delete-button">
 
-                        Save Changes
+                    Remove favourite
 
-                    </button>
-
-                    <a
-                            href="/posts"
-                            class="button button-secondary">
-
-                        Cancel
-
-                    </a>
-
-                </div>
+                </button>
 
             </form>
 
@@ -162,7 +267,549 @@
 
     </section>
 
+
+
+    <!-- ============================= -->
+    <!-- FRIENDS -->
+    <!-- ============================= -->
+
+    <section class="profile-friends">
+
+        <h2>
+            Friends
+        </h2>
+
+
+        <div
+                th:if="${#lists.isEmpty(friends)}"
+                class="no-messages">
+
+            <p>
+                You don't have any friends yet.
+            </p>
+
+        </div>
+
+
+        <div
+                class="profile-friends-list"
+                th:unless="${#lists.isEmpty(friends)}">
+
+
+            <div
+                    class="profile-friend"
+                    th:each="friend : ${friends}">
+
+
+                <!-- YOU ARE THE REQUESTER -->
+
+                <div
+                        th:if="${friend.requester.id == user.id}"
+                        class="profile-friend-content">
+
+
+                    <div class="friend-avatar">
+
+                        <img
+                                th:if="${friend.receiver.profilePictureUrl != null and !friend.receiver.profilePictureUrl.isEmpty()}"
+                                th:src="${friend.receiver.profilePictureUrl}"
+                                alt="Profile picture">
+
+
+                        <span
+                                th:unless="${friend.receiver.profilePictureUrl != null and !friend.receiver.profilePictureUrl.isEmpty()}">
+
+                        <span
+                                th:text="${friend.receiver.username.substring(0, 1).toUpperCase()}">
+
+                            U
+
+                        </span>
+
+                    </span>
+
+                    </div>
+
+
+                    <div class="profile-friend-name">
+
+                        <a
+                                th:href="@{/profile/{userId}(userId=${friend.receiver.id})}"
+                                th:text="${friend.receiver.username}">
+
+                            Username
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- YOU ARE THE RECEIVER -->
+
+                <div
+                        th:if="${friend.receiver.id == user.id}"
+                        class="profile-friend-content">
+
+
+                    <div class="friend-avatar">
+
+                        <img
+                                th:if="${friend.requester.profilePictureUrl != null and !friend.requester.profilePictureUrl.isEmpty()}"
+                                th:src="${friend.requester.profilePictureUrl}"
+                                alt="Profile picture">
+
+
+                        <span
+                                th:unless="${friend.requester.profilePictureUrl != null and !friend.requester.profilePictureUrl.isEmpty()}">
+
+                        <span
+                                th:text="${friend.requester.username.substring(0, 1).toUpperCase()}">
+
+                            U
+
+                        </span>
+
+                    </span>
+
+                    </div>
+
+
+                    <div class="profile-friend-name">
+
+                        <a
+                                th:href="@{/profile/{userId}(userId=${friend.requester.id})}"
+                                th:text="${friend.requester.username}">
+
+                            Username
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- MY POSTS -->
+    <!-- ============================= -->
+
+    <section class="profile-posts">
+
+        <h2>
+            My Posts
+        </h2>
+
+
+        <div
+                th:if="${#lists.isEmpty(posts)}"
+                class="no-messages">
+
+            <p>
+                You haven't made any posts yet.
+            </p>
+
+        </div>
+
+
+        <div
+                class="profile-post-list"
+                th:unless="${#lists.isEmpty(posts)}">
+
+
+            <article
+                    class="post"
+                    th:each="post : ${posts}">
+
+
+                <div class="post-header">
+
+                    <strong
+                            th:text="${user.username}">
+
+                        Username
+
+                    </strong>
+
+
+                    <span
+                            th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
+
+                    Date
+
+                </span>
+
+                </div>
+
+
+                <div class="post-content">
+
+
+                    <!-- TEXT -->
+
+                    <p
+                            th:if="${post.content != null and !post.content.isEmpty()}"
+                            th:text="${post.content}">
+
+                    </p>
+
+
+                    <!-- IMAGE -->
+
+                    <img
+                            th:if="${post.imageUrl != null and !post.imageUrl.isEmpty()}"
+                            th:src="${post.imageUrl}"
+                            alt="Post image"
+                            class="post-image">
+
+
+                    <!-- SONG -->
+
+                    <div
+                            class="post-song"
+                            th:if="${post.songPreviewUrl != null and !post.songPreviewUrl.isEmpty()}">
+
+
+                        <img
+                                th:src="${post.songImageUrl}"
+                                alt="Album artwork"
+                                class="post-song-image">
+
+
+                        <div class="post-song-info">
+
+                            <strong
+                                    th:text="${post.songTitle}">
+
+                                Song title
+
+                            </strong>
+
+
+                            <span
+                                    th:text="${post.songArtist}">
+
+                            Artist
+
+                        </span>
+
+
+                            <audio
+                                    controls
+                                    preload="none"
+                                    th:src="${post.songPreviewUrl}">
+
+                            </audio>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- EDIT PROFILE -->
+    <!-- ============================= -->
+
+    <section class="profile-edit">
+
+        <h2>
+            Edit Profile
+        </h2>
+
+
+        <form
+                action="/profile"
+                method="post"
+                enctype="multipart/form-data">
+
+
+            <div class="profile-form-group">
+
+                <label for="username">
+                    Name
+                </label>
+
+                <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        th:value="${user.username}"
+                        required>
+
+            </div>
+
+
+            <div class="profile-form-group">
+
+                <label for="profilePicture">
+                    Upload profile picture
+                </label>
+
+                <input
+                        type="file"
+                        id="profilePicture"
+                        name="profilePicture"
+                        accept="image/*">
+
+                <small>
+                    Choose an image from your computer.
+                </small>
+
+            </div>
+
+
+            <div class="profile-form-group">
+
+                <label for="profilePictureUrl">
+                    Or use a profile picture URL
+                </label>
+
+                <input
+                        type="url"
+                        id="profilePictureUrl"
+                        name="profilePictureUrl"
+                        th:value="${user.profilePictureUrl}"
+                        placeholder="https://example.com/photo.jpg">
+
+                <small>
+                    Paste the URL of an image you'd like to use.
+                </small>
+
+            </div>
+
+
+            <div class="profile-buttons">
+
+                <button
+                        type="submit"
+                        class="button button-primary">
+
+                    Save Changes
+
+                </button>
+
+
+                <a
+                        href="/posts"
+                        class="button button-secondary">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- DELETE PROFILE -->
+    <!-- ============================= -->
+
+    <section class="profile-delete">
+
+        <h2>
+            Delete Profile
+        </h2>
+
+
+        <p>
+            Deleting your profile is permanent.
+            Your posts, comments, likes, friendships
+            and messages will also be deleted.
+        </p>
+
+
+        <form
+                action="/profile/delete"
+                method="post"
+                onsubmit="return confirm('Are you sure you want to permanently delete your profile? This cannot be undone.');">
+
+            <button
+                    type="submit"
+                    class="button delete-button">
+
+                Delete Profile
+
+            </button>
+
+        </form>
+
+    </section>
+
+
 </main>
+
+
+
+<!-- ============================= -->
+<!-- iTUNES SEARCH -->
+<!-- ============================= -->
+
+<script>
+
+    const songSearchForm =
+        document.getElementById("songSearchForm");
+
+    const songSearch =
+        document.getElementById("songSearch");
+
+    const songResults =
+        document.getElementById("songResults");
+
+
+    songSearchForm.addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const query =
+                songSearch.value.trim();
+
+
+            if (!query) {
+                return;
+            }
+
+
+            songResults.innerHTML =
+                "<p>Searching...</p>";
+
+
+            fetch(
+                "/songs/search?query="
+                + encodeURIComponent(query)
+            )
+
+                .then(response => response.json())
+
+                .then(songs => {
+
+                    songResults.innerHTML = "";
+
+
+                    if (songs.length === 0) {
+
+                        songResults.innerHTML =
+                            "<p>No songs found.</p>";
+
+                        return;
+
+                    }
+
+
+                    songs.forEach(song => {
+
+                        if (!song.previewUrl) {
+                            return;
+                        }
+
+
+                        const card =
+                            document.createElement("div");
+
+                        card.className =
+                            "song-search-result";
+
+
+                        card.innerHTML = `
+
+                                    <img
+                                        src="${song.artworkUrl100}"
+                                        alt="Album artwork">
+
+                                    <div class="song-search-info">
+
+                                        <strong>
+                                            ${song.trackName}
+                                        </strong>
+
+                                        <span>
+                                            ${song.artistName}
+                                        </span>
+
+                                    </div>
+
+                                    <form
+                                        action="/profile/favourite-song"
+                                        method="post">
+
+                                        <input
+                                            type="hidden"
+                                            name="title"
+                                            value="${song.trackName}">
+
+                                        <input
+                                            type="hidden"
+                                            name="artist"
+                                            value="${song.artistName}">
+
+                                        <input
+                                            type="hidden"
+                                            name="imageUrl"
+                                            value="${song.artworkUrl100}">
+
+                                        <input
+                                            type="hidden"
+                                            name="previewUrl"
+                                            value="${song.previewUrl}">
+
+                                        <button
+                                            type="submit"
+                                            class="button button-secondary">
+
+                                            Select
+
+                                        </button>
+
+                                    </form>
+
+                                `;
+
+
+                        songResults.appendChild(card);
+
+                    });
+
+                })
+
+                .catch(error => {
+
+                    console.error(error);
+
+                    songResults.innerHTML =
+                        "<p>There was a problem searching for songs.</p>";
+
+                });
+
+        }
+
+    );
+
+</script>
+
 
 </body>
 

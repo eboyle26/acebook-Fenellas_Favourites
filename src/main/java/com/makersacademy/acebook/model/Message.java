@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "MESSAGES")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class Message {
 
@@ -32,15 +33,18 @@ public class Message {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+
     public Message(
-            Long senderId, Long receiverId, String content, Boolean read, LocalDateTime createdAt
-    ){
+            Long senderId,
+            Long receiverId,
+            String content,
+            Boolean read,
+            LocalDateTime createdAt
+    ) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.content = content;
         this.read = read;
         this.createdAt = createdAt;
     }
-
-
 }

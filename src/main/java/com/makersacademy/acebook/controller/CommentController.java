@@ -1,9 +1,11 @@
 package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Comment;
+import com.makersacademy.acebook.model.Notification;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.CommentRepository;
+import com.makersacademy.acebook.repository.NotificationRepository;
 import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -32,6 +34,9 @@ public class CommentController {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     @GetMapping("/posts/{postId}/comments")
     public String index(
             @PathVariable Long postId,
@@ -42,9 +47,6 @@ public class CommentController {
                         HttpStatus.NOT_FOUND,
                         "Post not found"
                 ));
-
-//        Iterable<Comment> comments =
-//                commentRepository.findByPostId(postId);
 
         List<Comment> comments =
                 commentRepository.findByPostIdOrderByCreatedAtAsc(postId);
@@ -83,7 +85,24 @@ public class CommentController {
         comment.setUserId(currentUser.getId());
         comment.setCreatedAt(LocalDateTime.now());
 
-        commentRepository.save(comment);
+        Comment savedComment = commentRepository.save(comment);
+
+        Post post = postRepository
+                .findById(savedComment.getPostId())
+                .orElseThrow();
+
+        if (!post.getUserId().equals(currentUser.getId())) {
+            Notification notification = new Notification(
+                    post.getUserId(),
+                    currentUser.getId(),
+                    "POST_COMMENT",
+                    savedComment.getId(),
+                    post.getId(),
+                    currentUser.getUsername() + " commented on your post"
+            );
+
+            notificationRepository.save(notification);
+        }
 
         return new RedirectView("/posts/" + postId + "/comments");
     }
