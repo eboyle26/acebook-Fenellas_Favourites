@@ -1,8 +1,10 @@
 package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Message;
+import com.makersacademy.acebook.model.Notification;
 import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.MessageRepository;
+import com.makersacademy.acebook.repository.NotificationRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +28,9 @@ public class MessageController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
     @GetMapping("/messages/{receiverId}")
     public String index(
@@ -65,14 +70,8 @@ public class MessageController {
                         );
 
         model.addAttribute("messages", messages);
-
-        // Used by the template to identify the logged-in user
         model.addAttribute("currentUser", currentUser);
-
-        // Used by the template to display who we're messaging
         model.addAttribute("receiver", receiver);
-
-        // Used by the message form
         model.addAttribute("submittedMessage", new Message());
 
         return "messages/index";
@@ -120,7 +119,18 @@ public class MessageController {
         newMessage.setRead(false);
         newMessage.setCreatedAt(LocalDateTime.now());
 
-        messageRepository.save(newMessage);
+        Message savedMessage = messageRepository.save(newMessage);
+
+        Notification notification = new Notification(
+                savedMessage.getReceiverId(),
+                currentUser.getId(),
+                "NEW_MESSAGE",
+                savedMessage.getId(),
+                null,
+                currentUser.getUsername() + " sent you a message"
+        );
+
+        notificationRepository.save(notification);
 
         return new RedirectView("/messages/" + receiverId);
     }

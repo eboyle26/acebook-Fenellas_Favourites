@@ -2,6 +2,7 @@ package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Friend;
 import com.makersacademy.acebook.model.Like;
+import com.makersacademy.acebook.model.Notification;
 import com.makersacademy.acebook.model.Message;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
@@ -44,6 +45,8 @@ public class PostsController {
     CommentRepository commentRepository;
 
     @Autowired
+    NotificationRepository notificationRepository;
+
     FriendRepository friendRepository;
 
     @Autowired
@@ -282,11 +285,9 @@ public class PostsController {
         // IMAGE UPLOAD
         // ==========================================
 
-        // Only save an image if the user selected one
         if (!image.isEmpty()) {
 
-            Path uploadPath =
-                    Paths.get("uploads");
+            Path uploadPath = Paths.get("uploads");
 
             if (!Files.exists(uploadPath)) {
 
@@ -295,11 +296,7 @@ public class PostsController {
                 );
             }
 
-
-            // Give the image a unique filename
-            String originalFilename =
-                    image.getOriginalFilename();
-
+            String originalFilename = image.getOriginalFilename();
             String extension = "";
 
             if (originalFilename != null
@@ -327,13 +324,10 @@ public class PostsController {
                     StandardCopyOption.REPLACE_EXISTING
             );
 
-
-            // Store the URL/path in the database
-            post.setImageUrl(
-                    "/uploads/" + fileName
-            );
+            post.setImageUrl("/uploads/" + fileName);
         }
 
+        postRepository.save(post);
 
         // ==========================================
         // SAVE POST
@@ -474,18 +468,28 @@ public class PostsController {
 
                         // Already liked -> remove like
                         existingLike ->
-                                likeRepository.delete(
-                                        existingLike
-                                ),
+                                likeRepository.delete(existingLike),
+                        () -> {
+                            Like like = new Like(postId, currentUser.getId());
+                            Like savedLike = likeRepository.save(like);
 
-                        // Not liked -> create like
-                        () ->
-                                likeRepository.save(
-                                        new Like(
-                                                postId,
-                                                currentUser.getId()
-                                        )
-                                )
+                            Post post = postRepository
+                                    .findById(savedLike.getPostId())
+                                    .orElseThrow();
+
+                            if (!post.getUserId().equals(currentUser.getId())) {
+                                Notification notification = new Notification(
+                                        post.getUserId(),
+                                        currentUser.getId(),
+                                        "POST_LIKE",
+                                        savedLike.getId(),
+                                        post.getId(),
+                                        currentUser.getUsername() + " liked your post"
+                                );
+
+                                notificationRepository.save(notification);
+                            }
+                        }
                 );
 
 
