@@ -47,6 +47,7 @@ public class PostsController {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
     FriendRepository friendRepository;
 
     @Autowired
