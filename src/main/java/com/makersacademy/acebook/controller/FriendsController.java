@@ -45,7 +45,7 @@ public class FriendsController {
                 .orElseThrow();
 
 
-        // Accepted friends
+
         List<Friend> acceptedFriends =
                 friendRepository.findByRequesterOrReceiverAndStatus(
                         user,

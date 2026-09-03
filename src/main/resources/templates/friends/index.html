@@ -24,6 +24,7 @@
 
 <nav class="navbar">
 
+
   <div class="navbar-content">
 
     <div class="logo">
@@ -32,33 +33,53 @@
 
     <div class="navigation-links">
 
-      <a href="/posts">Home</a>
+      <a href="/posts">
+        Home
+      </a>
 
-      <a href="/profile">Profile</a>
+      <a href="/profile">
+        Profile
+      </a>
 
       <a href="/friends" id="friends_button">
         Friends
       </a>
 
-      <div sec:authorize="isAuthenticated()"
-           class="user-info"
-           id="greeting">
+      <a href="/messages">
+        Messages
+      </a>
+
+      <a href="/notifications" class="notification-nav-link">
+        Notifications
+
+        <span
+                th:if="${unreadCount > 0}"
+                class="notification-dot">
+            </span>
+
+      </a>
+
+      <div
+              sec:authorize="isAuthenticated()"
+              class="user-info"
+              id="greeting">
 
         <span>Signed in as</span>
 
-        <strong sec:authentication="principal.attributes['email']">
+        <strong
+                sec:authentication="principal.attributes['email']">
         </strong>
 
       </div>
 
-      <form
-              th:action="@{/logout}"
-              method="post">
+      <form th:action="@{/logout}" method="post">
 
         <button
                 type="submit"
                 class="logout-button">
+
           Log out
+
         </button>
 
       </form>
@@ -68,7 +89,6 @@
   </div>
 
 </nav>
-
 
 <!-- ========================= -->
 <!-- MAIN CONTENT -->
@@ -166,18 +186,12 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- FIND PEOPLE -->
-  <!-- ========================= -->
-
   <section class="find-friends card">
 
     <h2 id="find-friends-header">
       Find people
     </h2>
 
-
-    <!-- Search users -->
 
     <input
             type="text"
@@ -192,8 +206,6 @@
             id="usersList">
 
 
-      <!-- Users -->
-
       <div
               class="user-card"
               th:each="user : ${users}"
@@ -202,7 +214,6 @@
               th:attr="data-username=${user.username}">
 
 
-        <!-- Profile picture -->
 
         <div class="friend-avatar">
 
@@ -266,10 +277,6 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- CURRENT FRIENDS -->
-  <!-- ========================= -->
-
   <section class="friends-section">
 
     <h2 id="your-friends-header">
@@ -277,7 +284,6 @@
     </h2>
 
 
-    <!-- Search existing friends -->
 
     <input
             type="text"
@@ -289,10 +295,6 @@
 
     <div id="friendsList">
 
-
-      <!-- ================================= -->
-      <!-- YOU SENT THE FRIEND REQUEST -->
-      <!-- ================================= -->
 
       <div
               class="friend-card"
@@ -376,10 +378,6 @@
 
       </div>
 
-
-      <!-- ================================= -->
-      <!-- YOU RECEIVED THE FRIEND REQUEST -->
-      <!-- ================================= -->
 
       <div
               class="friend-card"
@@ -493,17 +491,9 @@
 </main>
 
 
-<!-- ========================= -->
-<!-- SEARCH JAVASCRIPT -->
-<!-- ========================= -->
-
 <script>
 
-  /*
-   * =========================
-   * FIND PEOPLE SEARCH
-   * =========================
-   */
+
 
   const userSearch =
           document.getElementById("userSearch");
@@ -560,12 +550,6 @@
 
   });
 
-
-  /*
-   * =========================
-   * FRIEND SEARCH
-   * =========================
-   */
 
   const friendSearch =
           document.getElementById("friendSearch");
