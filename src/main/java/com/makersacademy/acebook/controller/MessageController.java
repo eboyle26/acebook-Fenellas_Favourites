@@ -3,7 +3,6 @@ package com.makersacademy.acebook.controller;
 import com.makersacademy.acebook.model.Message;
 import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.MessageRepository;
-import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class MessageController {
@@ -29,8 +27,11 @@ public class MessageController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/messages/{receiver_id}")
-    public String index(Model model, @PathVariable Long receiver_id){
+    @GetMapping("/messages/{receiverId}")
+    public String index(
+            Model model,
+            @PathVariable Long receiverId
+    ) {
 
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
@@ -46,28 +47,43 @@ public class MessageController {
                         )
                 );
 
-        List<Message> messages = messageRepository
-                .findBySenderIdAndReceiverIdOrSenderIdAndReceiverIdOrderByCreatedAtAsc(
-                        currentUser.getId(),
-                        receiver_id,
-                        receiver_id,
-                        currentUser.getId()
+        User receiver = userRepository
+                .findById(receiverId)
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "Receiver not found"
+                        )
                 );
 
-
+        List<Message> messages =
+                messageRepository
+                        .findBySenderIdAndReceiverIdOrSenderIdAndReceiverIdOrderByCreatedAtAsc(
+                                currentUser.getId(),
+                                receiverId,
+                                receiverId,
+                                currentUser.getId()
+                        );
 
         model.addAttribute("messages", messages);
-        model.addAttribute("currentUserId", currentUser.getId());
-        model.addAttribute("receiverId", receiver_id);
-        model.addAttribute("newMessage", new Message());
+
+        // Used by the template to identify the logged-in user
+        model.addAttribute("currentUser", currentUser);
+
+        // Used by the template to display who we're messaging
+        model.addAttribute("receiver", receiver);
+
+        // Used by the message form
+        model.addAttribute("submittedMessage", new Message());
+
         return "messages/index";
     }
 
     @PostMapping("/messages/{receiverId}")
     public RedirectView create(
             @PathVariable Long receiverId,
-            @ModelAttribute("newMessage") Message submittedMessage
+            @ModelAttribute("submittedMessage") Message submittedMessage
     ) {
+
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
                         .getContext()
@@ -82,7 +98,8 @@ public class MessageController {
                         )
                 );
 
-        userRepository.findById(receiverId)
+        userRepository
+                .findById(receiverId)
                 .orElseThrow(() ->
                         new IllegalStateException(
                                 "Receiver not found"
@@ -91,6 +108,7 @@ public class MessageController {
 
         if (submittedMessage.getContent() == null
                 || submittedMessage.getContent().isBlank()) {
+
             return new RedirectView("/messages/" + receiverId);
         }
 
@@ -99,6 +117,7 @@ public class MessageController {
         newMessage.setSenderId(currentUser.getId());
         newMessage.setReceiverId(receiverId);
         newMessage.setContent(submittedMessage.getContent().trim());
+        newMessage.setRead(false);
         newMessage.setCreatedAt(LocalDateTime.now());
 
         messageRepository.save(newMessage);

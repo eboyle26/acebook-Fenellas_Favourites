@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Messages - Acebook</title>
+
+    <link rel="stylesheet" href="/main.css">
+
+</head>
+
+<body>
+
+<!-- Nav bar -->
+
+<nav class="navbar">
+
+    <div class="navbar-content">
+
+        <div class="logo">
+            Acebook
+        </div>
+
+        <div class="navigation-links">
+
+            <a href="/posts">Home</a>
+
+            <a href="/profile">Profile</a>
+
+            <a href="/friends" id="friends_button">Friends</a>
+
+            <div sec:authorize="isAuthenticated()"
+                 class="user-info"
+                 id="greeting">
+
+                <span>Signed in as</span>
+
+                <strong sec:authentication="principal.attributes['email']"></strong>
+
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+
+                <button type="submit" class="logout-button">
+                    Log out
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- Main content -->
+
+<main class="main-container">
+
+    <div class="messages-container">
+
+        <!-- Messages header -->
+
+        <div class="messages-header">
+
+            <a href="/friends">
+                &larr; Back to Friends
+            </a>
+
+            <h1>
+                Messages
+            </h1>
+
+            <div class="message-recipient">
+
+                <div class="avatar">
+
+                    <img
+                            th:if="${receiver != null and receiver.profilePictureUrl != null}"
+                            th:src="${receiver.profilePictureUrl}"
+                            alt="Profile picture">
+
+                </div>
+
+                <strong
+                        th:if="${receiver != null}"
+                        th:text="${receiver.username}">
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- Messages -->
+
+        <div class="message-list">
+
+            <div
+                    th:each="message : ${messages}"
+                    class="message"
+                    th:classappend="${message.senderId == currentUser.id} ? ' message-sent' : ' message-received'">
+
+                <div class="message-bubble">
+
+                    <p
+                            th:text="${message.content}">
+                    </p>
+
+                    <span
+                            class="message-time"
+                            th:text="${#temporals.format(message.createdAt, 'dd/MM/yyyy HH:mm')}">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- No messages -->
+
+            <div
+                    th:if="${#lists.isEmpty(messages)}"
+                    class="no-messages">
+
+                <p>
+                    No messages yet, why not start a conversation!
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Send message -->
+
+        <div class="message-form">
+
+            <form
+                    th:action="@{/messages/{receiverId}(receiverId=${receiver.id})}"
+                    th:object="${submittedMessage}"
+                    method="post">
+
+                <textarea
+                        th:field="*{content}"
+                        placeholder="Write a message..."
+                        rows="3"
+                        required>
+                </textarea>
+
+                <button
+                        type="submit"
+                        class="button button-primary">
+
+                    Send
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>
