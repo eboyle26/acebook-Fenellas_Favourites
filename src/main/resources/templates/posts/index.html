@@ -26,9 +26,9 @@
 
             <a href="/posts">Home</a>
             <a href="/profile">Profile</a>
-            <a href="/friends">Friends</a>
+            <a href="/friends" id="friends_button">Friends</a>
 
-            <div sec:authorize="isAuthenticated()" class="user-info">
+            <div sec:authorize="isAuthenticated()" class="user-info" id="greeting">
                 <span>Signed in as</span>
                 <strong sec:authentication="principal.attributes['email']"></strong>
             </div>
