@@ -22,6 +22,11 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
             Long receiverIdTwo
     );
 
+    List<Message> findBySenderIdOrReceiverIdOrderByCreatedAtDesc(
+            Long senderId,
+            Long receiverId
+    );
+
     void deleteBySenderId(Long senderId);
 
     void deleteByReceiverId(Long receiverId);

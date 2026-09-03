@@ -38,6 +38,15 @@
                 Messages
             </a>
 
+            <a href="/notifications" class="notification-nav-link">
+                Notifications
+
+                <span
+                        th:if="${unreadCount > 0}"
+                        class="notification-dot">
+                </span>
+            </a>
+
             <div
                     sec:authorize="isAuthenticated()"
                     class="user-info"
@@ -501,6 +510,34 @@
                 View all friends →
 
             </a>
+
+
+            <div class="notifications-sidebar">
+
+                <!-- Sidebar heading -->
+                <div class="notifications-sidebar-header">
+
+                    <h2>
+                        Notifications
+
+                        <span
+                                th:if="${unreadCount > 0}"
+                                class="notification-sidebar-dot">
+            </span>
+                    </h2>
+
+                </div>
+
+                <!-- Notification link -->
+                <a
+                        href="/notifications"
+                        class="view-notifications-link">
+
+                    View notifications →
+
+                </a>
+
+            </div>
 
         </aside>
 
