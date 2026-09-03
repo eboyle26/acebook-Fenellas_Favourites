@@ -1,6 +1,7 @@
 package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.User;
+import com.makersacademy.acebook.repository.NotificationRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class UserControllerTest {
 
     @MockitoBean
     private UserRepository userRepository;
+
+    @MockitoBean
+    private NotificationRepository notificationRepository;
 
     @Test
     void existingUserNotCreatedAgain() throws Exception {

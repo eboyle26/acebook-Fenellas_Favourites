@@ -1,7 +1,7 @@
 package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.User;
-import com.makersacademy.acebook.repository.UserRepository;
+import com.makersacademy.acebook.repository.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,12 +13,9 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.BDDAssertions.and;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,6 +31,24 @@ public class ProfileControllerTest {
 
     @MockitoBean
     private UserRepository userRepository;
+
+    @MockitoBean
+    private NotificationRepository notificationRepository;
+
+    @MockitoBean
+    private CommentRepository commentRepository;
+
+    @MockitoBean
+    private FriendRepository friendRepository;
+
+    @MockitoBean
+    private LikeRepository likeRepository;
+
+    @MockitoBean
+    private PostRepository postRepository;
+
+    @MockitoBean
+    private MessageRepository messageRepository;
 
     @Test
     void getProfileAtSignIn() throws Exception {
