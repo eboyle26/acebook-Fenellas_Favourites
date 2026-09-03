@@ -1,12 +1,10 @@
 package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Like;
+import com.makersacademy.acebook.model.Notification;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
-import com.makersacademy.acebook.repository.LikeRepository;
-import com.makersacademy.acebook.repository.CommentRepository;
-import com.makersacademy.acebook.repository.PostRepository;
-import com.makersacademy.acebook.repository.UserRepository;
+import com.makersacademy.acebook.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,6 +40,9 @@ public class PostsController {
 
     @Autowired
     CommentRepository commentRepository;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
 
     @GetMapping("/posts")
@@ -144,17 +145,14 @@ public class PostsController {
         post.setUserId(databaseUserId);
         post.setDateTime(LocalDateTime.now());
 
-        // Only save an image if the user selected one
         if (!image.isEmpty()) {
 
-            // Create uploads folder if it doesn't exist
             Path uploadPath = Paths.get("uploads");
 
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-            // Give the image a unique filename
             String originalFilename = image.getOriginalFilename();
             String extension = "";
 
@@ -174,11 +172,9 @@ public class PostsController {
                     StandardCopyOption.REPLACE_EXISTING
             );
 
-            // Store the URL/path in the database
             post.setImageUrl("/uploads/" + fileName);
         }
 
-        // Save the post, including any selected song information
         postRepository.save(post);
 
         return new RedirectView("/posts");
@@ -216,13 +212,27 @@ public class PostsController {
                 .ifPresentOrElse(
                         existingLike ->
                                 likeRepository.delete(existingLike),
-                        () ->
-                                likeRepository.save(
-                                        new Like(
-                                                postId,
-                                                currentUser.getId()
-                                        )
-                                )
+                        () -> {
+                            Like like = new Like(postId, currentUser.getId());
+                            Like savedLike = likeRepository.save(like);
+
+                            Post post = postRepository
+                                    .findById(savedLike.getPostId())
+                                    .orElseThrow();
+
+                            if (!post.getUserId().equals(currentUser.getId())) {
+                                Notification notification = new Notification(
+                                        post.getUserId(),
+                                        currentUser.getId(),
+                                        "POST_LIKE",
+                                        savedLike.getId(),
+                                        post.getId(),
+                                        currentUser.getUsername() + " liked your post"
+                                );
+
+                                notificationRepository.save(notification);
+                            }
+                        }
                 );
 
         return new RedirectView("/posts");
