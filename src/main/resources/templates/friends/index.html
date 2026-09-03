@@ -18,7 +18,6 @@
 
 <body>
 
-
 <!-- ========================= -->
 <!-- NAVIGATION BAR -->
 <!-- ========================= -->
@@ -37,7 +36,9 @@
 
       <a href="/profile">Profile</a>
 
-      <a href="/friends" id="friends_button">Friends</a>
+      <a href="/friends" id="friends_button">
+        Friends
+      </a>
 
       <div sec:authorize="isAuthenticated()"
            class="user-info"
@@ -45,13 +46,18 @@
 
         <span>Signed in as</span>
 
-        <strong sec:authentication="principal.attributes['email']"></strong>
+        <strong sec:authentication="principal.attributes['email']">
+        </strong>
 
       </div>
 
-      <form th:action="@{/logout}" method="post">
+      <form
+              th:action="@{/logout}"
+              method="post">
 
-        <button type="submit" class="logout-button">
+        <button
+                type="submit"
+                class="logout-button">
           Log out
         </button>
 
@@ -97,13 +103,15 @@
       <div class="friend-avatar">
 
         <img
-                th:if="${friend.requester.profilePictureUrl != null}"
+                th:if="${friend.requester.profilePictureUrl != null
+                                and !friend.requester.profilePictureUrl.isEmpty()}"
                 th:src="${friend.requester.profilePictureUrl}"
                 alt="Profile picture"
         />
 
         <span
-                th:if="${friend.requester.profilePictureUrl == null}">
+                th:unless="${friend.requester.profilePictureUrl != null
+                                    and !friend.requester.profilePictureUrl.isEmpty()}">
                     U
                 </span>
 
@@ -129,9 +137,7 @@
             <button
                     type="submit"
                     class="button button-primary">
-
               Accept
-
             </button>
 
           </form>
@@ -146,9 +152,7 @@
             <button
                     type="submit"
                     class="button button-secondary">
-
               Reject
-
             </button>
 
           </form>
@@ -193,7 +197,8 @@
       <div
               class="user-card"
               th:each="user : ${users}"
-              th:if="${user.id != currentUser.id and !unavailableUserIds.contains(user.id)}"
+              th:if="${user.id != currentUser.id
+                            and !unavailableUserIds.contains(user.id)}"
               th:attr="data-username=${user.username}">
 
 
@@ -202,13 +207,15 @@
         <div class="friend-avatar">
 
           <img
-                  th:if="${user.profilePictureUrl != null}"
+                  th:if="${user.profilePictureUrl != null
+                                    and !user.profilePictureUrl.isEmpty()}"
                   th:src="${user.profilePictureUrl}"
                   alt="Profile picture"
           />
 
           <span
-                  th:if="${user.profilePictureUrl == null}">
+                  th:unless="${user.profilePictureUrl != null
+                                        and !user.profilePictureUrl.isEmpty()}">
                         U
                     </span>
 
@@ -236,9 +243,7 @@
           <button
                   type="submit"
                   class="button button-primary">
-
             Add friend
-
           </button>
 
         </form>
@@ -301,13 +306,15 @@
         <div class="friend-avatar">
 
           <img
-                  th:if="${friend.receiver.profilePictureUrl != null}"
+                  th:if="${friend.receiver.profilePictureUrl != null
+                                    and !friend.receiver.profilePictureUrl.isEmpty()}"
                   th:src="${friend.receiver.profilePictureUrl}"
                   alt="Profile picture"
           />
 
           <span
-                  th:if="${friend.receiver.profilePictureUrl == null}">
+                  th:unless="${friend.receiver.profilePictureUrl != null
+                                        and !friend.receiver.profilePictureUrl.isEmpty()}">
                         U
                     </span>
 
@@ -329,7 +336,7 @@
             <!-- View posts -->
 
             <a
-                    th:href="@{/posts(userId=${friend.receiver.id})}"
+                    th:href="@{/profile/{userId}(userId=${friend.receiver.id})}"
                     class="button button-secondary">
 
               View posts
@@ -387,13 +394,15 @@
         <div class="friend-avatar">
 
           <img
-                  th:if="${friend.requester.profilePictureUrl != null}"
+                  th:if="${friend.requester.profilePictureUrl != null
+                                    and !friend.requester.profilePictureUrl.isEmpty()}"
                   th:src="${friend.requester.profilePictureUrl}"
                   alt="Profile picture"
           />
 
           <span
-                  th:if="${friend.requester.profilePictureUrl == null}">
+                  th:unless="${friend.requester.profilePictureUrl != null
+                                        and !friend.requester.profilePictureUrl.isEmpty()}">
                         U
                     </span>
 
@@ -415,7 +424,7 @@
             <!-- View posts -->
 
             <a
-                    th:href="@{/posts(userId=${friend.requester.id})}"
+                    th:href="@{/profile/{userId}(userId=${friend.requester.id})}"
                     class="button button-secondary">
 
               View posts

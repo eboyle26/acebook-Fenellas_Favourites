@@ -1,7 +1,9 @@
 package com.makersacademy.acebook.controller;
 
+import com.makersacademy.acebook.model.Friend;
 import com.makersacademy.acebook.model.Like;
 import com.makersacademy.acebook.model.Notification;
+import com.makersacademy.acebook.model.Message;
 import com.makersacademy.acebook.model.Post;
 import com.makersacademy.acebook.model.User;
 import com.makersacademy.acebook.repository.*;
@@ -24,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -44,6 +47,15 @@ public class PostsController {
     @Autowired
     NotificationRepository notificationRepository;
 
+    FriendRepository friendRepository;
+
+    @Autowired
+    MessageRepository messageRepository;
+
+
+    // ==========================================
+    // GET POSTS
+    // ==========================================
 
     @GetMapping("/posts")
     public String index(Model model) {
@@ -58,7 +70,10 @@ public class PostsController {
         Map<Long, Boolean> userLikes = new HashMap<>();
 
 
-        // Get the currently logged-in user
+        // ==========================================
+        // GET CURRENT USER
+        // ==========================================
+
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
                         .getContext()
@@ -75,9 +90,12 @@ public class PostsController {
                         );
 
 
+        // ==========================================
+        // GET POST USERS + LIKES
+        // ==========================================
+
         for (Post post : posts) {
 
-            // Get the user who made the post
             User user =
                     userRepository
                             .findById(post.getUserId())
@@ -88,15 +106,11 @@ public class PostsController {
                     user
             );
 
-
-            // Count how many likes the post has
             likeCounts.put(
                     post.getId(),
                     likeRepository.countByPostId(post.getId())
             );
 
-
-            // Check whether the current user has liked the post
             userLikes.put(
                     post.getId(),
                     likeRepository
@@ -109,16 +123,130 @@ public class PostsController {
         }
 
 
-        model.addAttribute("posts", posts);
-        model.addAttribute("users", users);
-        model.addAttribute("post", new Post());
+        // ==========================================
+        // GET ACCEPTED FRIENDS
+        // ==========================================
 
-        model.addAttribute("likeCounts", likeCounts);
-        model.addAttribute("userLikes", userLikes);
+        List<Friend> acceptedFriends =
+                friendRepository.findByRequesterOrReceiverAndStatus(
+                        currentUser,
+                        currentUser,
+                        Friend.Status.ACCEPTED
+                );
+
+
+        // ==========================================
+        // GET RECENT CONVERSATIONS
+        // ==========================================
+
+        Map<Long, Message> recentConversations =
+                new HashMap<>();
+
+        Map<Long, User> conversationUsers =
+                new HashMap<>();
+
+
+        for (Friend friendship : acceptedFriends) {
+
+            User friend;
+
+            // If current user sent the request,
+            // the friend is the receiver
+            if (friendship.getRequester().getId()
+                    .equals(currentUser.getId())) {
+
+                friend = friendship.getReceiver();
+
+            } else {
+
+                // Otherwise the friend is the requester
+                friend = friendship.getRequester();
+            }
+
+
+            // Find the newest message between
+            // the current user and this friend
+            Optional<Message> latestMessage =
+                    messageRepository
+                            .findTopBySenderIdAndReceiverIdOrSenderIdAndReceiverIdOrderByCreatedAtDesc(
+                                    currentUser.getId(),
+                                    friend.getId(),
+                                    friend.getId(),
+                                    currentUser.getId()
+                            );
+
+
+            // Only add them if they have
+            // actually had a conversation
+            if (latestMessage.isPresent()) {
+
+                recentConversations.put(
+                        friend.getId(),
+                        latestMessage.get()
+                );
+
+                conversationUsers.put(
+                        friend.getId(),
+                        friend
+                );
+            }
+        }
+
+
+        // ==========================================
+        // SEND DATA TO THYMELEAF
+        // ==========================================
+
+        model.addAttribute(
+                "posts",
+                posts
+        );
+
+        model.addAttribute(
+                "users",
+                users
+        );
+
+        model.addAttribute(
+                "post",
+                new Post()
+        );
+
+        model.addAttribute(
+                "likeCounts",
+                likeCounts
+        );
+
+        model.addAttribute(
+                "userLikes",
+                userLikes
+        );
+
+        model.addAttribute(
+                "recentConversations",
+                recentConversations
+        );
+
+        model.addAttribute(
+                "conversationUsers",
+                conversationUsers
+        );
+
+        // This was missing and caused the
+        // Thymeleaf currentUser.id error
+        model.addAttribute(
+                "currentUser",
+                currentUser
+        );
 
 
         return "posts/index";
     }
+
+
+    // ==========================================
+    // CREATE POST
+    // ==========================================
 
     @PostMapping("/posts")
     public RedirectView create(
@@ -132,39 +260,63 @@ public class PostsController {
                         .getAuthentication()
                         .getPrincipal();
 
-        User currentUser = userRepository
-                .findByOktaUserId(principal.getSubject())
-                .orElseThrow(() ->
-                        new IllegalStateException(
-                                "User not found in local database"
-                        )
-                );
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(principal.getSubject())
+                        .orElseThrow(() ->
+                                new IllegalStateException(
+                                        "User not found in local database"
+                                )
+                        );
 
-        Long databaseUserId = currentUser.getId();
+        Long databaseUserId =
+                currentUser.getId();
 
-        post.setUserId(databaseUserId);
-        post.setDateTime(LocalDateTime.now());
+        post.setUserId(
+                databaseUserId
+        );
+
+        post.setDateTime(
+                LocalDateTime.now()
+        );
+
+
+        // ==========================================
+        // IMAGE UPLOAD
+        // ==========================================
 
         if (!image.isEmpty()) {
 
             Path uploadPath = Paths.get("uploads");
 
             if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
+
+                Files.createDirectories(
+                        uploadPath
+                );
             }
 
             String originalFilename = image.getOriginalFilename();
             String extension = "";
 
-            if (originalFilename != null && originalFilename.contains(".")) {
-                extension = originalFilename.substring(
-                        originalFilename.lastIndexOf(".")
-                );
+            if (originalFilename != null
+                    && originalFilename.contains(".")) {
+
+                extension =
+                        originalFilename.substring(
+                                originalFilename.lastIndexOf(".")
+                        );
             }
 
-            String fileName = UUID.randomUUID() + extension;
 
-            Path filePath = uploadPath.resolve(fileName);
+            String fileName =
+                    UUID.randomUUID() + extension;
+
+            Path filePath =
+                    uploadPath.resolve(
+                            fileName
+                    );
+
 
             Files.copy(
                     image.getInputStream(),
@@ -177,21 +329,30 @@ public class PostsController {
 
         postRepository.save(post);
 
-        return new RedirectView("/posts");
+        // ==========================================
+        // SAVE POST
+        // ==========================================
+
+        // This also saves any selected song information
+        postRepository.save(
+                post
+        );
+
+        return new RedirectView(
+                "/posts"
+        );
     }
+
+
+    // ==========================================
+    // DELETE POST
+    // ==========================================
 
     @PostMapping("/posts/{postId}/delete")
     @Transactional
-    public RedirectView deletePost(@PathVariable Long postId) {
-
-        commentRepository.deleteByPostId(postId);
-        postRepository.deleteById(postId);
-
-        return new RedirectView("/posts");
-    }
-
-    @PostMapping("/posts/{postId}/like")
-    public RedirectView likes(@PathVariable Long postId) {
+    public RedirectView deletePost(
+            @PathVariable Long postId
+    ) {
 
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
@@ -199,17 +360,113 @@ public class PostsController {
                         .getAuthentication()
                         .getPrincipal();
 
-        User currentUser = userRepository
-                .findByOktaUserId(principal.getSubject())
-                .orElseThrow(() ->
-                        new IllegalStateException(
-                                "User not found in local database"
-                        )
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(principal.getSubject())
+                        .orElseThrow(() ->
+                                new IllegalStateException(
+                                        "User not found in local database"
+                                )
+                        );
+
+
+        // Find the post
+        Optional<Post> postOptional =
+                postRepository.findById(
+                        postId
                 );
 
+
+        // If the post doesn't exist,
+        // just return to the posts page
+        if (postOptional.isEmpty()) {
+
+            return new RedirectView(
+                    "/posts"
+            );
+        }
+
+
+        Post post =
+                postOptional.get();
+
+
+        // ==========================================
+        // OWNERSHIP CHECK
+        // ==========================================
+
+        // Make sure the current user owns the post
+        if (!post.getUserId().equals(
+                currentUser.getId()
+        )) {
+
+            return new RedirectView(
+                    "/posts"
+            );
+        }
+
+
+        // ==========================================
+        // DELETE RELATED DATA
+        // ==========================================
+
+        // Delete comments belonging to the post
+        commentRepository.deleteByPostId(
+                postId
+        );
+
+        // Delete likes belonging to the post
+        likeRepository.deleteByPostId(
+                postId
+        );
+
+        // Finally delete the post
+        postRepository.deleteById(
+                postId
+        );
+
+
+        return new RedirectView(
+                "/posts"
+        );
+    }
+
+
+    // ==========================================
+    // LIKE / UNLIKE POST
+    // ==========================================
+
+    @PostMapping("/posts/{postId}/like")
+    public RedirectView likes(
+            @PathVariable Long postId
+    ) {
+
+        DefaultOidcUser principal = (DefaultOidcUser)
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        User currentUser =
+                userRepository
+                        .findByOktaUserId(principal.getSubject())
+                        .orElseThrow(() ->
+                                new IllegalStateException(
+                                        "User not found in local database"
+                                )
+                        );
+
+
+        // Check whether the current user
+        // has already liked this post
         likeRepository
-                .findByPostIdAndUserId(postId, currentUser.getId())
+                .findByPostIdAndUserId(
+                        postId,
+                        currentUser.getId()
+                )
                 .ifPresentOrElse(
+
+                        // Already liked -> remove like
                         existingLike ->
                                 likeRepository.delete(existingLike),
                         () -> {
@@ -235,6 +492,9 @@ public class PostsController {
                         }
                 );
 
-        return new RedirectView("/posts");
+
+        return new RedirectView(
+                "/posts"
+        );
     }
 }
