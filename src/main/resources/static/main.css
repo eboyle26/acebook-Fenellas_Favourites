@@ -2061,6 +2061,137 @@ textarea {
     background-color: #f1f4f1;
 }
 
+/* ==========================================
+   MESSAGE SONG SEARCH
+   ========================================== */
+
+.message-song-search {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.message-song-search label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.song-search-row {
+    display: flex;
+    gap: 10px;
+}
+
+.song-search-row input {
+    flex: 1;
+}
+
+
+/* ==========================================
+   MESSAGE SONG RESULTS
+   ========================================== */
+
+.message-song-search .music-results {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message-song-search .music-result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.message-song-search .music-result img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.music-result-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.music-result-info span {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+
+/* ==========================================
+   SELECTED SONG
+   ========================================== */
+
+.selected-song {
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f5f5f5;
+}
+
+.selected-song img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.selected-song > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ==========================================
+   SONG INSIDE MESSAGE
+   ========================================== */
+
+.message-song-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.message-song-image img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.message-song-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.message-song-info span {
+    opacity: 0.75;
+    font-size: 0.9rem;
+}
+
+.message-song-info audio {
+    width: 220px;
+    max-width: 100%;
+    margin-top: 5px;
+}
+
 
 /* =========================================
    RESPONSIVE DESIGN

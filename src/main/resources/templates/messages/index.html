@@ -15,9 +15,12 @@
 
 </head>
 
+
 <body>
 
-<!-- Nav bar -->
+<!-- ==========================================
+     NAVBAR
+     ========================================== -->
 
 <nav class="navbar">
 
@@ -33,7 +36,9 @@
 
             <a href="/profile">Profile</a>
 
-            <a href="/friends" id="friends_button">Friends</a>
+            <a href="/friends" id="friends_button">
+                Friends
+            </a>
 
             <div sec:authorize="isAuthenticated()"
                  class="user-info"
@@ -41,14 +46,22 @@
 
                 <span>Signed in as</span>
 
-                <strong sec:authentication="principal.attributes['email']"></strong>
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
 
             </div>
 
-            <form th:action="@{/logout}" method="post">
+            <form
+                    th:action="@{/logout}"
+                    method="post">
 
-                <button type="submit" class="logout-button">
+                <button
+                        type="submit"
+                        class="logout-button">
+
                     Log out
+
                 </button>
 
             </form>
@@ -60,13 +73,18 @@
 </nav>
 
 
-<!-- Main content -->
+<!-- ==========================================
+     MAIN CONTENT
+     ========================================== -->
 
 <main class="main-container">
 
     <div class="messages-container">
 
-        <!-- Messages header -->
+
+        <!-- ==========================================
+             MESSAGES HEADER
+             ========================================== -->
 
         <div class="messages-header">
 
@@ -99,7 +117,9 @@
         </div>
 
 
-        <!-- Messages -->
+        <!-- ==========================================
+             MESSAGE LIST
+             ========================================== -->
 
         <div class="message-list">
 
@@ -110,9 +130,70 @@
 
                 <div class="message-bubble">
 
+
+                    <!-- ==========================================
+                         MESSAGE TEXT
+                         ========================================== -->
+
                     <p
+                            th:if="${message.content != null and !message.content.isEmpty()}"
                             th:text="${message.content}">
                     </p>
+
+
+                    <!-- ==========================================
+                         SONG
+                         ========================================== -->
+
+                    <div
+                            th:if="${message.songTitle != null}"
+                            class="message-song-card">
+
+                        <div class="message-song-image">
+
+                            <img
+                                    th:if="${message.songImageUrl != null}"
+                                    th:src="${message.songImageUrl}"
+                                    alt="Album artwork">
+
+                        </div>
+
+
+                        <div class="message-song-info">
+
+                            <strong
+                                    th:text="${message.songTitle}">
+                            </strong>
+
+                            <span
+                                    th:text="${message.songArtist}">
+                            </span>
+
+
+                            <!-- Song preview -->
+
+                            <audio
+                                    th:if="${message.songPreviewUrl != null}"
+                                    controls
+                                    preload="none">
+
+                                <source
+                                        th:src="${message.songPreviewUrl}"
+                                        type="audio/mpeg">
+
+                                Your browser does not support
+                                audio playback.
+
+                            </audio>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==========================================
+                         TIME
+                         ========================================== -->
 
                     <span
                             class="message-time"
@@ -124,7 +205,9 @@
             </div>
 
 
-            <!-- No messages -->
+            <!-- ==========================================
+                 NO MESSAGES
+                 ========================================== -->
 
             <div
                     th:if="${#lists.isEmpty(messages)}"
@@ -139,7 +222,9 @@
         </div>
 
 
-        <!-- Send message -->
+        <!-- ==========================================
+             SEND MESSAGE
+             ========================================== -->
 
         <div class="message-form">
 
@@ -148,12 +233,121 @@
                     th:object="${submittedMessage}"
                     method="post">
 
+
+                <!-- ==========================================
+                     MESSAGE TEXT
+                     ========================================== -->
+
                 <textarea
                         th:field="*{content}"
                         placeholder="Write a message..."
-                        rows="3"
-                        required>
+                        rows="3">
                 </textarea>
+
+
+                <!-- ==========================================
+                     SONG SEARCH
+                     ========================================== -->
+
+                <div class="message-song-search">
+
+                    <label for="messageSongSearch">
+                        🎵 Send a song
+                    </label>
+
+                    <div class="song-search-row">
+
+                        <input
+                                type="text"
+                                id="messageSongSearch"
+                                placeholder="Search for a song...">
+
+                        <button
+                                type="button"
+                                id="messageSongSearchButton"
+                                class="button">
+
+                            Search
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- Search results -->
+
+                    <div
+                            id="messageSongResults"
+                            class="music-results">
+                    </div>
+
+
+                    <!-- Selected song -->
+
+                    <div
+                            id="messageSelectedSong"
+                            class="selected-song"
+                            style="display: none;">
+
+                        <img
+                                id="messageSelectedSongImage"
+                                src=""
+                                alt="Selected song artwork">
+
+                        <div>
+
+                            <strong
+                                    id="messageSelectedSongTitle">
+                            </strong>
+
+                            <span
+                                    id="messageSelectedSongArtist">
+                            </span>
+
+                        </div>
+
+                        <button
+                                type="button"
+                                id="messageRemoveSong"
+                                class="button">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==========================================
+                     HIDDEN SONG FIELDS
+                     ========================================== -->
+
+                <input
+                        type="hidden"
+                        th:field="*{songTitle}"
+                        id="messageSongTitle">
+
+                <input
+                        type="hidden"
+                        th:field="*{songArtist}"
+                        id="messageSongArtist">
+
+                <input
+                        type="hidden"
+                        th:field="*{songImageUrl}"
+                        id="messageSongImageUrl">
+
+                <input
+                        type="hidden"
+                        th:field="*{songPreviewUrl}"
+                        id="messageSongPreviewUrl">
+
+
+                <!-- ==========================================
+                     SEND
+                     ========================================== -->
 
                 <button
                         type="submit"
@@ -170,6 +364,246 @@
     </div>
 
 </main>
+
+
+<!-- ==========================================
+     SONG SEARCH JAVASCRIPT
+     ========================================== -->
+
+<script>
+
+    const searchInput =
+        document.getElementById("messageSongSearch");
+
+    const searchButton =
+        document.getElementById("messageSongSearchButton");
+
+    const resultsContainer =
+        document.getElementById("messageSongResults");
+
+    const selectedSong =
+        document.getElementById("messageSelectedSong");
+
+    const selectedSongImage =
+        document.getElementById("messageSelectedSongImage");
+
+    const selectedSongTitle =
+        document.getElementById("messageSelectedSongTitle");
+
+    const selectedSongArtist =
+        document.getElementById("messageSelectedSongArtist");
+
+    const removeSongButton =
+        document.getElementById("messageRemoveSong");
+
+
+    const songTitleInput =
+        document.getElementById("messageSongTitle");
+
+    const songArtistInput =
+        document.getElementById("messageSongArtist");
+
+    const songImageInput =
+        document.getElementById("messageSongImageUrl");
+
+    const songPreviewInput =
+        document.getElementById("messageSongPreviewUrl");
+
+
+    // ==========================================
+    // SEARCH
+    // ==========================================
+
+    searchButton.addEventListener("click", searchSongs);
+
+
+    searchInput.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            searchSongs();
+        }
+
+    });
+
+
+    function searchSongs() {
+
+        const query =
+            searchInput.value.trim();
+
+
+        if (!query) {
+            return;
+        }
+
+
+        resultsContainer.innerHTML =
+            "<p>Searching...</p>";
+
+
+        fetch(
+            "/songs/search?query="
+            + encodeURIComponent(query)
+        )
+            .then(response => response.json())
+            .then(songs => {
+
+                resultsContainer.innerHTML = "";
+
+
+                if (!songs || songs.length === 0) {
+
+                    resultsContainer.innerHTML =
+                        "<p>No songs found.</p>";
+
+                    return;
+                }
+
+
+                songs.forEach(song => {
+
+                    const result =
+                        document.createElement("div");
+
+                    result.className =
+                        "music-result";
+
+
+                    result.innerHTML = `
+
+                        <img
+                            src="${song.artworkUrl100 || ''}"
+                            alt="Album artwork">
+
+                        <div class="music-result-info">
+
+                            <strong>
+                                ${song.trackName || ''}
+                            </strong>
+
+                            <span>
+                                ${song.artistName || ''}
+                            </span>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="button button-primary">
+
+                            Select
+
+                        </button>
+                    `;
+
+
+                    result
+                        .querySelector("button")
+                        .addEventListener(
+                            "click",
+                            function() {
+
+                                selectSong(song);
+
+                            }
+                        );
+
+
+                    resultsContainer.appendChild(
+                        result
+                    );
+
+                });
+
+            })
+            .catch(error => {
+
+                console.error(
+                    "Song search failed:",
+                    error
+                );
+
+                resultsContainer.innerHTML =
+                    "<p>Something went wrong searching for songs.</p>";
+            });
+    }
+
+
+    // ==========================================
+    // SELECT SONG
+    // ==========================================
+
+    function selectSong(song) {
+
+        songTitleInput.value =
+            song.trackName || "";
+
+        songArtistInput.value =
+            song.artistName || "";
+
+        songImageInput.value =
+            song.artworkUrl100 || "";
+
+        songPreviewInput.value =
+            song.previewUrl || "";
+
+
+        selectedSongTitle.textContent =
+            song.trackName || "";
+
+        selectedSongArtist.textContent =
+            song.artistName || "";
+
+        selectedSongImage.src =
+            song.artworkUrl100 || "";
+
+
+        selectedSong.style.display =
+            "flex";
+
+
+        resultsContainer.innerHTML =
+            "";
+
+        searchInput.value =
+            "";
+    }
+
+
+    // ==========================================
+    // REMOVE SONG
+    // ==========================================
+
+    removeSongButton.addEventListener(
+        "click",
+        function() {
+
+            songTitleInput.value =
+                "";
+
+            songArtistInput.value =
+                "";
+
+            songImageInput.value =
+                "";
+
+            songPreviewInput.value =
+                "";
+
+
+            selectedSong.style.display =
+                "none";
+
+            selectedSongImage.src =
+                "";
+
+        }
+    );
+
+</script>
 
 </body>
 
