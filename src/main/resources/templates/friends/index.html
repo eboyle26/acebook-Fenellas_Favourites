@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0"/>
 
   <title>Acebook - Friends</title>
 
@@ -28,17 +32,36 @@
 
     <div class="navigation-links">
 
-      <a href="/posts">
-        Home
-      </a>
+      <a href="/posts">Home</a>
 
-      <a href="/friends">
+      <a href="/profile">Profile</a>
+
+      <a href="/friends" id="friends_button">
         Friends
       </a>
 
-      <a href="/profile">
-        Profile
-      </a>
+      <div sec:authorize="isAuthenticated()"
+           class="user-info"
+           id="greeting">
+
+        <span>Signed in as</span>
+
+        <strong sec:authentication="principal.attributes['email']">
+        </strong>
+
+      </div>
+
+      <form
+              th:action="@{/logout}"
+              method="post">
+
+        <button
+                type="submit"
+                class="logout-button">
+          Log out
+        </button>
+
+      </form>
 
     </div>
 
@@ -80,13 +103,15 @@
       <div class="friend-avatar">
 
         <img
-                th:if="${friend.requester.profilePictureUrl != null}"
+                th:if="${friend.requester.profilePictureUrl != null
+                                and !friend.requester.profilePictureUrl.isEmpty()}"
                 th:src="${friend.requester.profilePictureUrl}"
                 alt="Profile picture"
         />
 
         <span
-                th:if="${friend.requester.profilePictureUrl == null}">
+                th:unless="${friend.requester.profilePictureUrl != null
+                                    and !friend.requester.profilePictureUrl.isEmpty()}">
                     U
                 </span>
 
@@ -112,9 +137,7 @@
             <button
                     type="submit"
                     class="button button-primary">
-
               Accept
-
             </button>
 
           </form>
@@ -129,9 +152,7 @@
             <button
                     type="submit"
                     class="button button-secondary">
-
               Reject
-
             </button>
 
           </form>
@@ -171,20 +192,13 @@
             id="usersList">
 
 
-      <!--
-          Only show users who:
-
-          1. Are not the current user
-          2. Are not already friends
-          3. Do not already have a pending request
-
-          The controller provides unavailableUserIds.
-      -->
+      <!-- Users -->
 
       <div
               class="user-card"
               th:each="user : ${users}"
-              th:if="${user.id != currentUser.id and !unavailableUserIds.contains(user.id)}"
+              th:if="${user.id != currentUser.id
+                            and !unavailableUserIds.contains(user.id)}"
               th:attr="data-username=${user.username}">
 
 
@@ -193,13 +207,15 @@
         <div class="friend-avatar">
 
           <img
-                  th:if="${user.profilePictureUrl != null}"
+                  th:if="${user.profilePictureUrl != null
+                                    and !user.profilePictureUrl.isEmpty()}"
                   th:src="${user.profilePictureUrl}"
                   alt="Profile picture"
           />
 
           <span
-                  th:if="${user.profilePictureUrl == null}">
+                  th:unless="${user.profilePictureUrl != null
+                                        and !user.profilePictureUrl.isEmpty()}">
                         U
                     </span>
 
@@ -227,9 +243,7 @@
           <button
                   type="submit"
                   class="button button-primary">
-
             Add friend
-
           </button>
 
         </form>
@@ -277,7 +291,7 @@
 
 
       <!-- ================================= -->
-      <!-- FRIEND WHERE CURRENT USER REQUESTED -->
+      <!-- YOU SENT THE FRIEND REQUEST -->
       <!-- ================================= -->
 
       <div
@@ -292,13 +306,15 @@
         <div class="friend-avatar">
 
           <img
-                  th:if="${friend.receiver.profilePictureUrl != null}"
+                  th:if="${friend.receiver.profilePictureUrl != null
+                                    and !friend.receiver.profilePictureUrl.isEmpty()}"
                   th:src="${friend.receiver.profilePictureUrl}"
                   alt="Profile picture"
           />
 
           <span
-                  th:if="${friend.receiver.profilePictureUrl == null}">
+                  th:unless="${friend.receiver.profilePictureUrl != null
+                                        and !friend.receiver.profilePictureUrl.isEmpty()}">
                         U
                     </span>
 
@@ -320,10 +336,21 @@
             <!-- View posts -->
 
             <a
-                    th:href="@{/posts(userId=${friend.receiver.id})}"
+                    th:href="@{/profile/{userId}(userId=${friend.receiver.id})}"
                     class="button button-secondary">
 
               View posts
+
+            </a>
+
+
+            <!-- Message -->
+
+            <a
+                    th:href="@{/messages/{userId}(userId=${friend.receiver.id})}"
+                    class="button button-secondary">
+
+              Message
 
             </a>
 
@@ -352,7 +379,7 @@
 
 
       <!-- ================================= -->
-      <!-- FRIEND WHERE CURRENT USER RECEIVED -->
+      <!-- YOU RECEIVED THE FRIEND REQUEST -->
       <!-- ================================= -->
 
       <div
@@ -367,13 +394,15 @@
         <div class="friend-avatar">
 
           <img
-                  th:if="${friend.requester.profilePictureUrl != null}"
+                  th:if="${friend.requester.profilePictureUrl != null
+                                    and !friend.requester.profilePictureUrl.isEmpty()}"
                   th:src="${friend.requester.profilePictureUrl}"
                   alt="Profile picture"
           />
 
           <span
-                  th:if="${friend.requester.profilePictureUrl == null}">
+                  th:unless="${friend.requester.profilePictureUrl != null
+                                        and !friend.requester.profilePictureUrl.isEmpty()}">
                         U
                     </span>
 
@@ -395,10 +424,21 @@
             <!-- View posts -->
 
             <a
-                    th:href="@{/posts(userId=${friend.requester.id})}"
+                    th:href="@{/profile/{userId}(userId=${friend.requester.id})}"
                     class="button button-secondary">
 
               View posts
+
+            </a>
+
+
+            <!-- Message -->
+
+            <a
+                    th:href="@{/messages/{userId}(userId=${friend.requester.id})}"
+                    class="button button-secondary">
+
+              Message
 
             </a>
 
@@ -509,11 +549,6 @@
     });
 
 
-    /*
-     * Show "No users found"
-     * if nothing matches.
-     */
-
     if (visibleUsers === 0) {
 
       noUsersMessage.style.display = "block";
@@ -538,9 +573,6 @@
 
   const friendCards =
           document.querySelectorAll("#friendsList .friend-card");
-
-  const noFriendsMessage =
-          document.getElementById("noFriendsMessage");
 
   const noMatchingFriendsMessage =
           document.getElementById("noMatchingFriendsMessage");
@@ -578,12 +610,6 @@
 
     });
 
-
-    /*
-     * Only show "No friends found"
-     * if there are friends but none
-     * match the search.
-     */
 
     if (friendCards.length > 0 && visibleFriends === 0) {
 

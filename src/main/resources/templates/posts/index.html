@@ -3,12 +3,14 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head lang="en">
+
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     <title>Acebook</title>
 
     <link rel="stylesheet" href="/main.css"/>
+
 </head>
 
 <body>
@@ -25,18 +27,40 @@
         <div class="navigation-links">
 
             <a href="/posts">Home</a>
-            <a href="/profile">Profile</a>
-            <a href="/friends" id="friends_button">Friends</a>
 
-            <div sec:authorize="isAuthenticated()" class="user-info" id="greeting">
+            <a href="/profile">Profile</a>
+
+            <a href="/friends" id="friends_button">
+                Friends
+            </a>
+
+            <a href="/messages">
+                Messages
+            </a>
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info"
+                    id="greeting">
+
                 <span>Signed in as</span>
-                <strong sec:authentication="principal.attributes['email']"></strong>
+
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
+
             </div>
 
             <form th:action="@{/logout}" method="post">
-                <button type="submit" class="logout-button">
+
+                <button
+                        type="submit"
+                        class="logout-button">
+
                     Log out
+
                 </button>
+
             </form>
 
         </div>
@@ -52,278 +76,443 @@
     <h1>Posts</h1>
 
 
-    <!-- Create post -->
-    <section class="create-post card">
+    <!-- ==========================================
+         HOME PAGE LAYOUT
+    =========================================== -->
 
-        <h2>Create a post</h2>
-
-        <form th:action="@{/posts}"
-              th:object="${post}"
-              method="post"
-              enctype="multipart/form-data">
-
-            <!-- Post content -->
-            <div class="form-group">
-
-                <label for="content">
-                    What's on your mind?
-                </label>
-
-                <textarea
-                        id="content"
-                        th:field="*{content}"
-                        placeholder="Write something..."
-                        required>
-                </textarea>
-
-            </div>
+    <div class="home-layout">
 
 
-            <!-- Image upload -->
-            <div class="form-group">
+        <!-- ==========================================
+             POSTS SECTION
+        =========================================== -->
 
-                <label for="image">
-                    Add a photo
-                </label>
-
-                <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        accept="image/*"/>
-
-            </div>
+        <div class="posts-section">
 
 
-            <!-- Music search -->
-            <div class="form-group">
+            <!-- Create post -->
+            <section class="create-post card">
 
-                <label for="songSearch">
-                    Add a song
-                </label>
+                <h2>Create a post</h2>
 
-                <input
-                        type="text"
-                        id="songSearch"
-                        placeholder="Search for a song..."/>
-
-                <button
-                        type="button"
-                        id="searchSongButton"
-                        class="button button-secondary">
-                    Search
-                </button>
-
-            </div>
+                <form
+                        th:action="@{/posts}"
+                        th:object="${post}"
+                        method="post"
+                        enctype="multipart/form-data">
 
 
-            <!-- Song search results -->
-            <div id="songResults"></div>
+                    <!-- Post content -->
+                    <div class="form-group">
 
+                        <label for="content">
+                            What's on your mind?
+                        </label>
 
-            <!-- Hidden song information -->
-            <input
-                    type="hidden"
-                    th:field="*{songTitle}"
-                    id="songTitle"/>
-
-            <input
-                    type="hidden"
-                    th:field="*{songArtist}"
-                    id="songArtist"/>
-
-            <input
-                    type="hidden"
-                    th:field="*{songImageUrl}"
-                    id="songImageUrl"/>
-
-            <input
-                    type="hidden"
-                    th:field="*{songPreviewUrl}"
-                    id="songPreviewUrl"/>
-
-
-            <!-- Selected song -->
-            <div id="selectedSong"></div>
-
-
-            <!-- Buttons -->
-            <div class="form-buttons">
-
-                <input
-                        type="reset"
-                        value="Reset"
-                        class="button button-secondary"/>
-
-                <input
-                        type="submit"
-                        value="Post"
-                        class="button button-primary"/>
-
-            </div>
-
-        </form>
-
-    </section>
-
-
-    <!-- Posts -->
-    <section class="posts-section">
-
-        <h2 id="recent-post-header">Recent posts</h2>
-
-        <div class="posts">
-
-            <article
-                    class="post-card"
-                    th:each="post : ${posts}">
-
-
-                <!-- Post header -->
-                <div class="post-header">
-
-                    <div class="avatar">
-
-                        <img
-                                th:if="${users[post.userId] != null}"
-                                th:src="${users[post.userId].profilePictureUrl}"
-                                alt="Profile picture"/>
+                        <textarea
+                                id="content"
+                                th:field="*{content}"
+                                placeholder="Write something..."
+                                required>
+                        </textarea>
 
                     </div>
 
 
-                    <div class="post-user">
+                    <!-- Image upload -->
+                    <div class="form-group">
 
-                        <strong
-                                th:if="${users[post.userId] != null}"
-                                th:text="${users[post.userId].username}">
-                        </strong>
+                        <label for="image">
+                            Add a photo
+                        </label>
 
-                        <span
-                                th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Post content -->
-                <div class="post-content">
-
-                    <p th:text="${post.content}"></p>
-
-                </div>
-
-
-                <!-- Post image -->
-                <div
-                        class="post-image"
-                        th:if="${post.imageUrl != null and !post.imageUrl.isEmpty()}">
-
-                    <img
-                            th:src="${post.imageUrl}"
-                            alt="Post image"/>
-
-                </div>
-
-
-                <!-- Post music -->
-                <div
-                        class="post-song"
-                        th:if="${post.songPreviewUrl != null and !post.songPreviewUrl.isEmpty()}">
-
-                    <img
-                            th:src="${post.songImageUrl}"
-                            alt="Album artwork"
-                            class="post-song-image"/>
-
-                    <div class="post-song-info">
-
-                        <strong th:text="${post.songTitle}"></strong>
-
-                        <span th:text="${post.songArtist}"></span>
-
-                        <audio
-                                controls
-                                preload="none"
-                                th:src="${post.songPreviewUrl}">
-                        </audio>
+                        <input
+                                type="file"
+                                id="image"
+                                name="image"
+                                accept="image/*"/>
 
                     </div>
 
-                </div>
 
+                    <!-- Music search -->
+                    <div class="form-group">
 
-                <!-- Post actions -->
-                <div class="post-actions">
+                        <label for="songSearch">
+                            Add a song
+                        </label>
 
-                    <!-- Like -->
-                    <form
-                            th:action="@{/posts/{postId}/like(postId=${post.id})}"
-                            method="post">
+                        <input
+                                type="text"
+                                id="songSearch"
+                                placeholder="Search for a song..."/>
 
                         <button
-                                type="submit"
-                                class="post-action">
+                                type="button"
+                                id="searchSongButton"
+                                class="button button-secondary">
 
-                            <span th:if="${userLikes[post.id]}">
-                                Unlike
-                            </span>
-
-                            <span th:unless="${userLikes[post.id]}">
-                                Like
-                            </span>
-
-                            (<span th:text="${likeCounts[post.id]}">0</span>)
+                            Search
 
                         </button>
 
-                    </form>
+                    </div>
 
 
-                    <!-- Comment -->
-                    <a
-                            class="post-action"
-                            th:href="@{/posts/{postId}/comments(postId=${post.id})}">
-                        Comment
-                    </a>
+                    <!-- Song search results -->
+                    <div id="songResults"></div>
 
 
-                    <!-- Share -->
-                    <button
-                            type="button"
-                            class="post-action">
-                        Share
-                    </button>
+                    <!-- Hidden song information -->
+                    <input
+                            type="hidden"
+                            th:field="*{songTitle}"
+                            id="songTitle"/>
+
+                    <input
+                            type="hidden"
+                            th:field="*{songArtist}"
+                            id="songArtist"/>
+
+                    <input
+                            type="hidden"
+                            th:field="*{songImageUrl}"
+                            id="songImageUrl"/>
+
+                    <input
+                            type="hidden"
+                            th:field="*{songPreviewUrl}"
+                            id="songPreviewUrl"/>
 
 
-                    <!-- Delete -->
-                    <form
-                            th:action="@{/posts/{postId}/delete(postId=${post.id})}"
-                            method="post"
-                            onsubmit="return confirm('Are you sure you want to delete this post?');">
+                    <!-- Selected song -->
+                    <div id="selectedSong"></div>
 
-                        <button
+
+                    <!-- Buttons -->
+                    <div class="form-buttons">
+
+                        <input
+                                type="reset"
+                                value="Reset"
+                                class="button button-secondary"/>
+
+                        <input
                                 type="submit"
-                                class="post-action delete-button">
-                            Delete
-                        </button>
+                                value="Post"
+                                class="button button-primary"/>
 
-                    </form>
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ==========================================
+                 POSTS
+            =========================================== -->
+
+            <section>
+
+                <h2 id="recent-post-header">Recent posts</h2>
+
+                <div class="posts">
+
+                    <article
+                            class="post-card"
+                            th:each="post : ${posts}">
+
+
+                        <!-- Post header -->
+                        <div class="post-header">
+
+                            <div class="avatar">
+
+                                <img
+                                        th:if="${users[post.userId] != null}"
+                                        th:src="${users[post.userId].profilePictureUrl}"
+                                        alt="Profile picture"/>
+
+                            </div>
+
+
+                            <div class="post-user">
+
+                                <strong
+                                        th:if="${users[post.userId] != null}"
+                                        th:text="${users[post.userId].username}">
+                                </strong>
+
+                                <span
+                                        th:text="${#temporals.format(post.dateTime, 'dd/MM/yyyy HH:mm')}">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Post content -->
+                        <div class="post-content">
+
+                            <p th:text="${post.content}"></p>
+
+                        </div>
+
+
+                        <!-- Post image -->
+                        <div
+                                class="post-image"
+                                th:if="${post.imageUrl != null and !post.imageUrl.isEmpty()}">
+
+                            <img
+                                    th:src="${post.imageUrl}"
+                                    alt="Post image"/>
+
+                        </div>
+
+
+                        <!-- Post music -->
+                        <div
+                                class="post-song"
+                                th:if="${post.songPreviewUrl != null and !post.songPreviewUrl.isEmpty()}">
+
+                            <img
+                                    th:src="${post.songImageUrl}"
+                                    alt="Album artwork"
+                                    class="post-song-image"/>
+
+                            <div class="post-song-info">
+
+                                <strong
+                                        th:text="${post.songTitle}">
+                                </strong>
+
+                                <span
+                                        th:text="${post.songArtist}">
+                                </span>
+
+                                <audio
+                                        controls
+                                        preload="none"
+                                        th:src="${post.songPreviewUrl}">
+                                </audio>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Post actions -->
+                        <div class="post-actions">
+
+
+                            <!-- Like -->
+                            <form
+                                    th:action="@{/posts/{postId}/like(postId=${post.id})}"
+                                    method="post">
+
+                                <button
+                                        type="submit"
+                                        class="post-action">
+
+                                    <span
+                                            th:if="${userLikes[post.id]}">
+                                        Unlike
+                                    </span>
+
+                                    <span
+                                            th:unless="${userLikes[post.id]}">
+                                        Like
+                                    </span>
+
+                                    (<span
+                                        th:text="${likeCounts[post.id]}">
+                                        0
+                                    </span>)
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- Comment -->
+                            <a
+                                    class="post-action"
+                                    th:href="@{/posts/{postId}/comments(postId=${post.id})}">
+
+                                Comment
+
+                            </a>
+
+
+                            <!-- Share -->
+                            <button
+                                    type="button"
+                                    class="post-action">
+
+                                Share
+
+                            </button>
+
+
+                            <!-- Delete -->
+                            <!--
+                                 Only show the delete button if
+                                 the logged-in user owns this post.
+                            -->
+                            <div th:if="${post.userId == currentUser.id}">
+
+                                <form
+                                        th:action="@{/posts/{postId}/delete(postId=${post.id})}"
+                                        method="post"
+                                        onsubmit="return confirm('Are you sure you want to delete this post?');">
+
+                                    <button
+                                            type="submit"
+                                            class="post-action delete-button">
+
+                                        Delete
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                        </div>
+
+                    </article>
 
                 </div>
 
-            </article>
+            </section>
 
         </div>
 
-    </section>
+
+        <!-- ==========================================
+             MESSAGES SIDEBAR
+        =========================================== -->
+
+        <aside class="messages-sidebar">
+
+
+            <!-- Sidebar heading -->
+            <div class="messages-sidebar-header">
+
+                <h2>Messages</h2>
+
+            </div>
+
+
+            <!-- Conversations -->
+            <div class="conversation-list">
+
+
+                <!-- Each recent conversation -->
+                <div
+                        th:each="entry : ${recentConversations}"
+                        class="conversation">
+
+                    <a
+                            th:href="@{/messages/{friendId}(friendId=${entry.key})}"
+                            class="conversation-link">
+
+
+                        <!-- Friend profile picture -->
+                        <div class="conversation-avatar">
+
+                            <img
+                                    th:if="${conversationUsers[entry.key].profilePictureUrl != null}"
+                                    th:src="${conversationUsers[entry.key].profilePictureUrl}"
+                                    alt="Profile picture"/>
+
+
+                            <!-- Placeholder if no picture -->
+                            <div
+                                    th:unless="${conversationUsers[entry.key].profilePictureUrl != null}"
+                                    class="conversation-avatar-placeholder">
+
+                                <span
+                                        th:text="${#strings.substring(conversationUsers[entry.key].username, 0, 1).toUpperCase()}">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Conversation information -->
+                        <div class="conversation-details">
+
+                            <strong
+                                    th:text="${conversationUsers[entry.key].username}">
+                            </strong>
+
+
+                            <!-- Latest message -->
+                            <p
+                                    th:text="${entry.value.content}">
+                            </p>
+
+
+                            <!-- Time -->
+                            <span
+                                    class="conversation-time"
+                                    th:text="${#temporals.format(entry.value.createdAt, 'HH:mm')}">
+                            </span>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <!-- ==========================================
+                     NO CONVERSATIONS
+                =========================================== -->
+
+                <div
+                        th:if="${#maps.isEmpty(recentConversations)}"
+                        class="no-conversations">
+
+                    <p>
+                        No messages yet.
+                    </p>
+
+                    <a href="/friends">
+                        Find a friend to message
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- View friends -->
+            <a
+                    href="/friends"
+                    class="view-messages-link">
+
+                View all friends →
+
+            </a>
+
+        </aside>
+
+    </div>
 
 </main>
 
 
-<!-- Music search JavaScript -->
+<!-- ==========================================
+     MUSIC SEARCH JAVASCRIPT
+=========================================== -->
+
 <script>
 
     document
@@ -337,7 +526,10 @@
                 return;
             }
 
-            fetch("/songs/search?query=" + encodeURIComponent(query))
+            fetch(
+                "/songs/search?query="
+                + encodeURIComponent(query)
+            )
 
                 .then(response => {
 
@@ -363,10 +555,12 @@
                             return;
                         }
 
+
                         const result =
                             document.createElement("div");
 
                         result.className = "song-result";
+
 
                         result.innerHTML = `
 
@@ -389,7 +583,9 @@
                             <button
                                 type="button"
                                 class="button button-secondary">
+
                                 Add
+
                             </button>
 
                         `;
@@ -402,19 +598,23 @@
 
                                 document
                                     .getElementById("songTitle")
-                                    .value = song.trackName;
+                                    .value =
+                                    song.trackName;
 
                                 document
                                     .getElementById("songArtist")
-                                    .value = song.artistName;
+                                    .value =
+                                    song.artistName;
 
                                 document
                                     .getElementById("songImageUrl")
-                                    .value = song.artworkUrl100;
+                                    .value =
+                                    song.artworkUrl100;
 
                                 document
                                     .getElementById("songPreviewUrl")
-                                    .value = song.previewUrl;
+                                    .value =
+                                    song.previewUrl;
 
 
                                 // Display selected song
@@ -509,4 +709,5 @@
 </script>
 
 </body>
+
 </html>

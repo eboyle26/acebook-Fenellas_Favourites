@@ -1,0 +1,2 @@
+ALTER TABLE messages
+    ALTER COLUMN id TYPE BIGINT;
