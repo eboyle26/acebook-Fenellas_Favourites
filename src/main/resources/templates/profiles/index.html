@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://wwww.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-sxtras-springsecurity5">
 
 
 <head>
@@ -30,17 +31,24 @@
         <div class="navigation-links">
 
             <a href="/posts">Home</a>
-
-            <a href="/profile">Profile</a>
-
             <a href="/friends">Friends</a>
+
+            <div sec:authorize="isAuthenticated()" class="user-info" id="greeting">
+                <span>Signed in as</span>
+                <strong sec:authentication="principal.attributes['email']"></strong>
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-button">
+                    Log out
+                </button>
+            </form>
 
         </div>
 
     </div>
 
 </nav>
-
 
 <!-- Main content -->
 

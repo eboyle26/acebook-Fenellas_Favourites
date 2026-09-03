@@ -1322,6 +1322,116 @@ a:hover {
     margin-top: 5px;
 }
 
+/* Messages */
+
+.messages-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.messages-header {
+    background-color: white;
+    border: 1px solid #dfe5df;
+    border-radius: 8px 8px 0 0;
+    padding: 20px;
+}
+
+
+.messages-header h1 {
+    margin: 10px 0;
+}
+
+
+.message-recipient {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.message-list {
+    background-color: #f7f9f7;
+    border-left: 1px solid #dfe5df;
+    border-right: 1px solid #dfe5df;
+    padding: 20px;
+    min-height: 400px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+
+.message {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+
+.message-sent {
+    justify-content: flex-end;
+}
+
+
+.message-received {
+    justify-content: flex-start;
+}
+
+
+.message-bubble {
+    max-width: 65%;
+    padding: 10px 14px;
+    border-radius: 15px;
+    background-color: white;
+    border: 1px solid #dfe5df;
+}
+
+
+.message-sent .message-bubble {
+    background-color: #dcebdd;
+}
+
+
+.message-bubble p {
+    margin: 0 0 5px 0;
+    word-wrap: break-word;
+}
+
+
+.message-time {
+    display: block;
+    font-size: 10px;
+    color: #777;
+}
+
+
+.message-form {
+    background-color: white;
+    border: 1px solid #dfe5df;
+    border-radius: 0 0 8px 8px;
+    padding: 15px;
+}
+
+
+.message-form form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+
+.message-form textarea {
+    flex: 1;
+    resize: vertical;
+    min-height: 45px;
+}
+
+
+.no-messages {
+    text-align: center;
+    color: #777;
+    padding: 50px 20px;
+}
+
 /* =========================================
    EMPTY STATES
 ========================================= */
