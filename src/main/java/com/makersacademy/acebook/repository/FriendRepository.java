@@ -22,4 +22,6 @@ public interface FriendRepository extends CrudRepository<Friend, Long> {
             User receiver,
             Friend.Status status
     );
+    void deleteByReceiver(User user);
+    void deleteByRequester(User user);
 }
