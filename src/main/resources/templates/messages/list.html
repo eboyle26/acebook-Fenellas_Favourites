@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Messages</title>
+
+    <link rel="stylesheet" href="/main.css"/>
+
+</head>
+
+<body>
+
+<!-- Navigation bar -->
+<nav class="navbar">
+
+    <div class="navbar-content">
+
+        <div class="logo">
+            Acebook
+        </div>
+
+        <div class="navigation-links">
+
+            <a href="/posts">Home</a>
+
+            <a href="/profile">Profile</a>
+
+            <a href="/friends" id="friends_button">
+                Friends
+            </a>
+
+            <a href="/messages">
+                Messages
+            </a>
+
+            <a href="/notifications">Notifications</a>
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info"
+                    id="greeting">
+
+                <span>Signed in as</span>
+
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
+
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+
+                <button
+                        type="submit"
+                        class="logout-button">
+
+                    Log out
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<main class="main-container">
+
+    <div class="messages-page">
+
+        <h1>Messages</h1>
+
+
+        <!-- No conversations -->
+        <div
+                th:if="${conversationUsers.isEmpty()}"
+                class="empty-state">
+
+            <p>You don't have any messages yet.</p>
+
+        </div>
+
+
+        <!-- Conversations -->
+        <div
+                th:unless="${conversationUsers.isEmpty()}"
+                class="messages-list">
+
+
+            <div
+                    th:each="user : ${conversationUsers}"
+                    class="message-preview">
+
+
+                <a
+                        th:href="@{/messages/{id}(id=${user.id})}"
+                        class="message-preview-link">
+
+
+                    <!-- Profile picture -->
+
+                    <div class="message-preview-avatar">
+
+                        <img
+                                th:if="${user.profilePictureUrl != null}"
+                                th:src="${user.profilePictureUrl}"
+                                alt="Profile picture">
+
+                        <div
+                                th:unless="${user.profilePictureUrl != null}"
+                                class="default-avatar">
+
+                            <span th:text="${user.username.substring(0, 1).toUpperCase()}">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Conversation information -->
+
+                    <div class="message-preview-content">
+
+                        <strong
+                                th:text="${user.username}">
+                        </strong>
+
+
+                        <p
+                                th:with="latest=${latestMessages.get(user.id)}">
+
+                            <span
+                                    th:if="${latest.senderId == currentUser.id}">
+                                You:
+                            </span>
+
+                            <span
+                                    th:if="${latest.senderId != currentUser.id}">
+                            </span>
+
+
+                            <span
+                                    th:if="${latest.content != null and !latest.content.isBlank()}"
+                                    th:text="${latest.content}">
+                            </span>
+
+                            <span
+                                    th:if="${latest.content == null or latest.content.isBlank()}">
+                                🎵 Song
+                            </span>
+
+                        </p>
+
+                    </div>
+
+
+                    <!-- Time -->
+
+                    <div
+                            class="message-preview-time"
+                            th:with="latest=${latestMessages.get(user.id)}"
+                            th:text="${#temporals.format(latest.createdAt, 'dd/MM/yyyy HH:mm')}">
+                    </div>
+
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>

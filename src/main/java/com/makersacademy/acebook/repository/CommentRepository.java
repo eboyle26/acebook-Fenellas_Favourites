@@ -11,4 +11,5 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     List<Comment> findByPostIdOrderByCreatedAtAsc(Long postId);
     void deleteByPostId(Long postId);
     void deleteById(Long Id);
+    void deleteByUserId(Long userId);
 }

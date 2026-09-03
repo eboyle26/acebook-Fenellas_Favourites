@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <meta charset="UTF-8">
@@ -28,26 +29,75 @@
         </div>
 
         <div class="navigation-links">
-            <a href="/posts">Home</a>
-            <a href="/profile">Profile</a>
+
+            <a href="/posts">
+                Home
+            </a>
+
+            <a href="/profile">
+                Profile
+            </a>
+
+            <a href="/friends" id="friends_button">
+                Friends
+            </a>
+
+            <a href="/messages">
+                Messages
+            </a>
+
+            <a href="/notifications" class="notification-nav-link">
+                Notifications
+
+                <span
+                        th:if="${unreadCount > 0}"
+                        class="notification-dot">
+            </span>
+
+            </a>
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info"
+                    id="greeting">
+
+                <span>Signed in as</span>
+
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
+
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+
+                <button
+                        type="submit"
+                        class="logout-button">
+
+                    Log out
+
+                </button>
+
+            </form>
+
         </div>
 
     </div>
 
+
 </nav>
 
-<!-- Main content -->
 
 <main class="main-container comments-container">
 
 
-    <!-- Back to posts -->
+
     <a th:href="@{/posts}" class="back-link">
         ← Back to posts
     </a>
 
 
-    <!-- Original post -->
     <section class="post-card comment-post">
 
         <div class="post-header">
@@ -85,7 +135,6 @@
     </section>
 
 
-    <!-- Comments -->
     <section class="comments-section">
 
         <div class="section-header">
@@ -99,7 +148,6 @@
         </div>
 
 
-        <!-- No comments -->
         <div
                 class="no-comments"
                 th:if="${#lists.isEmpty(comments)}"
@@ -116,7 +164,6 @@
         </div>
 
 
-        <!-- Existing comments -->
         <div class="comment-list">
 
             <article
@@ -124,7 +171,7 @@
                     th:each="existingComment : ${comments}"
             >
 
-                <!-- User's profile picture -->
+
                 <div class="comment-avatar">
 
                     <img
@@ -134,8 +181,6 @@
 
                 </div>
 
-
-                <!-- Comment -->
                 <div class="comment-body">
 
                     <div class="comment-header">
@@ -144,7 +189,7 @@
                                 th:text="${userRepository.findById(existingComment.userId).get().username}">
                             Username
                         </strong>
-<!--                        This needs styled -->
+
                         <span
                                 th:text="${#temporals.format(existingComment.createdAt, 'dd/MM/yyyy HH:mm')}">
                         </span>
@@ -163,8 +208,6 @@
 
     </section>
 
-
-    <!-- Add comment -->
     <section class="add-comment card">
 
         <h2>Leave a comment</h2>
@@ -193,12 +236,14 @@
             <div class="form-buttons">
 
                 <input
+                        id="clear-button"
                         type="reset"
                         value="Clear"
                         class="button button-secondary"
                 >
 
                 <button
+                        id="submit-comment-button"
                         type="submit"
                         class="button button-primary"
                 >

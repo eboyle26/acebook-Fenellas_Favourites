@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+
+    <link rel="stylesheet" href="/main.css"/>
+</head>
+
+<body>
+
+<!-- Navigation bar -->
+<nav class="navbar">
+
+
+    <div class="navbar-content">
+
+        <div class="logo">
+            Acebook
+        </div>
+
+        <div class="navigation-links">
+
+            <a href="/posts">
+                Home
+            </a>
+
+            <a href="/profile">
+                Profile
+            </a>
+
+            <a href="/friends" id="friends_button">
+                Friends
+            </a>
+
+            <a href="/messages">
+                Messages
+            </a>
+
+            <a href="/notifications" class="notification-nav-link">
+                Notifications
+
+                <span
+                        th:if="${unreadCount > 0}"
+                        class="notification-dot">
+            </span>
+
+            </a>
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info"
+                    id="greeting">
+
+                <span>Signed in as</span>
+
+                <strong
+                        sec:authentication="principal.attributes['email']">
+                </strong>
+
+            </div>
+
+            <form th:action="@{/logout}" method="post">
+
+                <button
+                        type="submit"
+                        class="logout-button">
+
+                    Log out
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+</nav>
+
+
+<main class="main-container">
+
+    <div class="notifications-page">
+
+        <h1>Notifications</h1>
+
+        <div
+                th:if="${notifications.isEmpty()}"
+                class="empty-state">
+
+            <p>You don't have any notifications yet.</p>
+
+        </div>
+
+        <div
+                th:unless="${notifications.isEmpty()}"
+                class="notifications-list">
+
+            <form
+                    th:each="notification : ${notifications}"
+                    th:action="@{/notifications/{id}/open(id=${notification.id})}"
+                    method="post"
+                    class="notification-form">
+
+                <button
+                        type="submit"
+                        class="notification"
+                        th:classappend="${!notification.read} ? ' notification-unread' : ''">
+
+                    <div class="notification-content">
+
+                        <p
+                                class="notification-text"
+                                th:text="${notification.notificationText}">
+                        </p>
+
+                        <small
+                                class="notification-time"
+                                th:text="${#temporals.format(notification.createdAt, 'dd/MM/yyyy HH:mm')}">
+                        </small>
+
+                    </div>
+
+                    <span
+                            th:if="${!notification.read}"
+                            class="unread-dot">
+                    </span>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>

@@ -10,4 +10,6 @@ public interface LikeRepository extends CrudRepository<Like, Long> {
     Optional<Like> findByPostId(Long postId);
     Optional<Like>findByPostIdAndUserId(Long postId, Long userId);
     Long countByPostId(Long postId);
+    void deleteByUserId(Long userId);
+    void deleteByPostId(Long postId);
 }
