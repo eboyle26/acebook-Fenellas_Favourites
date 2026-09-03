@@ -24,6 +24,7 @@
 
 <nav class="navbar">
 
+
     <div class="navbar-content">
 
         <div class="logo">
@@ -32,17 +33,36 @@
 
         <div class="navigation-links">
 
-            <a href="/posts">Home</a>
+            <a href="/posts">
+                Home
+            </a>
 
-            <a href="/profile">Profile</a>
+            <a href="/profile">
+                Profile
+            </a>
 
             <a href="/friends" id="friends_button">
                 Friends
             </a>
 
-            <div sec:authorize="isAuthenticated()"
-                 class="user-info"
-                 id="greeting">
+            <a href="/messages">
+                Messages
+            </a>
+
+            <a href="/notifications" class="notification-nav-link">
+                Notifications
+
+                <span
+                        th:if="${unreadCount > 0}"
+                        class="notification-dot">
+            </span>
+
+            </a>
+
+            <div
+                    sec:authorize="isAuthenticated()"
+                    class="user-info"
+                    id="greeting">
 
                 <span>Signed in as</span>
 
@@ -52,9 +72,7 @@
 
             </div>
 
-            <form
-                    th:action="@{/logout}"
-                    method="post">
+            <form th:action="@{/logout}" method="post">
 
                 <button
                         type="submit"
@@ -69,6 +87,7 @@
         </div>
 
     </div>
+
 
 </nav>
 

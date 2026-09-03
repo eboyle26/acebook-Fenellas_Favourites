@@ -31,12 +31,12 @@
 
 <nav class="navbar">
 
+
     <div class="navbar-content">
 
         <div class="logo">
             Acebook
         </div>
-
 
         <div class="navigation-links">
 
@@ -48,18 +48,30 @@
                 Profile
             </a>
 
-            <a href="/friends">
+            <a href="/friends" id="friends_button">
                 Friends
             </a>
 
+            <a href="/messages">
+                Messages
+            </a>
+
+            <a href="/notifications" class="notification-nav-link">
+                Notifications
+
+                <span
+                        th:if="${unreadCount > 0}"
+                        class="notification-dot">
+            </span>
+
+            </a>
 
             <div
                     sec:authorize="isAuthenticated()"
-                    class="user-info">
+                    class="user-info"
+                    id="greeting">
 
-                <span>
-                    Signed in as
-                </span>
+                <span>Signed in as</span>
 
                 <strong
                         sec:authentication="principal.attributes['email']">
@@ -67,10 +79,7 @@
 
             </div>
 
-
-            <form
-                    th:action="@{/logout}"
-                    method="post">
+            <form th:action="@{/logout}" method="post">
 
                 <button
                         type="submit"
@@ -86,8 +95,8 @@
 
     </div>
 
-</nav>
 
+</nav>
 
 <main class="main-container">
 

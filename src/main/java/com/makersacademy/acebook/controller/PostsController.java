@@ -54,9 +54,6 @@ public class PostsController {
     MessageRepository messageRepository;
 
 
-    // ==========================================
-    // GET POSTS
-    // ==========================================
 
     @GetMapping("/posts")
     public String index(Model model) {
@@ -71,9 +68,6 @@ public class PostsController {
         Map<Long, Boolean> userLikes = new HashMap<>();
 
 
-        // ==========================================
-        // GET CURRENT USER
-        // ==========================================
 
         DefaultOidcUser principal = (DefaultOidcUser)
                 SecurityContextHolder
@@ -91,9 +85,6 @@ public class PostsController {
                         );
 
 
-        // ==========================================
-        // GET POST USERS + LIKES
-        // ==========================================
 
         for (Post post : posts) {
 
@@ -124,9 +115,6 @@ public class PostsController {
         }
 
 
-        // ==========================================
-        // GET ACCEPTED FRIENDS
-        // ==========================================
 
         List<Friend> acceptedFriends =
                 friendRepository.findByRequesterOrReceiverAndStatus(
@@ -135,10 +123,6 @@ public class PostsController {
                         Friend.Status.ACCEPTED
                 );
 
-
-        // ==========================================
-        // GET RECENT CONVERSATIONS
-        // ==========================================
 
         Map<Long, Message> recentConversations =
                 new HashMap<>();
@@ -151,8 +135,7 @@ public class PostsController {
 
             User friend;
 
-            // If current user sent the request,
-            // the friend is the receiver
+
             if (friendship.getRequester().getId()
                     .equals(currentUser.getId())) {
 
@@ -160,13 +143,12 @@ public class PostsController {
 
             } else {
 
-                // Otherwise the friend is the requester
+
                 friend = friendship.getRequester();
             }
 
 
-            // Find the newest message between
-            // the current user and this friend
+
             Optional<Message> latestMessage =
                     messageRepository
                             .findTopBySenderIdAndReceiverIdOrSenderIdAndReceiverIdOrderByCreatedAtDesc(
@@ -177,8 +159,7 @@ public class PostsController {
                             );
 
 
-            // Only add them if they have
-            // actually had a conversation
+
             if (latestMessage.isPresent()) {
 
                 recentConversations.put(
@@ -193,10 +174,6 @@ public class PostsController {
             }
         }
 
-
-        // ==========================================
-        // SEND DATA TO THYMELEAF
-        // ==========================================
 
         model.addAttribute(
                 "posts",
@@ -233,8 +210,7 @@ public class PostsController {
                 conversationUsers
         );
 
-        // This was missing and caused the
-        // Thymeleaf currentUser.id error
+
         model.addAttribute(
                 "currentUser",
                 currentUser
@@ -245,9 +221,7 @@ public class PostsController {
     }
 
 
-    // ==========================================
-    // CREATE POST
-    // ==========================================
+
 
     @PostMapping("/posts")
     public RedirectView create(
@@ -281,10 +255,6 @@ public class PostsController {
                 LocalDateTime.now()
         );
 
-
-        // ==========================================
-        // IMAGE UPLOAD
-        // ==========================================
 
         if (!image.isEmpty()) {
 
@@ -330,11 +300,7 @@ public class PostsController {
 
         postRepository.save(post);
 
-        // ==========================================
-        // SAVE POST
-        // ==========================================
 
-        // This also saves any selected song information
         postRepository.save(
                 post
         );
@@ -344,10 +310,6 @@ public class PostsController {
         );
     }
 
-
-    // ==========================================
-    // DELETE POST
-    // ==========================================
 
     @PostMapping("/posts/{postId}/delete")
     @Transactional
@@ -371,15 +333,12 @@ public class PostsController {
                         );
 
 
-        // Find the post
         Optional<Post> postOptional =
                 postRepository.findById(
                         postId
                 );
 
 
-        // If the post doesn't exist,
-        // just return to the posts page
         if (postOptional.isEmpty()) {
 
             return new RedirectView(
@@ -392,11 +351,6 @@ public class PostsController {
                 postOptional.get();
 
 
-        // ==========================================
-        // OWNERSHIP CHECK
-        // ==========================================
-
-        // Make sure the current user owns the post
         if (!post.getUserId().equals(
                 currentUser.getId()
         )) {
@@ -407,21 +361,15 @@ public class PostsController {
         }
 
 
-        // ==========================================
-        // DELETE RELATED DATA
-        // ==========================================
-
-        // Delete comments belonging to the post
         commentRepository.deleteByPostId(
                 postId
         );
 
-        // Delete likes belonging to the post
+
         likeRepository.deleteByPostId(
                 postId
         );
 
-        // Finally delete the post
         postRepository.deleteById(
                 postId
         );
@@ -432,10 +380,6 @@ public class PostsController {
         );
     }
 
-
-    // ==========================================
-    // LIKE / UNLIKE POST
-    // ==========================================
 
     @PostMapping("/posts/{postId}/like")
     public RedirectView likes(
@@ -458,8 +402,6 @@ public class PostsController {
                         );
 
 
-        // Check whether the current user
-        // has already liked this post
         likeRepository
                 .findByPostIdAndUserId(
                         postId,
@@ -467,7 +409,6 @@ public class PostsController {
                 )
                 .ifPresentOrElse(
 
-                        // Already liked -> remove like
                         existingLike ->
                                 likeRepository.delete(existingLike),
                         () -> {

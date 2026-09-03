@@ -33,9 +33,6 @@ public class Message {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // ==========================================
-    // SONG INFORMATION
-    // ==========================================
 
     @Column(name = "song_title")
     private String songTitle;

@@ -41,9 +41,7 @@ public class MessageController {
     FriendRepository friendRepository;
 
 
-    // =========================
-    // MESSAGES INBOX
-    // =========================
+
 
     @GetMapping("/messages")
     public String messages(Model model) {
@@ -115,8 +113,6 @@ public class MessageController {
 
         return "messages/list";
     }
-
-
 
 
     @GetMapping("/messages/{receiverId}")

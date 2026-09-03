@@ -49,10 +49,6 @@ public class ProfileController {
     MessageRepository messageRepository;
 
 
-    // ==========================================
-    // YOUR OWN PROFILE
-    // ==========================================
-
     @GetMapping("/profile")
     public String profile(Model model) {
 
@@ -68,11 +64,11 @@ public class ProfileController {
                 .findByOktaUserId(oktaUserId)
                 .orElseThrow();
 
-        // Get your posts
+
         List<Post> posts = postRepository
                 .findByUserIdOrderByDateTimeDesc(user.getId());
 
-        // Get your accepted friends
+
         List<Friend> friends = friendRepository
                 .findByRequesterOrReceiverAndStatus(
                         user,
@@ -88,10 +84,6 @@ public class ProfileController {
     }
 
 
-    // ==========================================
-    // OTHER USER'S PROFILE
-    // ==========================================
-
     @GetMapping("/profile/{userId}")
     public String viewUserProfile(
             @PathVariable Long userId,
@@ -99,23 +91,23 @@ public class ProfileController {
             Authentication authentication
     ) {
 
-        // The user whose profile we are viewing
+
         User profileUser = userRepository
                 .findById(userId)
                 .orElseThrow(() ->
                         new IllegalStateException("User not found")
                 );
 
-        // The user who is currently logged in
+
         User currentUser = userRepository
                 .findByOktaUserId(authentication.getName())
                 .orElseThrow();
 
-        // Posts belonging only to this user
+
         List<Post> posts = postRepository
                 .findByUserIdOrderByDateTimeDesc(userId);
 
-        // This user's accepted friends
+
         List<Friend> friends = friendRepository
                 .findByRequesterOrReceiverAndStatus(
                         profileUser,
@@ -132,7 +124,7 @@ public class ProfileController {
 
         Long incomingRequestId = null;
 
-        // Check whether you are already friends
+
         List<Friend> acceptedFriendships =
                 friendRepository.findByRequesterOrReceiverAndStatus(
                         currentUser,
@@ -155,7 +147,7 @@ public class ProfileController {
             }
         }
 
-        // Check whether you have already sent them a request
+
         List<Friend> outgoingRequests =
                 friendRepository.findByRequesterAndStatus(
                         currentUser,
@@ -170,7 +162,6 @@ public class ProfileController {
             }
         }
 
-        // Check whether they have sent you a request
         List<Friend> incomingRequests =
                 friendRepository.findByReceiverAndStatus(
                         currentUser,
@@ -201,9 +192,6 @@ public class ProfileController {
         return "profiles/user";
     }
 
-    // ==========================================
-// SEND FRIEND REQUEST FROM PROFILE
-// ==========================================
 
     @PostMapping("/profile/{userId}/friend-request")
     public RedirectView sendFriendRequestFromProfile(
@@ -211,25 +199,22 @@ public class ProfileController {
             Authentication authentication
     ) {
 
-        // The person sending the request
+
         User requester = userRepository
                 .findByOktaUserId(authentication.getName())
                 .orElseThrow();
 
-        // The person whose profile we are viewing
+
         User receiver = userRepository
                 .findById(userId)
                 .orElseThrow();
 
-        // Don't allow someone to add themselves
+
         if (requester.getId().equals(receiver.getId())) {
             return new RedirectView("/profile/" + userId);
         }
 
 
-        // ==========================================
-        // CHECK IF ALREADY FRIENDS
-        // ==========================================
 
         List<Friend> acceptedFriendships =
                 friendRepository.findByRequesterOrReceiverAndStatus(
@@ -253,9 +238,7 @@ public class ProfileController {
         }
 
 
-        // ==========================================
-        // CHECK IF REQUEST ALREADY SENT
-        // ==========================================
+
 
         List<Friend> outgoingRequests =
                 friendRepository.findByRequesterAndStatus(
@@ -271,10 +254,6 @@ public class ProfileController {
         }
 
 
-        // ==========================================
-        // CHECK IF THEY ALREADY SENT US A REQUEST
-        // ==========================================
-
         List<Friend> incomingRequests =
                 friendRepository.findByReceiverAndStatus(
                         requester,
@@ -289,10 +268,6 @@ public class ProfileController {
         }
 
 
-        // ==========================================
-        // CREATE FRIEND REQUEST
-        // ==========================================
-
         Friend friend = new Friend();
 
         friend.setRequester(requester);
@@ -303,13 +278,10 @@ public class ProfileController {
         friendRepository.save(friend);
 
 
-        // Stay on the person's profile
+
         return new RedirectView("/profile/" + userId);
     }
 
-    // ==========================================
-    // UPDATE PROFILE
-    // ==========================================
 
     @PostMapping("/profile")
     public String updateProfile(
@@ -333,7 +305,7 @@ public class ProfileController {
         user.setUsername(username);
 
 
-        // If a file was uploaded, use the uploaded file
+
         if (profilePicture != null && !profilePicture.isEmpty()) {
 
             Path uploadPath =
@@ -377,7 +349,7 @@ public class ProfileController {
                         && !profilePictureUrl.isBlank()
         ) {
 
-            // Otherwise use the URL
+
             user.setProfilePictureUrl(profilePictureUrl);
         }
 
@@ -386,10 +358,6 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
-
-    // ==========================================
-    // SAVE FAVOURITE SONG
-    // ==========================================
 
     @PostMapping("/profile/favourite-song")
     public RedirectView saveFavouriteSong(
@@ -420,9 +388,6 @@ public class ProfileController {
     }
 
 
-    // ==========================================
-    // REMOVE FAVOURITE SONG
-    // ==========================================
 
     @PostMapping("/profile/favourite-song/delete")
     public RedirectView deleteFavouriteSong() {
@@ -448,9 +413,6 @@ public class ProfileController {
     }
 
 
-    // ==========================================
-    // DELETE PROFILE
-    // ==========================================
 
     @PostMapping("/profile/delete")
     @Transactional
@@ -474,15 +436,14 @@ public class ProfileController {
         Long userId = user.getId();
 
 
-        // Delete comments belonging to the user
+
         commentRepository.deleteByUserId(userId);
 
-        // Delete likes belonging to the user
+
         likeRepository.deleteByUserId(userId);
 
 
-        // Delete comments and likes belonging
-        // to the user's posts
+
         Iterable<Post> userPosts =
                 postRepository.findByUserId(userId);
 
@@ -494,25 +455,21 @@ public class ProfileController {
         }
 
 
-        // Delete friendships
         friendRepository.deleteByReceiver(user);
         friendRepository.deleteByRequester(user);
 
 
-        // Delete messages
         messageRepository.deleteBySenderId(userId);
         messageRepository.deleteByReceiverId(userId);
 
 
-        // Delete posts
         postRepository.deleteByUserId(userId);
 
 
-        // Finally delete the user
         userRepository.delete(user);
 
 
-        // Log the user out
+
         new SecurityContextLogoutHandler()
                 .logout(
                         request,
