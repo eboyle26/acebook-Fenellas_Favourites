@@ -162,10 +162,20 @@ public class MessageController {
                         );
 
         if (!areFriends) {
+
+            boolean pendingRequest =
+                    friendRepository.existsByRequesterAndReceiverAndStatus(
+                            currentUser,
+                            receiver,
+                            Friend.Status.PENDING
+                    );
+
+            if (pendingRequest) {
+                return "redirect:/friends?message=pending";
+            }
+
             return "redirect:/friends";
         }
-
-
 
         List<Message> messages =
                 messageRepository
