@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.time.ZoneId;
 
 @Controller
 public class MessageController {
@@ -341,7 +342,9 @@ public class MessageController {
         newMessage.setRead(false);
 
         newMessage.setCreatedAt(
-                LocalDateTime.now()
+                LocalDateTime.now(
+                        ZoneId.of("Europe/London")
+                )
         );
 
 

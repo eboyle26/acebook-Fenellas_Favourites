@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.time.ZoneId;
 
 @Controller
 public class PostsController {
@@ -252,7 +253,9 @@ public class PostsController {
         );
 
         post.setDateTime(
-                LocalDateTime.now()
+                LocalDateTime.now(
+                        ZoneId.of("Europe/London")
+                )
         );
 
 
