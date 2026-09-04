@@ -45,6 +45,9 @@ public class FriendPageLayoutTest {
 
         driver.findElement(By.name("password")).sendKeys("P@55qw0rd123456789");
         driver.findElement(By.name("action")).click();
+        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.id("splash-screen")));
+
         driver.findElement(By.id("friends_button")).click();
 
     }
@@ -85,8 +88,14 @@ public class FriendPageLayoutTest {
         String navBarText = driver.findElement(By.className("navbar")).getText();
         assertEquals("Acebook\n" +
                 "Home\n" +
+                "Profile\n" +
                 "Friends\n" +
-                "Profile", navBarText);
+                "Messages\n" +
+                "Notifications\n" +
+                "Signed in as\n" +
+                "test1@example.com\n" +
+                "Log out"
+                , navBarText);
     }
 
     @Test

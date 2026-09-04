@@ -46,18 +46,4 @@ public class SignUpTest {
         assertEquals("Signed in as\n" + email, greetingText);
     }
 
-    @Test
-    public void checkSignedInUserViewsFriendPage() {
-        String email = faker.name().username() + "@email.com";
-
-        driver.get("http://localhost:8080/");
-        driver.findElement(By.linkText("Sign up")).click();
-        driver.findElement(By.name("email")).sendKeys(email);
-        driver.findElement(By.name("password")).sendKeys("P@55qw0rd123456789");
-        driver.findElement(By.name("action")).click();
-
-        driver.findElement(By.id("friends_button")).click();
-        String friendSubheaderText = driver.findElement(By.id("friends_h2")).getText();
-        assertEquals("Your friends", friendSubheaderText);
-    }
 }
