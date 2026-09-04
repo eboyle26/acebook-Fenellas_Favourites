@@ -49,6 +49,9 @@ public class CommentPageLayoutTest {
 
         driver.findElement(By.name("password")).sendKeys("P@55qw0rd123456789");
         driver.findElement(By.name("action")).click();
+        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(15)); // generous upper bound
+        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.id("splash-screen")));
+
         driver.findElement(By.id("comment-button")).click();
 
     }
@@ -61,10 +64,18 @@ public class CommentPageLayoutTest {
 
     @Test
     public void checkNavBar() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("navbar")));
         String navBarText = driver.findElement(By.className("navbar")).getText();
         assertEquals("Acebook\n" +
                 "Home\n" +
-                "Profile", navBarText);
+                "Profile\n" +
+                "Friends\n" +
+                "Messages\n" +
+                "Notifications\n" +
+                "Signed in as\n" +
+                "test1@example.com\n" +
+                "Log out", navBarText);
     }
 
     @Test
