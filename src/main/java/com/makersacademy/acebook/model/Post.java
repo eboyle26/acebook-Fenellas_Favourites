@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Data
 @Entity
@@ -42,7 +43,9 @@ public class Post {
     public Post(String content, Long userId) {
         this.content = content;
         this.userId = userId;
-        this.dateTime = LocalDateTime.now();
+        this.dateTime = LocalDateTime.now(
+                ZoneId.of("Europe/London")
+        );
     }
 }
 
