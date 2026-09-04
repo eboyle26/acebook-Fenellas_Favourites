@@ -134,6 +134,38 @@
 
     </section>
 
+    </section>
+
+
+    <section
+            class="likes-summary"
+            th:if="${!#lists.isEmpty(likes)}">
+
+        <div class="likes-count">
+
+            ❤️
+
+            <strong
+                    th:text="${#lists.size(likes)} + ' likes'">
+                0 likes
+            </strong>
+
+        </div>
+
+        <div class="liked-by">
+
+            <span>Liked by </span>
+
+            <span
+                    th:each="like, stat : ${likes}"
+                    th:text="${likeUsers[like.userId].username + (stat.last ? '' : ', ')}">
+        </span>
+
+        </div>
+
+    </section>
+
+
 
     <section class="comments-section">
 

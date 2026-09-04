@@ -93,6 +93,14 @@
         <h1>Notifications</h1>
 
         <div
+                th:if="${param.message != null and param.message[0] == 'post-deleted'}"
+                class="message-alert">
+
+            This post has been deleted and is no longer available.
+
+        </div>
+
+        <div
                 th:if="${notifications.isEmpty()}"
                 class="empty-state">
 

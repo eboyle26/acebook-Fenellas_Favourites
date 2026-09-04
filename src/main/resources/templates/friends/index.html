@@ -100,6 +100,15 @@
     Friends
   </h1>
 
+  <div
+          th:if="${param.message != null and param.message[0] == 'pending'}"
+          class="message-alert">
+
+    You must wait until the person accepts your friend request before you can message them.
+
+  </div>
+
+  <!-- FRIEND REQUESTS -->
 
   <!-- ========================= -->
   <!-- FRIEND REQUESTS -->
@@ -348,12 +357,16 @@
 
             <!-- Message -->
 
+
             <a
-                    th:if="${areFriends}"
-                    th:href="@{/messages/{id}(id=${user.id})}"
-                    class="button">
+                    th:href="@{/messages/{userId}(userId=${friend.receiver.id})}"
+                    class="button button-secondary">
+
               Message
+
             </a>
+
+
 
 
             <!-- Remove friend -->

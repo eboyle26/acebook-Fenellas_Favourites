@@ -2,6 +2,7 @@ package com.makersacademy.acebook.controller;
 
 import com.makersacademy.acebook.model.Notification;
 import com.makersacademy.acebook.model.User;
+import com.makersacademy.acebook.repository.PostRepository;
 import com.makersacademy.acebook.repository.NotificationRepository;
 import com.makersacademy.acebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class NotificationController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PostRepository postRepository;
 
     @GetMapping("/notifications")
     public String index(Model model) {
@@ -74,10 +78,23 @@ public class NotificationController {
             case "FRIEND_REQUEST_ACCEPTED" ->
                     new RedirectView("/profile/" + notification.getActorId());
 
-            case "POST_LIKE", "POST_COMMENT" ->
-                    new RedirectView(
-                            "/posts/" + notification.getPostId()
+            case "POST_LIKE", "POST_COMMENT" -> {
+
+                boolean postExists =
+                        postRepository.existsById(
+                                notification.getPostId()
+                        );
+
+                if (!postExists) {
+                    yield new RedirectView(
+                            "/notifications?message=post-deleted"
                     );
+                }
+
+                yield new RedirectView(
+                        "/posts/" + notification.getPostId() + "/comments"
+                );
+            }
 
             default ->
                     new RedirectView("/notifications");
