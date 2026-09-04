@@ -48,6 +48,9 @@ public class ProfileController {
     @Autowired
     MessageRepository messageRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
 
     @GetMapping("/profile")
     public String profile(Model model) {
@@ -435,8 +438,6 @@ public class ProfileController {
 
         Long userId = user.getId();
 
-
-
         commentRepository.deleteByUserId(userId);
 
 
@@ -444,8 +445,7 @@ public class ProfileController {
 
 
 
-        Iterable<Post> userPosts =
-                postRepository.findByUserId(userId);
+        Iterable<Post> userPosts = postRepository.findByUserId(userId);
 
         for (Post post : userPosts) {
 
@@ -453,7 +453,6 @@ public class ProfileController {
 
             likeRepository.deleteByPostId(post.getId());
         }
-
 
         friendRepository.deleteByReceiver(user);
         friendRepository.deleteByRequester(user);
@@ -465,18 +464,11 @@ public class ProfileController {
 
         postRepository.deleteByUserId(userId);
 
-
-        userRepository.delete(user);
-
+        notificationRepository.deleteByRecipientId(userId);
 
 
-        new SecurityContextLogoutHandler()
-                .logout(
-                        request,
-                        response,
-                        authentication
-                );
+        userRepository.deleteById(userId);
 
-        return new RedirectView("/");
+        return new RedirectView("/logout");
     }
 }
