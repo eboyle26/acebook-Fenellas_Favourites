@@ -45,13 +45,16 @@ public class HomePageLayoutTest {
 
         driver.findElement(By.name("password")).sendKeys("P@55qw0rd123456789");
         driver.findElement(By.name("action")).click();
+        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait2.until(ExpectedConditions.invisibilityOfElementLocated(By.id("splash-screen")));
+
 
     }
 
-//    @AfterAll
-//    public void tearDown() {
-//        driver.close();
-//    }
+    @AfterAll
+    public void tearDown() {
+        driver.close();
+    }
 
 
     @Test
@@ -61,6 +64,8 @@ public class HomePageLayoutTest {
                 "Home\n" +
                 "Profile\n" +
                 "Friends\n" +
+                "Messages\n" +
+                "Notifications\n" +
                 "Signed in as\n" +
                 "test1@example.com\n" +
                 "Log out", navBarText);
@@ -89,8 +94,6 @@ public class HomePageLayoutTest {
                 "03/09/2026 15:49\n" +
                 "hello\n" +
                 "Like (0)\n" +
-                "Comment\n" +
-                "Share\n" +
-                "Delete", recentPostText);
+                "Comment", recentPostText);
     }
 }
